@@ -1,2 +1,3 @@
-# midterm-project
-a new repository for midterm project
+# dev_hpf
+2020/8/12 0:28更新：初步实现密码验证功能，下一步计划与后端协商，完成前后端交互
+

@@ -43,22 +43,24 @@
                         </el-form-item>
                     </el-form>
                     <el-dialog title="修改密码" :visible.sync="dialogVisible" width="400px">
-                        <el-form ref="password" :model="pwdtemp" label-width="0px">
-                            <el-form-item>
-                                <el-input v-model="pwdtemp.formerPwd" autocomplete="false" placeholder="当前密码">
+                        <el-form ref="password" :model="pwdtemp" :rules="rules">
+                            <el-form-item label="原密码" prop="formerPwd">
+                                <el-input type="password" v-model="pwdtemp.formerPwd" autocomplete="off">
                                 </el-input>
                             </el-form-item>
-                            <el-form-item>
-                                <el-input v-model="pwdtemp.newPwd" placeholder="新密码">
+                            <el-form-item label="新密码" prop="newPwd">
+                                <el-input type="password" v-model="pwdtemp.newPwd" autocomplete="off">
                                 </el-input>
                             </el-form-item>
-                            <el-form-item>
-                                <el-input v-model="pwdtemp.newPwdConfirm" placeholder="确认新密码">
+                            <el-form-item label="新密码确认" prop="newPwdCheck">
+                                <el-input type="password" v-model="pwdtemp.newPwdCheck" autocomplete="off">
                                 </el-input>
                             </el-form-item>
+
                             <el-form-item>
                                 <el-button @click="dialogVisible = false">取 消</el-button>
-                                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                                <el-button type="primary" @click="submitChange('password');dialogVisible = false">确 定
+                                </el-button>
                             </el-form-item>
                         </el-form>
                     </el-dialog>
@@ -72,9 +74,50 @@
 
 
 <script>
+    function isvalidPass(str) {
+        const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{6,18}$/;
+        return reg.test(str);
+    }
+
     export default {
         name: 'profile',
         data() {
+            var validatePass = (rule, value, callback) => {
+                if (value === "") {
+                    callback(new Error("请输入原密码"));
+                } else {
+                    if (this.pwdtemp.newPwd !== "") {
+                        this.$refs.password.validateField("newPwd");
+                    }
+                    callback();
+                }
+            };
+            var validatePass1 = (rule, value, callback) => {
+                if (value === "") {
+                    callback(new Error("请输入新密码"));
+                } else if (!isvalidPass(value)) {
+                    callback(
+                        new Error("密码长度在6~18之间，只能包含字母、数字和下划线中的至少两种")
+                    );
+                } else if (value === this.pwdtemp.formerPwd) {
+                    callback(new Error("新密码不能与原密码一致！"));
+                } else {
+                    if (this.pwdtemp.newPwdCheck !== "") {
+                        this.$refs.password.validateField("newPwdCheck");
+                    }
+                    callback();
+                }
+            };
+
+            var validatePass2 = (rule, value, callback) => {
+                if (value === "") {
+                    callback(new Error("请再次输入新密码"));
+                } else if (value !== this.pwdtemp.newPwd) {
+                    callback(new Error("两次输入密码不一致！"));
+                } else {
+                    callback();
+                }
+            };
             return {
                 profile: {
                     uid: '1837',
@@ -88,13 +131,31 @@
                 pwdtemp: {
                     formerPwd: '',
                     newPwd: '',
-                    newPwdConfirm: '',
+                    newPwdCheck: '',
                 },
                 logourl: '../assets/logo.png',
                 loading: false,
                 dialogVisible: false,
+                rules: {
+                    formerPwd: [{
+                        required: true,
+                        validator: validatePass,
+                        trigger: "blur"
+                    }],
+                    newPwd: [{
+                        required: true,
+                        validator: validatePass1,
+                        trigger: "blur"
+                    }],
+                    newPwdCheck: [{
+                        required: true,
+                        validator: validatePass2,
+                        trigger: "blur"
+                    }],
+                }
             }
         },
+
         methods: {
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -106,10 +167,19 @@
                     }
                 });
             },
+            submitChange(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('new password submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
         }
     }
 </script>
-
 
 <style scoped>
     li {
