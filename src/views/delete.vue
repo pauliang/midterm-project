@@ -1,8 +1,8 @@
 <template>
     <div>
-<!--        <particles-bg type="cobweb" :bg="true" />-->
-        <el-container>
 
+        <el-container class="whole">
+            <particles-bg type="cobweb" :bg="true" />
             <el-header class="head">
 
                 <el-row>
@@ -133,28 +133,100 @@
                             </el-row>
                             <el-row type="flex" class="row-bg paragraph" justify="left">
                                 <el-col :span="4">
+                                    <div class="grid-content bg-purple content">我是皮，</div>
+                                    <div class="grid-content bg-purple content">我就是神啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊！</div>
+                                </el-col>
+                            </el-row>
+                        </div>
+                        <div class="box">
+                            <el-row type="flex" class="row-bg pic" justify="left" >
+                                <el-col :span="4" >
+                                    <div style="margin-right:25px; padding-top: 25px">
+                                        <img src="../assets/word.png">
+                                    </div>
+                                </el-col>
+                            </el-row>
+                            <el-row type="flex" class="row-bg paragraph" justify="left">
+                                <el-col :span="4">
                                     <div class="grid-content bg-purple content">我是奥巴马，</div>
                                     <div class="grid-content bg-purple content">我也来到B站了！</div>
                                 </el-col>
                             </el-row>
                         </div>
+                        <div class="box">
+                            <el-row type="flex" class="row-bg pic" justify="left" >
+                                <el-col :span="4" >
+                                    <div style="margin-right:25px; padding-top: 25px">
+                                        <img src="../assets/word.png">
+                                    </div>
+                                </el-col>
+                            </el-row>
+                            <el-row type="flex" class="row-bg paragraph" justify="left">
+                                <el-col :span="4">
+                                    <div class="grid-content bg-purple content">我是奥巴马，</div>
+                                    <div class="grid-content bg-purple content">我也来到B站了！</div>
+                                </el-col>
+                            </el-row>
+                        </div><div class="box">
+                        <el-row type="flex" class="row-bg pic" justify="left" >
+                            <el-col :span="4" >
+                                <div style="margin-right:25px; padding-top: 25px">
+                                    <img src="../assets/word.png">
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row type="flex" class="row-bg paragraph" justify="left">
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple content">我是奥巴马，</div>
+                                <div class="grid-content bg-purple content">我也来到B站了！</div>
+                            </el-col>
+                        </el-row>
+                    </div><div class="box">
+                        <el-row type="flex" class="row-bg pic" justify="left" >
+                            <el-col :span="4" >
+                                <div style="margin-right:25px; padding-top: 25px">
+                                    <img src="../assets/word.png">
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row type="flex" class="row-bg paragraph" justify="left">
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple content">我是奥巴马，</div>
+                                <div class="grid-content bg-purple content">我也来到B站了！</div>
+                            </el-col>
+                        </el-row>
+                    </div><div class="box">
+                        <el-row type="flex" class="row-bg pic" justify="left" >
+                            <el-col :span="4" >
+                                <div style="margin-right:25px; padding-top: 25px">
+                                    <img src="../assets/word.png">
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row type="flex" class="row-bg paragraph" justify="left">
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple content">我是奥巴马，</div>
+                                <div class="grid-content bg-purple content">我也来到B站了！</div>
+                            </el-col>
+                        </el-row>
+                    </div>
 
 
                     </el-main>
-                    <el-footer>
-                        Footer,我是页脚，咸的蛋疼的时候可以加一点
-                    </el-footer>
                 </el-container>
             </el-container>
+            <el-footer>
+                <img src="../assets/footer.png" >
+            </el-footer>
         </el-container>
     </div>
 </template>
 
 <script>
-    // import { ParticlesBg } from "particles-bg-vue";
+    import { ParticlesBg } from "particles-bg-vue";
     export default {
         components: {
-            // ParticlesBg
+            ParticlesBg
         },
         name: "delete",
         data() {
@@ -225,7 +297,7 @@
     }
     .box {
         float: left;
-        margin: 10px 100px 10px 0;
+        margin: -10px 100px 10px 0;
     }
     .box img {
         display: block;
@@ -233,18 +305,28 @@
     .pic {
         padding: 0;
         position: relative;
-        margin: 10px 10px;
+        margin: 0 12px 20px;
     }
     .content {
-        margin: 5px 50px 10px -10px;
+        margin: 5px 50px 10px -45px;
         width: 200px;
+        height: 20px;
         background-color: #ffffff;
     }
-    .paragraph {}
     .bg-purple {
         background: #ffffff;
         text-align: center;
         line-height: 18px;
         font-weight: 600;
+    }
+    .el-footer {
+        padding: 0 0;
+    }
+    .el-footer img {
+        display: block;
+        width: 100%;
+    }
+    .whole {
+        height: 1500px;
     }
 </style>
