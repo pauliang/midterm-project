@@ -42,6 +42,8 @@
             <el-divider/>
 
 
+            <el-divider/>
+
             <el-container>
                 <el-aside>
                     <el-menu
@@ -113,6 +115,12 @@
                         </el-row>
                     </el-main>
                 </el-container>
+                <el-card class="box-card" shadow="hover">
+                    <div class="text item">既然选择了远方</div>
+                    <div class="text item">1002609249@qq.com</div>
+                    <el-button type="text" class="item more_info">修改个人资料</el-button>
+                    <el-button type="text" class="item logout">退出登录</el-button>
+                </el-card>
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png" >
@@ -255,4 +263,35 @@
     .whole {
         height: 1500px;
     }
+    .text {
+        font-size: 14px;
+    }
+
+    /*这部分是个人信息的小卡片*/
+    .item {
+        padding: 18px 0;
+        font-size: 14px;
+        color: #24292e;
+    }
+
+    .box-card {
+        width: 240px;
+        height: 280px;
+        margin: -4px 80px 0 0;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+    }
+
+    .more_info {
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+    }
+
+    .logout {
+        display: block;
+        color: #c81623;
+        margin: 45px auto 0;
+    }
+
 </style>
