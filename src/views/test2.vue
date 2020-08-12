@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <edt :msg="fmsg"></edt>
+    <edt :msg="fmsg" choice=1></edt>
   </div>
 </template>
 

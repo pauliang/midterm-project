@@ -12,6 +12,7 @@
         <el-main>
             <div id="div1" class="toolbar"></div>
             <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度-->
+                <board :choice=choice></board>
                 <p>{{msg}}</p>
             </div>
             <div class="introduce">
@@ -26,9 +27,11 @@
 
 <script>
     import E from "wangeditor";
+    import board from '@/components/board.vue'
     export default {
         name: 'edt',
         props:{
+            choice:Number,
             msg:String
         },
         mounted(){
@@ -37,6 +40,9 @@
                 this.formArticle.content = html
             }
             editor2.create()
+        },
+        components:{
+            board
         }
     }
 </script>
@@ -93,7 +99,7 @@
     .container .text {
         margin-left:auto;
         margin-right:auto;
-        text-align: center;
+        text-align: left;
         border: 1px solid #f6f6f6;
         width: 816px;
         height: 1172px;
