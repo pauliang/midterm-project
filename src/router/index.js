@@ -38,6 +38,21 @@ Vue.use(VueRouter)
     name: 'Test2',
     component: () => import('@/views/test2.vue')
   },
+    {
+      path: '/base',
+      name: 'Base',
+      component: () => import('@/views/base.vue')
+    },
+    {
+      path: '/delete',
+      name: 'Delete',
+      component: () => import('@/views/delete.vue')
+    },
+    {
+      path: '/worktable',
+      name: 'Worktable',
+      component: () => import('@/views/worktable.vue')
+    },
 ]
 
 const router = new VueRouter({

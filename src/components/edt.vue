@@ -12,13 +12,13 @@
         <el-main>
             <div id="div1" class="toolbar"></div>
             <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度-->
+                <p class="title">标题</p>
                 <p>{{msg}}</p>
             </div>
             <div class="introduce">
                 <b class="intro1">编写于</b>
                 <b class="intro2">金石文档</b>
             </div>
-<!--            <div id="div1" class="toolbar"></div>-->
         </el-main>
     </el-container>
   </div>
@@ -29,7 +29,8 @@
     export default {
         name: 'edt',
         props:{
-            msg:String
+            msg: String,
+            title: String
         },
         mounted(){
             var editor2 = new E('#div1','#div2')
@@ -93,13 +94,23 @@
     .container .text {
         margin-left:auto;
         margin-right:auto;
-        text-align: center;
+        text-align: left;
         border: 1px solid #f6f6f6;
         width: 816px;
         height: 1172px;
         background-color: #fff;
     }
-    .introduce {
+   .container .text p {
+       text-align: left;
+   }
+   .container .text .title {
+       display: inline-block;
+       margin: 20px 350px;
+       text-align: center;
+       font-size:36px;
+       font-weight: 700;
+   }
+   .introduce {
         padding: 10px 0 0;
         color: #616161;
         text-align: center;
