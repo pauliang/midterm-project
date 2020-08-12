@@ -1,6 +1,10 @@
 <template>
   <div>    
-    <edt :msg="fmsg"></edt>
+    <edt :msg="fmsg" :choice="choice" class="title"></edt>
+    <!-- <edt :title="ftitle" class="content"></edt> -->
+    <div>
+
+    </div>
   </div>
 </template>
 
@@ -8,15 +12,24 @@
     import edt from '@/components/edt.vue'
     export default {
         name: 'test2',
-        data(){
+        data() {
             return{
-                fmsg:'俺是父组件传的值，部署时为该文档原内容'
+                fmsg: '',
+                ftitle: '',
+                choice:this.$route.params.id
             }
         },
-        components:{
+        components: {
             edt
         }
     }
 </script>
 <style scoped>
+  /* .title {
+    text-align: center;
+  }
+  .content {
+    text-align: left;
+  } */
+
 </style>

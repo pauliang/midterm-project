@@ -38,6 +38,31 @@ Vue.use(VueRouter)
     name: 'Test2',
     component: () => import('@/views/test2.vue')
   },
+  {
+    path: '/test3',
+    name: 'Test3',
+    component: () => import('@/views/test3.vue')
+  },
+  {
+    path: '/test4',
+    name: 'Test4',
+    component: () => import('@/views/test4.vue')
+  },
+    {
+      path: '/base',
+      name: 'Base',
+      component: () => import('@/views/base.vue')
+    },
+    {
+      path: '/delete',
+      name: 'Delete',
+      component: () => import('@/views/delete.vue')
+    },
+    {
+      path: '/worktable',
+      name: 'Worktable',
+      component: () => import('@/views/worktable.vue')
+    },
 ]
 
 const router = new VueRouter({
