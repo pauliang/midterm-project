@@ -37,11 +37,14 @@
         data(){
             return {
                 delist:[
-                    {name:'删除1',cut:'我是被删除的某文件1'},
-                    {name:'删除2',cut:'我是被删除的某文件2'},
-                    {name:'删除3',cut:'我是被删除的某文件3'},
-                    {name:'删除4',cut:'我是被删除的某文件4'},
-                    {name:'删除5',cut:'我是被删除的某文件5'},
+                    {name:'File 1',cut:'Donald Trump Secret 1'},
+                    {name:'File 2',cut:'Donald Trump Secret 2'},
+                    {name:'File 3',cut:'Donald Trump Secret 3'},
+                    {name:'File 4',cut:'Donald Trump Secret 4'},
+                    {name:'File 5',cut:'Donald Trump Secret 5'},
+                    {name:'File 6',cut:'Donald Trump Secret 6'},
+                    {name:'File 7',cut:'Donald Trump Secret 7'},
+                    {name:'File 8',cut:'Donald Trump Secret 8'},
                 ]
             }
         }
@@ -103,5 +106,7 @@
     .defont {
          color: #555555;
         font: bold 18px arial,sans-serif ;
+        height: 40px;
+        line-height: 40px;
     }
 </style>

@@ -26,18 +26,18 @@
         data() {
             return {
                 teamList:[
-                    {name:'team1'},
-                    {name:'team2'},
-                    {name:'team3'},
-                    {name:'team4'},
-                    {name:'team5'},
-                    {name:'team6'},
-                    {name:'team7'},
-                    {name:'team8'},
-                    {name:'team9'},
-                    {name:'team10'},
-                    {name:'team11'},
-                    {name:'team12'},
+                    {name:'Team 1'},
+                    {name:'Team 2'},
+                    {name:'Team 3'},
+                    {name:'Team 4'},
+                    {name:'Team 5'},
+                    {name:'Team 6'},
+                    {name:'Team 7'},
+                    {name:'Team 8'},
+                    {name:'Team 9'},
+                    {name:'Team 10'},
+                    {name:'Team 11'},
+                    {name:'Team 12'},
                 ]
             };
         },
@@ -57,7 +57,8 @@
     .cardbox{
         display: inline-block;
         width: 250px;
-        height: 200px 
+        height: 200px;
+        margin: 0 10px 0 -20px;
     }
     .cardname{
         color: #555555;
