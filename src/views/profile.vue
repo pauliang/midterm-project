@@ -2,13 +2,41 @@
     <div class="profile">
         <el-container>
 
-            <el-header height='60px'>
-                <img class="header-logo left" src="../assets/logo.png" alt="logo">
-                <div class="header-info right">
-                    <span>金石文档欢迎您！&nbsp;</span>
-                    <el-link type="info" :underline="false">登录</el-link>&nbsp;
-                    <el-link type="danger" :underline="false">注册</el-link>&nbsp;
-                </div>
+            <el-header class="head">
+
+                <el-row>
+                    <el-col :span="4">
+                        <div style="margin-right:25px">
+                            <img src="../assets/logo.png">
+                        </div>
+
+                    </el-col>
+                    <el-col :span="1">
+                        <div class="grid-content"></div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div style="margin-top:3px">
+                            <el-input clearable placeholder="随便找点什么吧" prefix-icon="el-icon-search" v-model="inputbox">
+                            </el-input>
+                        </div>
+
+                    </el-col>
+
+                    <el-col :span="13" style="text-align:right">
+
+                        <el-col :span="20">
+                            <el-avatar icon="el-icon-user-solid"></el-avatar>
+                        </el-col>
+                        <el-col :span="2" style="margin-top:10px">
+                            <el-link href="https://element.eleme.io" target="_blank" style="color:#fbfcfe">登 录</el-link>
+                        </el-col>
+                        <el-col :span="2" style="text-align:center;margin-top:10px">
+                            <el-link href="https://element.eleme.io" target="_blank" style="color:#fbfcfe">注 册</el-link>
+                        </el-col>
+
+                    </el-col>
+                </el-row>
+
             </el-header>
 
             <el-main class="w" v-loading="loading">
@@ -172,18 +200,18 @@
                 var formerPwd = this.password.formerPwd;
                 this.$axios({
                     method: 'post',
-                    url: 'http://39.97.122.202/User/edit/' + uid,
+                    url: 'http://39.97.122.202/User/edit/' + uid + '/',
                     data: {
                         formerPwd: formerPwd,
                         newPwd: newPwd,
                     }
                 }).then(
                     response => {
-                        var fmsg = '密码修改失败！';
                         var rmsg = response.data.formerPwd;
-                        if (rmsg == formerPwd) alert('密码修改成功！');
+                        if (rmsg == formerPwd)
+                            alert('密码修改成功！');
                         else {
-                            alert(fmsg);
+                            alert('密码修改失败！');
                             this.dialogVisible = true;
                         }
                     },
@@ -240,9 +268,34 @@
 </script>
 
 <style scoped>
-    li {
-        list-style: none;
-        display: inline-block;
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 220px;
+        min-height: 600px;
+    }
+    .shit{
+        font-size:13px !important;
+    }
+    .head{
+        background: rgba(8, 1, 1, 0.342);
+        padding: 0;
+    }
+    .el-container {
+        position: relative;
+    }
+    .el-divider--horizontal{
+        margin-bottom: 1px !important;
+        margin-top: 0px !important;
+    }
+    .el-link--default{
+        color: #303133;
+        font-size: 17px;
+    }
+    .el-row {
+        margin-bottom: 20px;
+    }
+    .el-col {
+        margin-top:5px;
+        border-radius: 4px;
     }
 
     .left {
@@ -255,35 +308,6 @@
         position: absolute;
         top: 0;
         right: 0;
-    }
-
-    .profile {
-        background-color: #eeeeee;
-    }
-
-    .profile .el-header {
-        position: relative;
-        width: 100%;
-        background-color: #fff;
-    }
-
-    .profile .el-header .header-logo {
-        top: 5px;
-        left: 50px;
-    }
-
-    .profile .el-header .header-info {
-        height: 60px;
-        line-height: 60px;
-        font-size: 12px;
-        color: gray;
-        vertical-align: top;
-    }
-
-    .profile .el-header .header-info .el-link {
-        margin: 0 5px;
-        margin-top: -3px;
-        font-size: 12px;
     }
 
     .w {
