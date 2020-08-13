@@ -28,15 +28,12 @@
                     </el-col>
 
                     <el-col :span="13" style="text-align:right">
-
-                        <el-col :span="20"><el-avatar icon="el-icon-user-solid"></el-avatar></el-col>
-                        <el-col :span="2" style="margin-top:10px">
-                            <el-link href="https://element.eleme.io" target="_blank" style="color:#fbfcfe">登 录</el-link>
+                        <el-col :span="6" class="welcome">
+                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
                         </el-col>
-                        <el-col :span="2" style="text-align:center;margin-top:10px">
-                            <el-link href="https://element.eleme.io" target="_blank" style="color:#fbfcfe">注 册</el-link>
+                        <el-col :span="6" class="avator">
+                            <el-avatar icon="el-icon-user-solid"></el-avatar>
                         </el-col>
-
                     </el-col>
                 </el-row>
 
@@ -44,6 +41,8 @@
 
             <el-divider/>
 
+
+            <el-divider/>
 
             <el-container>
                 <el-aside>
@@ -116,6 +115,12 @@
                         </el-row>
                     </el-main>
                 </el-container>
+                <el-card class="box-card" shadow="hover">
+                    <div class="text item">既然选择了远方</div>
+                    <div class="text item">1002609249@qq.com</div>
+                    <el-button type="text" class="item more_info">修改个人资料</el-button>
+                    <el-button type="text" class="item logout">退出登录</el-button>
+                </el-card>
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png" >
@@ -163,15 +168,38 @@
         font-size:13px !important;
     }
     .head{
+        position: relative;
         background: rgba(8, 1, 1, 0.342);
         padding: 0;
     }
+    .head .welcome {
+        position: absolute;
+        float: right;
+    }
+    .head .wel_text {
+        position: absolute;
+        width: 400px;
+        height: 30px;
+        color:#fbfcfe;
+        float: right;
+        margin-right: 20px;
+        margin-top: 5px;
+        line-height: 30px;
+    }
+    .head .avator {
+        position: relative;
+        width: 150px;
+        height: 40px;
+        float: right;
+        margin-right: 100px;
+    }
+
     .el-container {
         position: relative;
     }
     .el-divider--horizontal{
         margin-bottom: 1px !important;
-        margin-top: 0px !important;
+        margin-top: 0 !important;
     }
     .el-link--default{
         color: #303133;
@@ -235,4 +263,35 @@
     .whole {
         height: 1500px;
     }
+    .text {
+        font-size: 14px;
+    }
+
+    /*这部分是个人信息的小卡片*/
+    .item {
+        padding: 18px 0;
+        font-size: 14px;
+        color: #24292e;
+    }
+
+    .box-card {
+        width: 240px;
+        height: 280px;
+        margin: -4px 80px 0 0;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+    }
+
+    .more_info {
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+    }
+
+    .logout {
+        display: block;
+        color: #c81623;
+        margin: 45px auto 0;
+    }
+
 </style>

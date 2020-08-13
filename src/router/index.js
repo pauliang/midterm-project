@@ -29,15 +29,15 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: () => import('@/views/test.vue')
+    path: '/model1',
+    name: 'Model1',
+    component: () => import('@/views/model1.vue')
   },
-  {
-    path: '/test2',
-    name: 'Test2',
-    component: () => import('@/views/test2.vue')
-  },
+    {
+      path: '/models',
+      name: 'Models',
+      component: () => import('@/views/models.vue')
+    },
     {
       path: '/base',
       name: 'Base',
@@ -53,6 +53,17 @@ Vue.use(VueRouter)
       name: 'Worktable',
       component: () => import('@/views/worktable.vue')
     },
+    {
+      path: '/test-card',
+      name: 'Test-card',
+      component: () => import('@/views/test-card.vue')
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: () => import('@/views/profile.vue')
+    }
+
 ]
 
 const router = new VueRouter({
