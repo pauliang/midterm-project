@@ -49,11 +49,6 @@ Vue.use(VueRouter)
       component: () => import('@/views/delete.vue')
     },
     {
-      path: '/worktable',
-      name: 'Worktable',
-      component: () => import('@/views/worktable.vue')
-    },
-    {
       path: '/test-card',
       name: 'Test-card',
       component: () => import('@/views/test-card.vue')
@@ -62,6 +57,11 @@ Vue.use(VueRouter)
       path: '/profile',
       name: 'Profile',
       component: () => import('@/views/profile.vue')
+    },
+    {
+      path: '/page',
+      name: 'Page',
+      component: () => import('@/views/page.vue')
     }
 
 ]
