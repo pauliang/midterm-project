@@ -220,6 +220,7 @@
         background-color: #00bf66;
         padding: 0 0;
         color: #ffffff;
+        font-size: 24px;
     }
 
     .title .title2 {
@@ -245,6 +246,7 @@
         background-color: #00bf66;
         padding: 0 0;
         color: #ffffff;
+        font-size: 24px;
         margin-left: -20px;
     }
     .title .title4 {

@@ -34,8 +34,8 @@
                     <el-divider></el-divider>
 
                     <div style="font-size:14px;">
-                        <span>没有礼朴账户？点击此处进行<el-button type="text" @click="bump_regi">账户注册</el-button></span>
-                        <div> <span>注册即代表同意《礼朴协议》《隐私保护指引》</span> </div>
+                        <span>没有金石账户？点击此处进行<el-button type="text" @click="bump_regi">账户注册</el-button></span>
+                        <div> <span>注册即代表同意《金石协议》《隐私保护指引》</span> </div>
                     </div>
                 </el-main>
 

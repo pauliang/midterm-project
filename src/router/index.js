@@ -11,8 +11,8 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/register',
-    name: 'Register',
+    path: '/regi',
+    name: 'Regi',
     component: () => import('@/views/regi.vue')
   },
   {
@@ -47,11 +47,6 @@ Vue.use(VueRouter)
       path: '/delete',
       name: 'Delete',
       component: () => import('@/views/delete.vue')
-    },
-    {
-      path: '/worktable',
-      name: 'Worktable',
-      component: () => import('@/views/worktable.vue')
     },
     {
       path: '/test-card',

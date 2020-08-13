@@ -1,14 +1,35 @@
 <template>
     <div class="profile">
         <el-container>
+            <el-header class="head">
+                <el-row>
+                    <el-col :span="4">
+                        <div style="margin-right:25px">
+                            <img class="header-logo left" src="../assets/logo.png" alt="logo" @click="goPage()">
+                        </div>
 
-            <el-header height='60px'>
-                <img class="header-logo left" src="../assets/logo.png" alt="logo">
-                <div class="header-info right">
-                    <span>金石文档欢迎您！&nbsp;</span>
-                    <el-link type="info" :underline="false">登录</el-link>&nbsp;
-                    <el-link type="danger" :underline="false">注册</el-link>&nbsp;
-                </div>
+                    </el-col>
+                    <el-col :span="1">
+                        <div class="grid-content"></div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div style="margin-top:3px">
+                            <el-input clearable placeholder="随便找点什么吧" prefix-icon="el-icon-search" v-model="inputbox">
+                            </el-input>
+                        </div>
+
+                    </el-col>
+
+                    <el-col :span="13" style="text-align:right">
+                        <el-col :span="6" class="welcome">
+                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
+                        </el-col>
+                        <el-col :span="6" class="avator">
+                            <el-avatar icon="el-icon-user-solid"></el-avatar>
+                        </el-col>
+                    </el-col>
+                </el-row>
+
             </el-header>
 
             <el-main class="w" v-loading="loading">
@@ -172,18 +193,18 @@
                 var formerPwd = this.password.formerPwd;
                 this.$axios({
                     method: 'post',
-                    url: 'http://39.97.122.202/User/edit/' + uid,
+                    url: 'http://39.97.122.202/User/edit/' + uid + '/',
                     data: {
                         formerPwd: formerPwd,
                         newPwd: newPwd,
                     }
                 }).then(
                     response => {
-                        var fmsg = '密码修改失败！';
                         var rmsg = response.data.formerPwd;
-                        if (rmsg == formerPwd) alert('密码修改成功！');
+                        if (rmsg == formerPwd)
+                            alert('密码修改成功！');
                         else {
-                            alert(fmsg);
+                            alert('密码修改失败！');
                             this.dialogVisible = true;
                         }
                     },
@@ -224,6 +245,11 @@
                     console.log(error);
                 });
             },
+            goPage(){
+                this.$router.push({
+                    name:'Page',
+                })
+            },
         },
         created() {
             this.$axios().then(
@@ -240,9 +266,59 @@
 </script>
 
 <style scoped>
-    li {
-        list-style: none;
-        display: inline-block;
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 220px;
+        min-height: 600px;
+    }
+    .profile {
+        background-color: #f3f3f3;
+    }
+    
+    .shit{
+        font-size:13px !important;
+    }
+    .head{
+        background: rgba(8, 1, 1, 0.342);
+        padding: 0;
+    }
+    .head .welcome {
+        position: absolute;
+        float: right;
+    }
+    .head .wel_text {
+        position: absolute;
+        width: 400px;
+        height: 30px;
+        color:#fbfcfe;
+        float: right;
+        margin-right: 20px;
+        margin-top: 5px;
+        line-height: 30px;
+    }
+    .head .avator {
+        position: relative;
+        width: 150px;
+        height: 40px;
+        float: right;
+        margin-right: 100px;
+    }
+    .el-container {
+        position: relative;
+    }
+    .el-divider--horizontal{
+        margin-bottom: 1px !important;
+        margin-top: 0px !important;
+    }
+    .el-link--default{
+        color: #303133;
+        font-size: 17px;
+    }
+    .el-row {
+        margin-bottom: 20px;
+    }
+    .el-col {
+        margin-top:5px;
+        border-radius: 4px;
     }
 
     .left {
@@ -255,35 +331,6 @@
         position: absolute;
         top: 0;
         right: 0;
-    }
-
-    .profile {
-        background-color: #eeeeee;
-    }
-
-    .profile .el-header {
-        position: relative;
-        width: 100%;
-        background-color: #fff;
-    }
-
-    .profile .el-header .header-logo {
-        top: 5px;
-        left: 50px;
-    }
-
-    .profile .el-header .header-info {
-        height: 60px;
-        line-height: 60px;
-        font-size: 12px;
-        color: gray;
-        vertical-align: top;
-    }
-
-    .profile .el-header .header-info .el-link {
-        margin: 0 5px;
-        margin-top: -3px;
-        font-size: 12px;
     }
 
     .w {
@@ -302,7 +349,11 @@
         position: relative;
     }
 
+    .el-footer {
+        padding: 0 0;
+    }
     .el-footer img {
+        display: block;
         width: 100%;
     }
 </style>

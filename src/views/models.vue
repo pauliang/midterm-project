@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-container class="container w">
+        <el-container class="container whole w">
             <el-header class="head">
 
                 <el-row>
@@ -30,7 +30,25 @@
                             <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-avatar icon="el-icon-user-solid"></el-avatar>
+                            <el-popover
+                                    placement="top-start"
+                                    width="240"
+                                    trigger="hover">
+                                <div v-if="islogin==true">
+                                    <div class="item cardtxt">既然选择了远方</div>
+                                    <div class="item cardtxt">1002609249@qq.com</div>
+                                    <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
+                                </div>
+                                <div v-if="islogin==false">
+                                    <div class="item cardtxt">游客</div>
+                                    <div class="item cardtxt">您尚未登陆</div>
+                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
+                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
+                                </div>
+
+                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
+                            </el-popover>
                         </el-col>
                     </el-col>
                 </el-row>
@@ -104,6 +122,8 @@
         name: 'pre',
         data(){
             return {
+                which:'worktable',
+                islogin:true,
                 board_list:[
                     {name:'空白模板'},
                     {name:'会议纪要模板',url:require('@/assets/model1.png')},
@@ -127,6 +147,27 @@
                 this.$router.push({
                     name:'Page',
                 })
+            },
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            zipornot()
+            {
+                this.isCollapse=!this.isCollapse;
+            },
+            shortjmp(which){
+                this.which = which
+            },
+            longjmp(name){
+                this.$router.push({
+                    name:name,
+                })
+            },
+            logout(){
+                this.islogin=false
             }
         },
         props:{
@@ -136,6 +177,72 @@
     }
 </script>
 <style scoped>
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 220px;
+        min-height: 600px;
+    }
+    .profile {
+        background-color: #f3f3f3;
+    }
+
+    .shit{
+        font-size:13px !important;
+    }
+    .head{
+        background: rgba(8, 1, 1, 0.342);
+        padding: 0;
+    }
+    .head .welcome {
+        position: absolute;
+        float: right;
+    }
+    .head .wel_text {
+        position: absolute;
+        width: 400px;
+        height: 30px;
+        color:#fbfcfe;
+        float: right;
+        margin-right: 20px;
+        margin-top: 5px;
+        line-height: 30px;
+    }
+    .head .avator {
+        position: relative;
+        width: 150px;
+        height: 40px;
+        float: right;
+        margin-right: 100px;
+    }
+    .el-container {
+        position: relative;
+    }
+    .el-divider--horizontal{
+        margin-bottom: 1px !important;
+        margin-top: 0px !important;
+    }
+    .el-link--default{
+        color: #303133;
+        font-size: 17px;
+    }
+    .el-row {
+        margin-bottom: 20px;
+    }
+    .el-col {
+        margin-top:5px;
+        border-radius: 4px;
+    }
+
+    .left {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .right {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
     .w {
         height: 1200px;
     }
@@ -315,5 +422,47 @@
     .el-footer img {
         display: block;
         width: 100%;
+    }
+    .item {
+        padding: 18px 0;
+        font-size: 14px;
+        color: #24292e;
+    }
+    .box-card {
+        /* width: 240px;
+        height: 280px; */
+        margin: 0,0;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+    }
+    .more_info {
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+        width: 180px;
+    }
+    .logout {
+        display: block;
+        color: #c81623;
+        margin: 10px auto 0;
+        width: 180px;
+        margin-bottom: 20px;
+    }
+    .login{
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+        width: 180px;
+        margin-bottom: 20px;
+    }
+    .regi{
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+        width: 180px;
+        margin-bottom: 20px;
+    }
+    .cardtxt {
+        text-align: center;
     }
 </style>

@@ -28,15 +28,30 @@
                     </el-col>
 
                     <el-col :span="13" style="text-align:right">
-
-                        <el-col :span="20"><el-avatar icon="el-icon-user-solid"></el-avatar></el-col>
-                        <el-col :span="2" style="margin-top:10px">
-                            <el-link href="https://element.eleme.io" target="_blank" style="color:#fbfcfe">登 录</el-link>
+                        <el-col :span="6" class="welcome">
+                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
                         </el-col>
-                        <el-col :span="2" style="text-align:center;margin-top:10px">
-                            <el-link href="https://element.eleme.io" target="_blank" style="color:#fbfcfe">注 册</el-link>
-                        </el-col>
+                        <el-col :span="6" class="avator">
+                            <el-popover
+                                    placement="top-start"
+                                    width="240"
+                                    trigger="hover">
+                                <div v-if="islogin==true">
+                                    <div class="item cardtxt">既然选择了远方</div>
+                                    <div class="item cardtxt">1002609249@qq.com</div>
+                                    <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
+                                </div>
+                                <div v-if="islogin==false">
+                                    <div class="item cardtxt">游客</div>
+                                    <div class="item cardtxt">您尚未登陆</div>
+                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
+                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
+                                </div>
 
+                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
+                            </el-popover>
+                        </el-col>
                     </el-col>
                 </el-row>
 
@@ -118,8 +133,8 @@
                             </el-row>
                             <el-row type="flex" class="row-bg paragraph" justify="left">
                                 <el-col :span="4">
-                                    <div class="grid-content bg-purple content">我是奥巴马，</div>
-                                    <div class="grid-content bg-purple content">我也来到B站了！</div>
+                                    <div class="grid-content bg-purple content">我是华盛顿，</div>
+                                    <div class="grid-content bg-purple content">我来到B站了！</div>
                                 </el-col>
                             </el-row>
                         </div>
@@ -133,7 +148,7 @@
                             </el-row>
                             <el-row type="flex" class="row-bg paragraph" justify="left">
                                 <el-col :span="4">
-                                    <div class="grid-content bg-purple content">我是皮，</div>
+                                    <div class="grid-content bg-purple content">我是特朗普，</div>
                                     <div class="grid-content bg-purple content">我就是神啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊！</div>
                                 </el-col>
                             </el-row>
@@ -226,7 +241,7 @@
     import { ParticlesBg } from "particles-bg-vue";
     export default {
         components: {
-            ParticlesBg
+            ParticlesBg,
         },
         name: "delete",
         data() {
@@ -234,7 +249,8 @@
                 isCollapse: false,
                 emm:'1-1',
                 inputbox:'',
-
+                which:'worktable',
+                islogin:true,
             };
         },
         methods: {
@@ -247,6 +263,17 @@
             zipornot()
             {
                 this.isCollapse=!this.isCollapse;
+            },
+            shortjmp(which){
+                this.which = which
+            },
+            longjmp(name){
+                this.$router.push({
+                    name:name,
+                })
+            },
+            logout(){
+                this.islogin=false
             }
         },
     };
