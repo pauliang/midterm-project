@@ -6,7 +6,7 @@
                 <el-row>
                     <el-col :span="4" >
                         <div style="margin-right:25px">
-                            <img src="../assets/logo.png" >
+                            <img src="../assets/logo.png" @click="goBack()" >
                         </div>
 
                     </el-col>
@@ -121,6 +121,11 @@
                     params:{
                         id:name
                     }
+                })
+            },
+            goBack(){
+                this.$router.push({
+                    name:'Page',
                 })
             }
         },

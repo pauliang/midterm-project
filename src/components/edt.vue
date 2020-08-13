@@ -2,7 +2,8 @@
     <div>
         <el-container class="container">
             <el-header height='60px'>
-                <img class="header-logo left" src="../assets/logo.png" alt="logo">
+                <img class="header-logo left" src="../assets/logo.png" alt="logo" @click="goPage()">
+                <el-button icon="el-icon-arrow-left" class="goback" type="text" @click="goBack()"></el-button>
                 <div class="header-info right">
                     <span>金石文档欢迎您！&nbsp;</span>
                     <el-link type="info" :underline="false">登录</el-link>&nbsp;
@@ -40,6 +41,18 @@
                 this.formArticle.content = html
             }
             editor2.create()
+        },
+        methods:{
+            goPage(){
+                this.$router.push({
+                    name:'Models',
+                })
+            },
+            goBack(){
+                this.$router.push({
+                    name:'Models',
+                })
+            }
         },
         components:{
             board
@@ -87,6 +100,13 @@
         margin:5px 0;
         font-size: 12px;
     }
+    .goback{
+        position: absolute;
+        font-size: 25px;
+        top: 5px;
+        left: 250px;
+    }
+
     .container .el-main {
         position: relative;
     }
