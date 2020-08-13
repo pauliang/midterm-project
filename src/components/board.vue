@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="choice==1">
+        <div v-if="choice=='会议纪要模板'">
             <br>
             <h1 style="text-align:center;">会议纪要</h1>
             <br>
@@ -29,13 +29,13 @@
                 </li>
                 <li>
                     <h3>会议想不出来了</h3>
-
+                    
                 </li>
             </ul>
         </div>
-        <div v-if="choice==2">
+        <div v-else-if="choice=='康奈尔笔记法'">
             <br>
-            <h1 style="text-align:center;">是啥都行，但这是另一个模板</h1>
+            <h1 style="text-align:center;">康奈尔笔记法</h1>
             <br>
             <hr align=center width=100% color=#00000 SIZE=4>
             <br>
@@ -62,18 +62,30 @@
                 </li>
                 <li>
                     <h3>会议想不出来了</h3>
-
+                    
                 </li>
             </ul>
         </div>
+        <div v-else-if="choice=='四象限法则'">
+            <br>
+            <h1 style="text-align:center;">四象限法则</h1>
+        </div>
+        <div v-else-if="choice=='阅读笔记模板'">
+            <br>
+            <h1 style="text-align:center;">阅读笔记模板</h1>
+        </div>
+        <div v-else-if="choice=='项目策划模板'">
+            <br>
+            <h1 style="text-align:center;">项目策划模板</h1>
+        </div>
     </div>
-
+    
 </template>
 <script>
-    export default {
-        name:'board',
-        props:{
-            choice:Number
-        }
+export default {
+    name:'board',
+    props:{
+        choice:String
     }
+}
 </script>

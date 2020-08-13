@@ -1,6 +1,6 @@
 <template>
   <div>
-    <edt :msg="fmsg" choice=1></edt>
+    <edt :msg="fmsg" :choice="choice"></edt>
   </div>
 </template>
 
@@ -10,7 +10,8 @@
     name: 'model1',
     data(){
       return{
-        fmsg:'俺是父组件传的值，部署时为该文档原内容'
+        fmsg:'俺是父组件传的值，部署时为该文档原内容',
+        choice:this.$route.params.id
       }
     },
     components:{
