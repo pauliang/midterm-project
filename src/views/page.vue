@@ -1,6 +1,6 @@
 <template>
     <div>
-<!--        <particles-bg type="cobweb" :bg="true" />-->
+        <!--        <particles-bg type="cobweb" :bg="true" />-->
         <el-container class="whole">
 
             <el-header class="head">
@@ -32,7 +32,25 @@
                             <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-avatar icon="el-icon-user-solid"></el-avatar>
+                            <el-popover
+                                    placement="top-start"
+                                    width="240"
+                                    trigger="hover">
+                                <div v-if="islogin==true">
+                                    <div class="item cardtxt">既然选择了远方</div>
+                                    <div class="item cardtxt">1002609249@qq.com</div>
+                                    <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
+                                </div>
+                                <div v-if="islogin==false">
+                                    <div class="item cardtxt">既然选择了远方</div>
+                                    <div class="item cardtxt">你尚未登陆</div>
+                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
+                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
+                                </div>
+
+                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
+                            </el-popover>
                         </el-col>
                     </el-col>
                 </el-row>
@@ -60,9 +78,10 @@
                             </template>
 
                             <el-menu-item-group>
-                                <el-menu-item index="1-1" class="shit">最近浏览</el-menu-item>
-                                <el-menu-item index="1-2" class="shit">我的文档</el-menu-item>
-                                <el-menu-item index="1-3" class="shit">我的收藏</el-menu-item>
+                                <el-menu-item index="1-1" class="shit"  @click="shortjmp('worktable')">最近浏览</el-menu-item>
+                                <el-menu-item index="1-2" class="shit"  @click="shortjmp('worktable')">我的文档</el-menu-item>
+                                <el-menu-item index="1-3" class="shit"  @click="shortjmp('worktable')">我的收藏</el-menu-item>
+                                <el-menu-item index="1-4" class="shit"  @click="longjmp('Models')">创建文档</el-menu-item>
                             </el-menu-item-group>
 
                         </el-submenu>
@@ -73,7 +92,7 @@
                             <span slot="title">团队空间</span>
                         </el-menu-item>
 
-                        <el-menu-item index="3">
+                        <el-menu-item index="3" @click="shortjmp('dele')">
                             <i class="el-icon-delete-solid"></i>
                             <span slot="title">回收站</span>
                         </el-menu-item>
@@ -100,27 +119,9 @@
 
                 </el-aside>
 
-                <el-container style="min-height:650px">
-                    <el-main>
-                        <el-row :gutter="20">
-                            <el-col :span="4">
-                                <div class="grid-content bg-purple now delete">最近使用</div>
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="grid-content bg-purple delete">我创建的</div>
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="grid-content bg-purple delete">收藏文档</div>
-                            </el-col>
-                        </el-row>
-                    </el-main>
-                </el-container>
-                <el-card class="box-card" shadow="hover">
-                    <div class="text item">既然选择了远方</div>
-                    <div class="text item">1002609249@qq.com</div>
-                    <el-button type="text" class="item more_info">修改个人资料</el-button>
-                    <el-button type="text" class="item logout">退出登录</el-button>
-                </el-card>
+                <!-- 组件部分 -->
+                <worktable v-if="which=='worktable'"></worktable>
+                <dele v-else-if="which=='dele'"></dele>
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png" >
@@ -131,17 +132,17 @@
 
 <script>
     // import { ParticlesBg } from "particles-bg-vue";
+    import worktable from "@/components/worktable.vue";
+    import dele from "@/components/dele.vue";
     export default {
-        components: {
-            // ParticlesBg
-        },
-        name: "worktable",
+        name: 'Page',
         data() {
             return {
                 isCollapse: false,
                 emm:'1-1',
                 inputbox:'',
-
+                which:'worktable',
+                islogin:true,
             };
         },
         methods: {
@@ -154,8 +155,23 @@
             zipornot()
             {
                 this.isCollapse=!this.isCollapse;
+            },
+            shortjmp(which){
+                this.which = which
+            },
+            longjmp(name){
+                this.$router.push({
+                    name:name,
+                })
+            },
+            logout(){
+                this.islogin=false
             }
         },
+        components:{
+            worktable,
+            dele,
+        }
     };
 </script>
 
@@ -193,7 +209,6 @@
         float: right;
         margin-right: 100px;
     }
-
     .el-container {
         position: relative;
     }
@@ -249,7 +264,6 @@
         font-weight: 600;
         line-height: 18px;
         color: #bababa;
-
     }
     .el-container .now {
         color: #575757;
@@ -267,32 +281,47 @@
     .text {
         font-size: 14px;
     }
-
     /*这部分是个人信息的小卡片*/
     .item {
         padding: 18px 0;
         font-size: 14px;
         color: #24292e;
     }
-
     .box-card {
-        width: 240px;
-        height: 280px;
-        margin: -4px 80px 0 0;
+        /* width: 240px;
+        height: 280px; */
+        margin: 0,0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
-
     .more_info {
         display: block;
         color: #409eff;
         margin: 0 auto;
+        width: 180px;
     }
-
     .logout {
         display: block;
         color: #c81623;
-        margin: 45px auto 0;
+        margin: 10px auto 0;
+        width: 180px;
+        margin-bottom: 20px;
     }
-
+    .login{
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+        width: 180px;
+        margin-bottom: 20px;
+    }
+    .regi{
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+        width: 180px;
+        margin-bottom: 20px;
+    }
+    .cardtxt {
+        text-align: center;
+    }
 </style>

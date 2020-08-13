@@ -10,7 +10,7 @@
     name: 'model1',
     data(){
       return{
-        fmsg:'俺是父组件传的值，部署时为该文档原内容',
+        fmsg:'',
         choice:this.$route.params.id
       }
     },

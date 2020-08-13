@@ -106,11 +106,11 @@
             return {
                 board_list:[
                     {name:'空白模板'},
-                    {name:'会议纪要模板',url:require('@/assets/model_1.png')},
-                    {name:'康奈尔笔记法',url:require('@/assets/model_1.png')},
-                    {name:'四象限法则',url:require('@/assets/model_1.png')},
-                    {name:'阅读笔记模板',url:require('@/assets/model_1.png')},
-                    {name:'项目策划模板',url:require('@/assets/model_1.png')}
+                    {name:'会议纪要模板',url:require('@/assets/model1.png')},
+                    {name:'康奈尔笔记法',url:require('@/assets/model2.png')},
+                    {name:'四象限法则',url:require('@/assets/model3.png')},
+                    {name:'阅读笔记模板',url:require('@/assets/model4.png')},
+                    {name:'项目策划模板',url:require('@/assets/model5.png')}
                 ]
             }
         },

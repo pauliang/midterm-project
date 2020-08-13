@@ -11,8 +11,8 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/regi',
-    name: 'Regi',
+    path: '/register',
+    name: 'Register',
     component: () => import('@/views/regi.vue')
   },
   {
@@ -62,6 +62,16 @@ Vue.use(VueRouter)
       path: '/profile',
       name: 'Profile',
       component: () => import('@/views/profile.vue')
+    },
+    {
+      path: '/test-team',
+      name: 'Test-team',
+      component: () => import('@/views/test-team.vue')
+    },
+    {
+      path: '/page',
+      name: 'Page',
+      component: () => import('@/views/page.vue')
     }
 
 ]
