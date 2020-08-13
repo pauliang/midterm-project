@@ -1,10 +1,10 @@
 <template>
   <div class="outer"  @mouseover="overShow" @mouseout="shut">
-    <el-card :body-style="{ padding: '0px', height:'140px'}" shadow="hover" style="border-radius:10px;border:1px rgb(199, 199, 204) solid">
+    <el-card :body-style="{ padding: '0px', height:'140px'}" shadow="hover" style="border-radius:10px;border:1px rgb(199, 199, 204) solid;width: 120px; height: 100px ;">
       
-      <el-image :src="require('../assets/group.png')" style="width: 100px; height: 60px ;margin-top:20px" v-if="ishover" ></el-image>
+      <el-image :src="require('../assets/group.png')" style="width: 100px; height: 60px ;margin-top:15px" v-if="ishover" ></el-image>
      
-      <i class="el-icon-more-outline" style="font-size:60px;margin-top:20px" v-if="!ishover"></i>
+      <i class="el-icon-more-outline" style="font-size:60px;margin-top:15px;width: 100px; height: 60px ;" v-if="!ishover"></i>
         
       <div style="padding:4px;">
         

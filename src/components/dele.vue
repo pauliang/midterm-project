@@ -6,109 +6,23 @@
                     <div class="grid-content bg-purple delete">回收站</div>
                 </el-col>
             </el-row>
-            <div class="box">
-                <el-row type="flex" class="row-bg pic" justify="left" >
-                    <el-col :span="4" >
+            <el-row>
+                <!-- <el-col :span="4" class="cardbox" v-for="o in delist" :key="o">
                         <div style="margin-right:25px; padding-top: 25px">
                             <img src="../assets/word.png" >
                         </div>
-                    </el-col>
-                </el-row>
-                <el-row type="flex" class="row-bg paragraph" justify="left">
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple content">我是华盛顿，</div>
-                        <div class="grid-content bg-purple content">我也来到B站了！</div>
-                    </el-col>
-                </el-row>
-            </div>
-            <div class="box">
-                <el-row type="flex" class="row-bg pic" justify="left" >
-                    <el-col :span="4" >
-                        <div style="margin-right:25px; padding-top: 25px">
-                            <img src="../assets/word.png">
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row type="flex" class="row-bg paragraph" justify="left">
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple content">我是林肯，</div>
-                        <div class="grid-content bg-purple content">我也来到B站了！</div>
-                    </el-col>
-                </el-row>
-            </div>
-            <div class="box">
-                <el-row type="flex" class="row-bg pic" justify="left" >
-                    <el-col :span="4" >
-                        <div style="margin-right:25px; padding-top: 25px">
-                            <img src="../assets/word.png">
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row type="flex" class="row-bg paragraph" justify="left">
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple content">我是柯立芝，</div>
-                        <div class="grid-content bg-purple content">我也来到B站了！</div>
-                    </el-col>
-                </el-row>
-            </div><div class="box">
-            <el-row type="flex" class="row-bg pic" justify="left" >
-                <el-col :span="4" >
-                    <div style="margin-right:25px; padding-top: 25px">
-                        <img src="../assets/word.png">
-                    </div>
+                    <div class="">{{ o.name }}</div>
+                    <div class="">{{ o.cut }}</div>
+                </el-col> -->
+                <el-col class="debox" v-for="o in delist" :key="o">
+                    <el-card shadow="hover" class="decard">
+                        <i class="el-icon-delete deicon"></i>
+                        <div class="defont">{{ o.name }}</div>
+                        <div class="defont">{{ o.cut }}</div>
+                    </el-card>
+                    <el-button class="debutton">还原</el-button>
                 </el-col>
             </el-row>
-            <el-row type="flex" class="row-bg paragraph" justify="left">
-                <el-col :span="4">
-                    <div class="grid-content bg-purple content">我是罗斯福，</div>
-                    <div class="grid-content bg-purple content">我也来到B站了！</div>
-                </el-col>
-            </el-row>
-        </div><div class="box">
-            <el-row type="flex" class="row-bg pic" justify="left" >
-                <el-col :span="4" >
-                    <div style="margin-right:25px; padding-top: 25px">
-                        <img src="../assets/word.png">
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row type="flex" class="row-bg paragraph" justify="left">
-                <el-col :span="4">
-                    <div class="grid-content bg-purple content">我是胡佛，</div>
-                    <div class="grid-content bg-purple content">我也来到B站了！</div>
-                </el-col>
-            </el-row>
-        </div>
-            <div class="box">
-                <el-row type="flex" class="row-bg pic" justify="left" >
-                    <el-col :span="4" >
-                        <div style="margin-right:25px; padding-top: 25px">
-                            <img src="../assets/word.png">
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row type="flex" class="row-bg paragraph" justify="left">
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple content">我是奥巴马，</div>
-                        <div class="grid-content bg-purple content">我也来到B站了！</div>
-                    </el-col>
-                </el-row>
-            </div>
-            <div class="box">
-                <el-row type="flex" class="row-bg pic" justify="left" >
-                    <el-col :span="4" >
-                        <div style="margin-right:25px; padding-top: 25px">
-                            <img src="../assets/word.png">
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row type="flex" class="row-bg paragraph" justify="left">
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple content">我是特朗普，</div>
-                        <div class="grid-content bg-purple content">我就是神啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊！</div>
-                    </el-col>
-                </el-row>
-            </div>
         </el-main>
     </el-container>
 </template>
@@ -120,39 +34,21 @@
         //         ParticlesBg
         //     },
         name:'dele',
+        data(){
+            return {
+                delist:[
+                    {name:'删除1',cut:'我是被删除的某文件1'},
+                    {name:'删除2',cut:'我是被删除的某文件2'},
+                    {name:'删除3',cut:'我是被删除的某文件3'},
+                    {name:'删除4',cut:'我是被删除的某文件4'},
+                    {name:'删除5',cut:'我是被删除的某文件5'},
+                ]
+            }
+        }
     }
 </script>
 
 <style scoped>
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 220px;
-        min-height: 600px;
-    }
-    .shit{
-        font-size:13px !important;
-    }
-    .head{
-        background: rgba(8, 1, 1, 0.342);
-        padding: 0;
-    }
-    .el-container {
-        position: relative;
-    }
-    .el-divider--horizontal{
-        margin-bottom: 1px !important;
-        margin-top: 0px !important;
-    }
-    .el-link--default{
-        color: #303133;
-        font-size: 17px;
-    }
-    .el-row {
-        margin-bottom: 20px;
-    }
-    .el-col {
-        margin-top:5px;
-        border-radius: 4px;
-    }
     .delete {
         position: relative;
         text-align: center;
@@ -165,18 +61,6 @@
     }
     .bg-purple-dark {
         background: #99a9bf;
-    }
-    .box {
-        float: left;
-        margin: -10px 100px 10px 0;
-    }
-    .box img {
-        display: block;
-    }
-    .pic {
-        padding: 0;
-        position: relative;
-        margin: 0 12px 20px;
     }
     .content {
         margin: 5px 50px 10px -45px;
@@ -199,5 +83,25 @@
     }
     .whole {
         height: 1500px;
+    }
+    .debox {
+        float: left;
+        margin: 10px 60px 70px 12px;
+        width: 200px;
+        height: 200px;
+    }
+    .deicon {
+        font-size: 60px;
+    }
+    .decard {
+        width: 170px;
+        height: 200px;
+    }
+    .debutton{
+        margin: 10px 40px 10px 10px;
+    }
+    .defont {
+         color: #555555;
+        font: bold 18px arial,sans-serif ;
     }
 </style>

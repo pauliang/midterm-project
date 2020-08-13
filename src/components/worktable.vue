@@ -4,13 +4,13 @@
             <el-main>
                 <el-row :gutter="20">
                     <el-col :span="4">
-                        <div class="grid-content bg-purple now delete">最近使用</div>
+                        <el-button class="grid-content bg-purple now delete">最近使用</el-button>
                     </el-col>
                     <el-col :span="4">
-                        <div class="grid-content bg-purple delete">我创建的</div>
+                        <el-button class="grid-content bg-purple delete">我创建的</el-button>
                     </el-col>
                     <el-col :span="4">
-                        <div class="grid-content bg-purple delete">收藏文档</div>
+                        <el-button class="grid-content bg-purple delete">收藏文档</el-button>
                     </el-col>
                 </el-row>
             </el-main>
@@ -93,6 +93,8 @@
         margin: 0 25px 0 -110px;
         border-radius: 4px;
         min-height: 36px;
+        border: none;
+        width: 40px;
     }
     .bg-purple-dark {
         background: #99a9bf;

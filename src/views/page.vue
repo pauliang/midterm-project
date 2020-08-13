@@ -43,10 +43,10 @@
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
                                 <div v-if="islogin==false">
-                                    <div class="item cardtxt">游客</div>
-                                    <div class="item cardtxt">您尚未登陆</div>
+                                    <div class="item cardtxt">既然选择了远方</div>
+                                    <div class="item cardtxt">你尚未登陆</div>
                                     <el-button class="item login" @click="longjmp('Login')">登录</el-button>
-                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
+                                    <el-button class="item regi" @click="longjmp('Register')">注册</el-button>
                                 </div>
 
                                 <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
@@ -87,7 +87,7 @@
                         </el-submenu>
 
 
-                        <el-menu-item index="2">
+                        <el-menu-item index="2" @click="shortjmp('Gtable')">
                             <i class="el-icon-menu"></i>
                             <span slot="title">团队空间</span>
                         </el-menu-item>
@@ -122,6 +122,8 @@
                 <!-- 组件部分 -->
                 <worktable v-if="which=='worktable'"></worktable>
                 <dele v-else-if="which=='dele'"></dele>
+                <Gtable v-else-if="which=='Gtable'"></Gtable>
+
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png" >
@@ -134,6 +136,7 @@
     // import { ParticlesBg } from "particles-bg-vue";
     import worktable from "@/components/worktable.vue";
     import dele from "@/components/dele.vue";
+    import Gtable from "@/components/Gtable.vue";
     export default {
         name: 'Page',
         data() {
@@ -171,6 +174,7 @@
         components:{
             worktable,
             dele,
+            Gtable,
         }
     };
 </script>
