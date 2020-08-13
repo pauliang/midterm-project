@@ -36,8 +36,8 @@
                        <el-divider></el-divider>
                     <div style="font-size:14px;">
 
-                       <div> <span>注册即代表同意《金石协议》《隐私保护指引》</span> </div>
-                       <span>已有金石账户？点击此处进行<el-button type="text" @click="bump_login">账户登录</el-button></span>
+                       <div> <span>注册即代表同意《礼朴协议》《隐私保护指引》</span> </div>
+                       <span>已有礼朴账户？点击此处进行<el-button type="text" @click="bump_login">账户登录</el-button></span>
                     </div>
             </el-main>
 
@@ -66,18 +66,24 @@ export default {
     methods:
     {
         onSubmit(username,pwda,pwdb) {
-        console.log('submit!');
+        console.log('submit!'+username+pwda+pwdb);
         // alert("OK!");
         // this.loading=true;
-         let params={username:username,pwda:pwda,pwdb:pwdb};
-            this.$http.post('/test.php', params).then(
+            this.$axios(
+                {
+                    method:'post',
+                    url:'http://39.97.122.202/User/register/',
+                    data:{
+                        username:username,
+                        password:pwda,
+                        password2:pwdb
+                    }
+                }).then(
                 response => {
                     var fmsg='请重新注册！'
                     var rmsg=response.data
                     if(rmsg=='成功') alert('注册成功！');
                     else alert(rmsg+fmsg);
-                    // alert(response.data)
-                    // console.log(response)
                 },
                 err => {
                     console.log(err)

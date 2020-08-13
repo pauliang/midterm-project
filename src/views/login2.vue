@@ -1,6 +1,9 @@
 <template>
     <div class="bg">
         <el-container>
+<!--          <el-button @click="test">-->
+<!--          </el-button>-->
+          <img :src="def" >
 
             <el-container class="mid">
                 <el-main class="zhihu" v-loading="loading">
@@ -34,8 +37,8 @@
                     <el-divider></el-divider>
 
                     <div style="font-size:14px;">
-                        <span>没有金石账户？点击此处进行<el-button type="text" @click="bump_regi">账户注册</el-button></span>
-                        <div> <span>注册即代表同意《金石协议》《隐私保护指引》</span> </div>
+                        <span>没有礼朴账户？点击此处进行<el-button type="text" @click="bump_regi">账户注册</el-button></span>
+                        <div> <span>注册即代表同意《礼朴协议》《隐私保护指引》</span> </div>
                     </div>
                 </el-main>
 
@@ -60,6 +63,7 @@
                 },
                 loading:false,
                 islogin:false,
+                def:"",
             }
         },
 
@@ -68,6 +72,34 @@
                 bump_regi()
                 {
                     this.$router.push({ path: "/regi"});
+                },
+                test()
+                {
+                  this.$axios.get('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://www.yhrc8.com',{responseType: 'arraybuffer'})
+                  .then(response => {
+                            return 'data:image/png;base64,' + btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));})
+                            .then(data => 
+                            {
+                                this.def=data;
+                                console.log(data);
+                            })
+                },
+                onSubmit(name,code)
+                {
+                    this.$axios(
+                        {
+                            method:'post',
+                            url:'http://39.97.122.202/User/login/',
+                            data:{
+                               username:name,
+                               password:code
+                            }
+                        }                       
+                    ).then((res)=>{
+                        console.log(res.data);
+                        console.log(res);
+                    });
+
                 },
             }
     }
