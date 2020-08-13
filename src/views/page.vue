@@ -46,7 +46,7 @@
                                     <div class="item cardtxt">既然选择了远方</div>
                                     <div class="item cardtxt">你尚未登陆</div>
                                     <el-button class="item login" @click="longjmp('Login')">登录</el-button>
-                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
+                                    <el-button class="item regi" @click="longjmp('Register')">注册</el-button>
                                 </div>
 
                                 <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
