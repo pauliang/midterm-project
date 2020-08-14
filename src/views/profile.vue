@@ -1,13 +1,11 @@
 <template>
     <div class="profile">
         <el-container>
-
             <el-header class="head">
-
                 <el-row>
                     <el-col :span="4">
                         <div style="margin-right:25px">
-                            <img src="../assets/logo.png">
+                            <img src="../assets/logo.png" alt="logo" @click="goPage()">
                         </div>
 
                     </el-col>
@@ -23,17 +21,13 @@
                     </el-col>
 
                     <el-col :span="13" style="text-align:right">
-
-                        <el-col :span="20">
+                        <el-col :span="6" class="welcome">
+                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！
+                            </el-link>
+                        </el-col>
+                        <el-col :span="6" class="avator">
                             <el-avatar icon="el-icon-user-solid"></el-avatar>
                         </el-col>
-                        <el-col :span="2" style="margin-top:10px">
-                            <el-link href="https://element.eleme.io" target="_blank" style="color:#fbfcfe">登 录</el-link>
-                        </el-col>
-                        <el-col :span="2" style="text-align:center;margin-top:10px">
-                            <el-link href="https://element.eleme.io" target="_blank" style="color:#fbfcfe">注 册</el-link>
-                        </el-col>
-
                     </el-col>
                 </el-row>
 
@@ -43,35 +37,56 @@
                 <div class="form">
 
                     <!-- 个人信息页面主表单 -->
-                    <el-form ref="profile" :model="profile" label-width="100px">
+                    <el-form ref="profile" :model="profile" label-width="100px" :rules="rule">
                         <el-form-item label="用户编号：">
                             {{profile.uid}}
                         </el-form-item>
-                        <el-form-item label="用户昵称：">
-                            <el-input v-model="profile.uname" placeholder="请输入昵称"></el-input>
+                        <el-form-item label="用户昵称：" prop="uname">
+                            <el-input v-if="this.isEditable == true" v-model="profile.uname" placeholder="请输入昵称">
+                            </el-input>
+                            <span v-else>{{ profile.uname }}</span>
                         </el-form-item>
                         <el-form-item label="密码：" class="pwd">
                             ******
-                            <el-button type="text" class="right" @click="dialogVisible = true">修改密码</el-button>
+                            <el-button v-if="this.isEditable == true" type="text" class="right"
+                                @click="dialogVisible = true">修改密码</el-button>
                         </el-form-item>
                         <el-form-item label="年龄：">
-                            <el-input-number :min="1" v-model.number="profile.age" placeholder="请输入年龄">
+                            <el-input-number v-if="this.isEditable == true" :min="1" v-model.number="profile.age"
+                                placeholder="请输入年龄">
                             </el-input-number>
+                            <span v-else>{{ profile.age }}</span>
                         </el-form-item>
                         <el-form-item label="性别：">
-                            <el-radio-group v-model="profile.gender">
-                                <el-radio :label="1">男</el-radio>
-                                <el-radio :label="0">女</el-radio>
+                            <el-radio-group v-if="this.isEditable == true" v-model="profile.gender">
+                                <el-radio v-model="profile.gender" label="1">男</el-radio>
+                                <el-radio v-model="profile.gender" label="0">女</el-radio>
                             </el-radio-group>
+                            <span v-else>{{ profile.gender }}</span>
                         </el-form-item>
                         <el-form-item label="个人简介：">
-                            <el-input type="textarea" resize="none" :rows="4" v-model="profile.introduction"></el-input>
+                            <el-input v-if="this.isEditable == true" type="textarea" resize="none" :rows="4"
+                                v-model="profile.introduction"></el-input>
+                            <span v-else> {{ profile.introduction }} </span>
                         </el-form-item>
                         <el-form-item label="兴趣爱好：">
-                            <el-input v-model="profile.hobby" placeholder="请输入爱好"></el-input>
+                            <el-input v-if="this.isEditable == true" v-model="profile.hobby" placeholder="请输入爱好">
+                            </el-input>
+                            <span v-else> {{ profile.hobby }} </span>
+                        </el-form-item>
+                        <el-form-item label="邮箱：" prop="email">
+                            <el-input v-if="this.isEditable == true" v-model="profile.email" placeholder="请输入邮箱地址">
+                            </el-input>
+                            <span v-else> {{ profile.email }} </span>
+                        </el-form-item>
+                        <el-form-item label="手机号：" prop="phone">
+                            <el-input v-if="this.isEditable == true" v-model="profile.phone" placeholder="请输入手机号">
+                            </el-input>
+                            <span v-else> {{ profile.phone }} </span>
                         </el-form-item>
                         <el-form-item label-width="0px">
-                            <el-button type="primary" @click="onSubmit()">保存</el-button>
+                            <el-button v-if="this.isEditable == true" type="primary" @click="submitForm('profile')">保存
+                            </el-button>
                         </el-form-item>
                     </el-form>
 
@@ -92,7 +107,7 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-button @click="dialogVisible = false">取 消</el-button>
-                                <el-button type="primary" @click="dialogVisible = false;submitPassword()">确 定
+                                <el-button type="primary" @click="submitForm('password')">确 定
                                 </el-button>
                             </el-form-item>
                         </el-form>
@@ -155,15 +170,61 @@
                     callback();
                 }
             };
+            var validatePass3 = (rule, value, callback) => {
+                if (value === "") {
+                    callback(new Error("请输入用户名"));
+                } else {
+                    this.usernameList.forEach(username => {
+                        console.log(username);
+                        if (username != localStorage.getItem('username') && this.profile.uname ==
+                            username) {
+                            callback(new Error("该用户名已存在"));
+                        }
+                    });
+                    callback();
+                }
+            };
+            var checkPhone = (rule, value, callback) => {
+                const phoneReg = /^1[3|4|5|7|8][0-9]{9}$/
+                if (value === "") {
+                    callback(new Error('电话号码不能为空'));
+                }
+                // Number.isInteger是es6验证数字是否为整数的方法,但是我实际用的时候输入的数字总是识别成字符串
+                // 所以我就在前面加了一个+实现隐式转换
+
+                if (!Number.isInteger(+value)) {
+                    callback(new Error('请输入数字值'))
+                } else if (!phoneReg.test(value)) {
+                    callback(new Error('电话号码格式不正确'));
+                } else {
+                    callback();
+                }
+            };
+            var checkEmail = (rule, value, callback) => {
+                const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+                if (!value) {
+                    return callback(new Error('邮箱不能为空'))
+                }
+                setTimeout(() => {
+                    if (mailReg.test(value)) {
+                        callback()
+                    } else {
+                        callback(new Error('请输入正确的邮箱格式'))
+                    }
+                }, 100)
+            }
             return {
+                inputbox: '',
                 profile: {
                     uid: '1',
-                    uname: 'g',
+                    uname: 'prof.H',
                     pwd: '123abc',
-                    age: '',
-                    gender: '',
-                    introduction: '',
-                    hobby: '',
+                    age: '10',
+                    gender: '1',
+                    introduction: 'test',
+                    hobby: 'test',
+                    email: 'test@163.com',
+                    phone: '13548658769',
                 },
                 password: {
                     formerPwd: '',
@@ -173,6 +234,25 @@
                 logourl: '../assets/logo.png',
                 loading: false,
                 dialogVisible: false,
+                isEditable: true,
+                usernameList: ['g'],
+                rule: {
+                    uname: [{
+                        required: true,
+                        validator: validatePass3,
+                        trigger: "blur"
+                    }],
+                    phone: [{
+                        required: true,
+                        validator: checkPhone,
+                        trigger: 'blur'
+                    }],
+                    email: [{
+                        required: true,
+                        validator: checkEmail,
+                        trigger: 'blur'
+                    }],
+                },
                 rules: {
                     formerPwd: [{
                         required: true,
@@ -228,15 +308,19 @@
                 var gender = this.profile.gender;
                 var introduction = this.profile.introduction;
                 var hobby = this.profile.hobby;
+                var email = this.profile.email;
+                var phone = this.profile.phone;
                 this.$axios({
                     method: 'post',
-                    url: 'http://39.97.122.202/User/edit/' + uid,
+                    url: 'http://39.97.122.202/User/edit/' + uid + '/',
                     data: {
                         name: uname,
                         age: age,
                         gender: gender,
                         introduction: introduction,
                         hobby: hobby,
+                        email: email,
+                        phone: phone,
                     }
                 }).then(
                     response => {
@@ -252,49 +336,110 @@
                     console.log(error);
                 });
             },
+            goPage() {
+                this.$router.push({
+                    name: 'Page',
+                })
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        if (formName == "password")
+                            this.submitPassword();
+                        else if (formName == "profile")
+                            this.onSubmit();
+                        localStorage.setItem('username', this.profile.uname);
+                        console.log("submitted");
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
         },
         created() {
             this.$axios().then(
                 response => {
-                    this.profile = response.data;
+                    this.profile = response.data.profile;
+                    this.usernameList = response.data.usernameList;
                 },
                 err => {
                     console.log(err);
                 }).catch((error) => {
                 console.log(error);
             });
+            var userID = localStorage.getItem('userID');
+            if (userID == this.profile.uid)
+                this.isEditable = true;
+            else
+                this.isEditable = false;
         },
     }
 </script>
 
 <style scoped>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 220px;
         min-height: 600px;
     }
-    .shit{
-        font-size:13px !important;
+
+    .profile {
+        background-color: #f3f3f3;
     }
-    .head{
+
+    .shit {
+        font-size: 13px !important;
+    }
+
+    .head {
         background: rgba(8, 1, 1, 0.342);
         padding: 0;
     }
+
+    .head .welcome {
+        position: absolute;
+        float: right;
+    }
+
+    .head .wel_text {
+        position: absolute;
+        width: 400px;
+        height: 30px;
+        color: #fbfcfe;
+        float: right;
+        margin-right: 20px;
+        margin-top: 5px;
+        line-height: 30px;
+    }
+
+    .head .avator {
+        position: relative;
+        width: 150px;
+        height: 40px;
+        float: right;
+        margin-right: 100px;
+    }
+
     .el-container {
         position: relative;
     }
-    .el-divider--horizontal{
+
+    .el-divider--horizontal {
         margin-bottom: 1px !important;
         margin-top: 0px !important;
     }
-    .el-link--default{
+
+    .el-link--default {
         color: #303133;
         font-size: 17px;
     }
+
     .el-row {
         margin-bottom: 20px;
     }
+
     .el-col {
-        margin-top:5px;
+        margin-top: 5px;
         border-radius: 4px;
     }
 
@@ -326,7 +471,12 @@
         position: relative;
     }
 
+    .el-footer {
+        padding: 0 0;
+    }
+
     .el-footer img {
+        display: block;
         width: 100%;
     }
 </style>
