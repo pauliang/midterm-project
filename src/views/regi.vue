@@ -142,14 +142,14 @@
                 }).then(
                     response => {
                         var fmsg = '请重新注册！'
-                        var rmsg = response.data
-                        if (rmsg == '成功') {
+                        var info = response.data.info;
+                        if (info == '成功') {
                             alert('注册成功！');
                             this.$router.push({
                                 name: "Login",
                             });
                         } else
-                            alert(rmsg + fmsg);
+                            alert(info + fmsg);
                     },
                     err => {
                         console.log(err)
@@ -166,9 +166,12 @@
             }
         },
         created() {
-            this.$axios().then(
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/User/register/usernameList',
+            }).then(
                 response => {
-                    this.usernameList = response.data;
+                    this.usernameList = response.data.usernameList;
                 },
                 err => {
                     console.log(err);

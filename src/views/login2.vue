@@ -94,7 +94,7 @@
                     console.log(res.data);
                     if (res.data.info === "Login Success!") {
                         localStorage.setItem('username', this.form.name);
-                        localStorage.setItem('userID', this.res.data.userID);
+                        localStorage.setItem('userID', res.data.userID);
                         this.$router.push({
                             name: "Page",
                         })
