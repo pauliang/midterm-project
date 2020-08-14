@@ -89,7 +89,7 @@
                         </el-menu-item>
 
 
-                        <el-menu-item index="4">
+                        <el-menu-item index="4"  @click="longjmp('Help')">
                             <i class="el-icon-s-tools"></i>
                             <span slot="title">帮助中心</span>
                         </el-menu-item>
@@ -111,9 +111,9 @@
                 </el-aside>
 
                 <!-- 组件部分 -->
-                <worktable v-if="which=='worktable'"></worktable>
-                <dele v-else-if="which=='dele'"></dele>
-                <Gtable v-else-if="which=='Gtable'"></Gtable>
+                <worktable v-if="which==='worktable'"></worktable>
+                <dele v-else-if="which==='dele'"></dele>
+                <Gtable v-else-if="which==='Gtable'"></Gtable>
 
             </el-container>
             <el-footer>
@@ -155,14 +155,22 @@
                 this.which = which
             },
             longjmp(name) {
-                if (name == "Profile") {
+                if (name === "Profile") {
                     this.$router.push({
                         path: '/profile',
                         query: {
                             id: this.localStorageID,
                         }
                     });
-                } else {
+                }
+                else if (name === "") {
+                    this.$router.push({
+                        path: '/profile',
+                        query: {
+                            id: this.localStorageID,
+                        }
+                    });
+                }else {
                     this.$router.push({
                         name: name,
                     });
@@ -179,7 +187,7 @@
         components: {
             worktable,
             dele,
-            Gtable,
+            Gtable
         },
         created() {
             var userID = localStorage.getItem('userID');

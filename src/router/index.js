@@ -85,7 +85,7 @@ Vue.use(VueRouter)
     },
     {
       path: '/help',
-      name: 'help',
+      name: 'Help',
       component: () => import('@/views/help.vue')
     },
 ]
