@@ -48,27 +48,7 @@
                 </el-row>
 
             </el-header>
-            <el-aside class="aside">
-                <el-popover placement="top" width="280" trigger="hover" id="test" diabled="true" class="remark">
-                    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="75px"
-                             class="demo-dynamic">
-                        <el-form-item v-for="(domain, index) in dynamicValidateForm.domains"  :label="'评论' + (index+1)"
-                                      class="remark_num" :key="domain.key" :prop="'domains.' + index + '.value'" :rules="{
-                    required: true, message: '评论不能为空', trigger: 'blur'}" >
-                            <el-input v-if="!domain.isSubmitted" v-model="domain.value"></el-input>
-                            <div v-else class="content">{{domain.value}}</div>
-                            <el-button v-if="!domain.isSubmitted" type="primary" @click="domain.isSubmitted = true" class="submit">提交
-                            </el-button>
-                            <el-button @click.prevent="removeDomain(domain)" type="danger" class="delete">删除</el-button>
-                        </el-form-item>
-                        <el-form-item class="addition_w">
-                            <!-- <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button> -->
-                            <el-button @click="addDomain" type="success" class="addition">新增评论</el-button>
-                        </el-form-item>
-                    </el-form>
-                    <el-button slot="reference" id="test" class="view_remark" type="info" plain icon="el-icon-edit">评论</el-button>
-                </el-popover>
-            </el-aside>
+
             <el-main>
 
                 <div id="div1" class="toolbar"></div>
@@ -84,7 +64,6 @@
                 </div>
 
             </el-main>
-
 
         </el-container>
     </div>
@@ -102,12 +81,6 @@
                 inputbox: '',
                 which: 'worktable',
                 islogin: true,
-                dynamicValidateForm: {
-                    domains: [{
-                        value: '',
-                        isSubmitted: false
-                    }],
-                }
             };
         },
         props: {
@@ -122,26 +95,6 @@
             editor2.create()
         },
         methods: {
-            removeDomain(item) {
-                var index = this.dynamicValidateForm.domains.indexOf(item)
-                if (index !== -1) {
-                    this.dynamicValidateForm.domains.splice(index, 1)
-                }
-            },
-            addDomain() {
-                var length = this.dynamicValidateForm.domains.length;
-                console.log(length);
-                if (length == 0 || this.dynamicValidateForm.domains[length - 1].isSubmitted == true) {
-                    this.dynamicValidateForm.domains.push({
-                        value: '',
-                        isSubmitted: false,
-                        key: Date.now(),
-                    });
-                }
-            },
-            // submitDomain(item) {
-            //     item.isSubmitted = true;
-            // },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {

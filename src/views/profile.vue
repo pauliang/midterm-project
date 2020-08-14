@@ -5,7 +5,7 @@
                 <el-row>
                     <el-col :span="4">
                         <div style="margin-right:25px">
-                            <img class="header-logo left" src="../assets/logo.png" alt="logo" @click="goPage()">
+                            <img src="../assets/logo.png" alt="logo" @click="goPage()">
                         </div>
 
                     </el-col>
@@ -22,10 +22,25 @@
 
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
-                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
+                            <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
+                                class="wel_text">{{  this.localStorageName }}，您好！
+                            </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-avatar icon="el-icon-user-solid"></el-avatar>
+                            <el-popover placement="top-start" width="240" trigger="hover">
+                                <div v-if="islogin==true">
+                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
+                                    <el-button class="item more_info" @click="goMyProfile()">修改个人资料</el-button>
+                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
+                                </div>
+                                <div v-if="islogin==false">
+                                    <div class="item cardtxt">你尚未登陆</div>
+                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
+                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
+                                </div>
+
+                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
+                            </el-popover>
                         </el-col>
                     </el-col>
                 </el-row>
@@ -36,35 +51,56 @@
                 <div class="form">
 
                     <!-- 个人信息页面主表单 -->
-                    <el-form ref="profile" :model="profile" label-width="100px">
+                    <el-form ref="profile" :model="profile" label-width="100px" :rules="rule">
                         <el-form-item label="用户编号：">
-                            {{profile.uid}}
+                            {{profile.id}}
                         </el-form-item>
-                        <el-form-item label="用户昵称：">
-                            <el-input v-model="profile.uname" placeholder="请输入昵称"></el-input>
+                        <el-form-item label="用户昵称：" prop="uname">
+                            <el-input v-if="this.isEditable == true" v-model="profile.username" placeholder="请输入昵称">
+                            </el-input>
+                            <span v-else>{{ profile.username }}</span>
                         </el-form-item>
                         <el-form-item label="密码：" class="pwd">
                             ******
-                            <el-button type="text" class="right" @click="dialogVisible = true">修改密码</el-button>
+                            <el-button v-if="this.isEditable == true" type="text" class="right"
+                                @click="dialogVisible = true">修改密码</el-button>
                         </el-form-item>
                         <el-form-item label="年龄：">
-                            <el-input-number :min="1" v-model.number="profile.age" placeholder="请输入年龄">
+                            <el-input-number v-if="this.isEditable == true" :min="1" v-model.number="profile.age"
+                                placeholder="请输入年龄">
                             </el-input-number>
+                            <span v-else>{{ profile.age }}</span>
                         </el-form-item>
                         <el-form-item label="性别：">
-                            <el-radio-group v-model="profile.gender">
-                                <el-radio :label="1">男</el-radio>
-                                <el-radio :label="0">女</el-radio>
+                            <el-radio-group v-if="this.isEditable == true" v-model="profile.gender">
+                                <el-radio v-model="profile.gender" label="1">男</el-radio>
+                                <el-radio v-model="profile.gender" label="0">女</el-radio>
                             </el-radio-group>
+                            <span v-else>{{ profile.gender }}</span>
                         </el-form-item>
                         <el-form-item label="个人简介：">
-                            <el-input type="textarea" resize="none" :rows="4" v-model="profile.introduction"></el-input>
+                            <el-input v-if="this.isEditable == true" type="textarea" resize="none" :rows="4"
+                                v-model="profile.introduction"></el-input>
+                            <span v-else> {{ profile.introduction }} </span>
                         </el-form-item>
                         <el-form-item label="兴趣爱好：">
-                            <el-input v-model="profile.hobby" placeholder="请输入爱好"></el-input>
+                            <el-input v-if="this.isEditable == true" v-model="profile.hobby" placeholder="请输入爱好">
+                            </el-input>
+                            <span v-else> {{ profile.hobby }} </span>
+                        </el-form-item>
+                        <el-form-item label="邮箱：" prop="email">
+                            <el-input v-if="this.isEditable == true" v-model="profile.email" placeholder="请输入邮箱地址">
+                            </el-input>
+                            <span v-else> {{ profile.email }} </span>
+                        </el-form-item>
+                        <el-form-item label="手机号：" prop="phone">
+                            <el-input v-if="this.isEditable == true" v-model="profile.phone" placeholder="请输入手机号">
+                            </el-input>
+                            <span v-else> {{ profile.phone }} </span>
                         </el-form-item>
                         <el-form-item label-width="0px">
-                            <el-button type="primary" @click="onSubmit()">保存</el-button>
+                            <el-button v-if="this.isEditable == true" type="primary" @click="submitForm('profile')">保存
+                            </el-button>
                         </el-form-item>
                     </el-form>
 
@@ -85,7 +121,7 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-button @click="dialogVisible = false">取 消</el-button>
-                                <el-button type="primary" @click="dialogVisible = false;submitPassword()">确 定
+                                <el-button type="primary" @click="submitForm('password')">确 定
                                 </el-button>
                             </el-form-item>
                         </el-form>
@@ -114,7 +150,7 @@
             var validatePass = (rule, value, callback) => {
                 if (value === "") {
                     callback(new Error("请输入原密码"));
-                } else if (value !== this.profile.pwd) {
+                } else if (value !== this.profile.password) {
                     callback(new Error("密码错误"));
                 } else {
                     if (this.password.newPwd !== "") {
@@ -148,15 +184,61 @@
                     callback();
                 }
             };
+            var validatePass3 = (rule, value, callback) => {
+                if (value === "") {
+                    callback(new Error("请输入用户名"));
+                } else {
+                    this.usernameList.forEach(username => {
+                        console.log(username);
+                        if (username != localStorage.getItem('username') && this.profile.username ==
+                            username) {
+                            callback(new Error("该用户名已存在"));
+                        }
+                    });
+                    callback();
+                }
+            };
+            var checkPhone = (rule, value, callback) => {
+                const phoneReg = /^1[3|4|5|7|8][0-9]{9}$/
+                if (value === "") {
+                    callback(new Error('电话号码不能为空'));
+                }
+                // Number.isInteger是es6验证数字是否为整数的方法,但是我实际用的时候输入的数字总是识别成字符串
+                // 所以我就在前面加了一个+实现隐式转换
+
+                if (!Number.isInteger(+value)) {
+                    callback(new Error('请输入数字值'))
+                } else if (!phoneReg.test(value)) {
+                    callback(new Error('电话号码格式不正确'));
+                } else {
+                    callback();
+                }
+            };
+            var checkEmail = (rule, value, callback) => {
+                const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+                if (!value) {
+                    return callback(new Error('邮箱不能为空'))
+                }
+                setTimeout(() => {
+                    if (mailReg.test(value)) {
+                        callback()
+                    } else {
+                        callback(new Error('请输入正确的邮箱格式'))
+                    }
+                }, 100)
+            }
             return {
+                inputbox: '',
                 profile: {
-                    uid: '1',
-                    uname: 'g',
-                    pwd: '123abc',
-                    age: '',
-                    gender: '',
-                    introduction: '',
-                    hobby: '',
+                    id: '1',
+                    username: 'prof.H',
+                    password: '123abc',
+                    age: '10',
+                    gender: '1',
+                    introduction: 'test',
+                    hobby: 'test',
+                    email: 'test@163.com',
+                    phone: '13548658769',
                 },
                 password: {
                     formerPwd: '',
@@ -166,6 +248,28 @@
                 logourl: '../assets/logo.png',
                 loading: false,
                 dialogVisible: false,
+                isEditable: true,
+                islogin: false,
+                localStorageName: '',
+                localStorageID: '',
+                usernameList: ['g'],
+                rule: {
+                    uname: [{
+                        required: true,
+                        validator: validatePass3,
+                        trigger: "blur"
+                    }],
+                    phone: [{
+                        required: true,
+                        validator: checkPhone,
+                        trigger: 'blur'
+                    }],
+                    email: [{
+                        required: true,
+                        validator: checkEmail,
+                        trigger: 'blur'
+                    }],
+                },
                 rules: {
                     formerPwd: [{
                         required: true,
@@ -188,20 +292,18 @@
 
         methods: {
             submitPassword() {
-                var uid = this.profile.uid;
+                var uid = this.profile.id;
                 var newPwd = this.password.newPwd;
-                var formerPwd = this.password.formerPwd;
                 this.$axios({
                     method: 'post',
                     url: 'http://39.97.122.202/User/edit/' + uid + '/',
                     data: {
-                        formerPwd: formerPwd,
                         newPwd: newPwd,
                     }
                 }).then(
                     response => {
-                        var rmsg = response.data.formerPwd;
-                        if (rmsg == formerPwd)
+                        var info = response.data.info;
+                        if (info == "成功")
                             alert('密码修改成功！');
                         else {
                             alert('密码修改失败！');
@@ -215,25 +317,29 @@
                 });
             },
             onSubmit() {
-                var uid = this.profile.uid;
-                var uname = this.profile.uname;
+                var uid = this.profile.id;
+                var uname = this.profile.username;
                 var age = this.profile.age;
                 var gender = this.profile.gender;
                 var introduction = this.profile.introduction;
                 var hobby = this.profile.hobby;
+                var email = this.profile.email;
+                var phone = this.profile.phone;
                 this.$axios({
                     method: 'post',
-                    url: 'http://39.97.122.202/User/edit/' + uid,
+                    url: 'http://39.97.122.202/User/edit/' + uid + '/',
                     data: {
-                        name: uname,
+                        username: uname,
                         age: age,
                         gender: gender,
                         introduction: introduction,
                         hobby: hobby,
+                        email: email,
+                        phone: phone,
                     }
                 }).then(
                     response => {
-                        console.log(this.profile.uid);
+                        console.log(this.profile.id);
                         var fmsg = '保存失败，请重新提交！';
                         var rmsg = response.data;
                         if (rmsg == '成功') alert('保存成功！');
@@ -245,22 +351,81 @@
                     console.log(error);
                 });
             },
-            goPage(){
+            goMyProfile() {
+                if (!this.isEditable) { //不可编辑说明查看的不是自己的个人信息页面
+                    var id = this.localStorageID; //data()中定义了一个属性，获取localStorage的值
+                    this.$axios({
+                        method: 'post',
+                        url: 'http://39.97.122.202/User/edit/' + id + '/', //此处不传data
+                    }).then(
+                        response => {
+                            this.profile = response.data; //重新获取自身页面的数据
+                            this.isEditable = true; //并且调整当前页面可以编辑
+                        },
+                        err => {
+                            console.log(err);
+                        }).catch((error) => {
+                        console.log(error);
+                    });
+                }
+            },
+            goPage() {
                 this.$router.push({
-                    name:'Page',
+                    name: 'Page',
                 })
             },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        if (formName == "password")
+                            this.submitPassword();
+                        else if (formName == "profile")
+                            this.onSubmit();
+                        localStorage.setItem('username', this.profile.username);
+                        console.log("submitted");
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            longjmp(name) {
+                this.$router.push({
+                    name: name,
+                })
+            },
+            logout() {
+                this.islogin = false;
+                localStorage.removeItem('userID');
+                localStorage.removeItem('username');
+                this.$router.go(0);
+            }
         },
         created() {
-            this.$axios().then(
+            var id = this.$route.query.id;
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/User/edit/' + id + '/', //此处不传data
+            }).then(
                 response => {
-                    this.profile = response.data;
+                    this.profile = response.data.user;
+                    this.usernameList = response.data.usernameList;
                 },
                 err => {
                     console.log(err);
                 }).catch((error) => {
                 console.log(error);
             });
+            var userID = localStorage.getItem('userID');
+            if (userID != null) {
+                if (userID == this.profile.id)
+                    this.isEditable = true;
+                else
+                    this.isEditable = false;
+                this.islogin = true;
+                this.localStorageName = localStorage.getItem('username');
+                this.localStorageID = userID;
+            } else this.logout();
         },
     }
 </script>
@@ -270,31 +435,36 @@
         width: 220px;
         min-height: 600px;
     }
+
     .profile {
         background-color: #f3f3f3;
     }
-    
-    .shit{
-        font-size:13px !important;
+
+    .shit {
+        font-size: 13px !important;
     }
-    .head{
+
+    .head {
         background: rgba(8, 1, 1, 0.342);
         padding: 0;
     }
+
     .head .welcome {
         position: absolute;
         float: right;
     }
+
     .head .wel_text {
         position: absolute;
         width: 400px;
         height: 30px;
-        color:#fbfcfe;
+        color: #fbfcfe;
         float: right;
         margin-right: 20px;
         margin-top: 5px;
         line-height: 30px;
     }
+
     .head .avator {
         position: relative;
         width: 150px;
@@ -302,22 +472,27 @@
         float: right;
         margin-right: 100px;
     }
+
     .el-container {
         position: relative;
     }
-    .el-divider--horizontal{
+
+    .el-divider--horizontal {
         margin-bottom: 1px !important;
         margin-top: 0px !important;
     }
-    .el-link--default{
+
+    .el-link--default {
         color: #303133;
         font-size: 17px;
     }
+
     .el-row {
         margin-bottom: 20px;
     }
+
     .el-col {
-        margin-top:5px;
+        margin-top: 5px;
         border-radius: 4px;
     }
 
@@ -352,8 +527,50 @@
     .el-footer {
         padding: 0 0;
     }
+
     .el-footer img {
         display: block;
         width: 100%;
+    }
+
+    .item {
+        padding: 18px 0;
+        font-size: 14px;
+        color: #24292e;
+    }
+
+    .cardtxt {
+        text-align: center;
+    }
+
+    .more_info {
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+        width: 180px;
+    }
+
+    .logout {
+        display: block;
+        color: #c81623;
+        margin: 10px auto 0;
+        width: 180px;
+        margin-bottom: 20px;
+    }
+
+    .login {
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+        width: 180px;
+        margin-bottom: 20px;
+    }
+
+    .regi {
+        display: block;
+        color: #409eff;
+        margin: 0 auto;
+        width: 180px;
+        margin-bottom: 20px;
     }
 </style>

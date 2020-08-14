@@ -64,11 +64,30 @@ Vue.use(VueRouter)
       component: () => import('@/views/test-team.vue')
     },
     {
+      path: '/test-comment',
+      name: 'Test-comment',
+      component: () => import('@/views/test-comment.vue')
+    },
+    {
       path: '/page',
       name: 'Page',
       component: () => import('@/views/page.vue')
-    }
-
+    },
+    {
+      path: '/test-remark',
+      name: 'Test-remark',
+      component: () => import('@/views/test-remark.vue')
+    },
+    {
+      path: '/ckr',
+      name: 'Ckr',
+      component: () => import('@/views/ckr.vue')
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: () => import('@/views/help.vue')
+    },
 ]
 
 const router = new VueRouter({

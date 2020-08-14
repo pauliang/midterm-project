@@ -6,7 +6,6 @@
             <i class="el-icon-document-checked" style="font-size:90px;margin-top:20px" v-if="!ishover"></i>
 
             <div style="padding: 14px;">
-
                 <div class="bottom clearfix">
                     <el-button type="text" class="button"  @click="jmp(url)">{{docname}}</el-button>
                 </div>
@@ -19,12 +18,12 @@
     export default {
         name: "card",
         props:{
-            docname:String,
-            url:String
+            docname: String,
+            url: String
         },
         data() {
             return {
-                ishover:true,
+                ishover: true,
             };
         },
         methods:{

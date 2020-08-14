@@ -6,9 +6,9 @@
             <el-header class="head">
 
                 <el-row>
-                    <el-col :span="4" >
+                    <el-col :span="4">
                         <div style="margin-right:25px">
-                            <img src="../assets/logo.png" >
+                            <img src="../assets/logo.png">
                         </div>
 
                     </el-col>
@@ -17,11 +17,7 @@
                     </el-col>
                     <el-col :span="6">
                         <div style="margin-top:3px">
-                            <el-input
-                                    clearable
-                                    placeholder="随便找点什么吧"
-                                    prefix-icon="el-icon-search"
-                                    v-model="inputbox">
+                            <el-input clearable placeholder="随便找点什么吧" prefix-icon="el-icon-search" v-model="inputbox">
                             </el-input>
                         </div>
 
@@ -29,24 +25,21 @@
 
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
-                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
+                            <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
+                                class="wel_text">{{  this.localStorageName }}，您好！
+                            </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-popover
-                                    placement="top-start"
-                                    width="240"
-                                    trigger="hover">
+                            <el-popover placement="top-start" width="240" trigger="hover">
                                 <div v-if="islogin==true">
-                                    <div class="item cardtxt">既然选择了远方</div>
-                                    <div class="item cardtxt">1002609249@qq.com</div>
+                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
                                     <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
                                 <div v-if="islogin==false">
-                                    <div class="item cardtxt">既然选择了远方</div>
                                     <div class="item cardtxt">你尚未登陆</div>
                                     <el-button class="item login" @click="longjmp('Login')">登录</el-button>
-                                    <el-button class="item regi" @click="longjmp('Register')">注册</el-button>
+                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
                                 </div>
 
                                 <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
@@ -57,20 +50,15 @@
 
             </el-header>
 
-            <el-divider/>
+            <el-divider />
 
 
-            <el-divider/>
+            <el-divider />
 
             <el-container>
                 <el-aside>
-                    <el-menu
-                            :default-active="emm"
-                            class="el-menu-vertical-demo"
-                            @open="handleOpen"
-                            @close="handleClose"
-                            :collapse="isCollapse"
-                    >
+                    <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+                        :collapse="isCollapse">
                         <el-submenu index="1">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
@@ -78,10 +66,13 @@
                             </template>
 
                             <el-menu-item-group>
-                                <el-menu-item index="1-1" class="shit"  @click="shortjmp('worktable')">最近浏览</el-menu-item>
-                                <el-menu-item index="1-2" class="shit"  @click="shortjmp('worktable')">我的文档</el-menu-item>
-                                <el-menu-item index="1-3" class="shit"  @click="shortjmp('worktable')">我的收藏</el-menu-item>
-                                <el-menu-item index="1-4" class="shit"  @click="longjmp('Models')">创建文档</el-menu-item>
+                                <el-menu-item index="1-1" class="shit" @click="shortjmp('worktable')">最近浏览
+                                </el-menu-item>
+                                <el-menu-item index="1-2" class="shit" @click="shortjmp('worktable')">我的文档
+                                </el-menu-item>
+                                <el-menu-item index="1-3" class="shit" @click="shortjmp('worktable')">我的收藏
+                                </el-menu-item>
+                                <el-menu-item index="1-4" class="shit" @click="longjmp('Models')">创建文档</el-menu-item>
                             </el-menu-item-group>
 
                         </el-submenu>
@@ -105,9 +96,9 @@
 
                         <el-menu-item index="5" @click="zipornot()">
 
-                            <i class="el-icon-s-unfold" v-if="isCollapse" ></i>
+                            <i class="el-icon-s-unfold" v-if="isCollapse"></i>
                             <span slot="title" v-if="isCollapse">光翼展开!</span>
-                            <i class="el-icon-s-fold" v-if="!isCollapse" ></i>
+                            <i class="el-icon-s-fold" v-if="!isCollapse"></i>
                             <span slot="title" v-if="!isCollapse">收起</span>
                             <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;margin-left:0">
                             <el-radio-button :label="false">展开</el-radio-button>
@@ -126,7 +117,7 @@
 
             </el-container>
             <el-footer>
-                <img src="../assets/footer.png" >
+                <img src="../assets/footer.png">
             </el-footer>
         </el-container>
     </div>
@@ -142,10 +133,12 @@
         data() {
             return {
                 isCollapse: false,
-                emm:'1-1',
-                inputbox:'',
-                which:'worktable',
-                islogin:true,
+                emm: '1-1',
+                inputbox: '',
+                which: 'worktable',
+                islogin: true,
+                localStorageName: '',
+                localStorageID: '',
             };
         },
         methods: {
@@ -155,26 +148,48 @@
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
             },
-            zipornot()
-            {
-                this.isCollapse=!this.isCollapse;
+            zipornot() {
+                this.isCollapse = !this.isCollapse;
             },
-            shortjmp(which){
+            shortjmp(which) {
                 this.which = which
             },
-            longjmp(name){
-                this.$router.push({
-                    name:name,
-                })
+            longjmp(name) {
+                if (name == "Profile") {
+                    this.$router.push({
+                        path: '/profile',
+                        query: {
+                            id: this.localStorageID,
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        name: name,
+                    });
+                }
+
             },
-            logout(){
-                this.islogin=false
-            }
+            logout() {
+                this.islogin = false;
+                localStorage.removeItem('userID');
+                localStorage.removeItem('username');
+                this.longjmp("Login");
+            },
         },
-        components:{
+        components: {
             worktable,
             dele,
             Gtable,
+        },
+        created() {
+            var userID = localStorage.getItem('userID');
+            if (userID != null) {
+                this.islogin = true;
+                this.localStorageName = localStorage.getItem('username');
+                this.localStorageID = userID;
+            } else {
+                this.longjmp("Login");
+            }
         }
     };
 </script>
@@ -184,28 +199,33 @@
         width: 220px;
         min-height: 600px;
     }
-    .shit{
-        font-size:13px !important;
+
+    .shit {
+        font-size: 13px !important;
     }
-    .head{
+
+    .head {
         position: relative;
         background: rgba(8, 1, 1, 0.342);
         padding: 0;
     }
+
     .head .welcome {
         position: absolute;
         float: right;
     }
+
     .head .wel_text {
         position: absolute;
         width: 400px;
         height: 30px;
-        color:#fbfcfe;
+        color: #fbfcfe;
         float: right;
         margin-right: 20px;
         margin-top: 5px;
         line-height: 30px;
     }
+
     .head .avator {
         position: relative;
         width: 150px;
@@ -213,54 +233,66 @@
         float: right;
         margin-right: 100px;
     }
+
     .el-container {
         position: relative;
     }
-    .el-divider--horizontal{
+
+    .el-divider--horizontal {
         margin-bottom: 1px !important;
         margin-top: 0 !important;
     }
-    .el-link--default{
+
+    .el-link--default {
         color: #303133;
         font-size: 17px;
     }
+
     .el-row {
         margin-bottom: 20px;
     }
+
     .el-col {
-        margin-top:5px;
+        margin-top: 5px;
         border-radius: 4px;
     }
+
     .delete {
         position: relative;
         text-align: center;
         color: #555555;
-        font: bold 24px arial,sans-serif ;
+        font: bold 24px arial, sans-serif;
         line-height: 36px;
         margin: 0 auto;
         border-radius: 4px;
         min-height: 36px;
     }
+
     .bg-purple-dark {
         background: #99a9bf;
     }
+
     .box {
         float: left;
         margin: 10px 100px 10px 0;
     }
+
     .box img {
         display: block;
     }
+
     .pic {
         padding: 0;
         position: relative;
         margin: 10px 10px;
     }
+
     .content {
         margin: 5px 50px 10px -10px;
         width: 200px;
         background-color: #ffffff;
     }
+
     .bg-purple {
         background: #ffffff;
         text-align: center;
@@ -269,41 +301,50 @@
         line-height: 18px;
         color: #bababa;
     }
+
     .el-container .now {
         color: #575757;
     }
+
     .el-footer {
         padding: 0 0;
     }
+
     .el-footer img {
         display: block;
         width: 100%;
     }
+
     .whole {
         height: 1500px;
     }
+
     .text {
         font-size: 14px;
     }
+
     /*这部分是个人信息的小卡片*/
     .item {
         padding: 18px 0;
         font-size: 14px;
         color: #24292e;
     }
+
     .box-card {
         /* width: 240px;
         height: 280px; */
-        margin: 0,0;
+        margin: 0, 0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
+
     .more_info {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
     }
+
     .logout {
         display: block;
         color: #c81623;
@@ -311,20 +352,23 @@
         width: 180px;
         margin-bottom: 20px;
     }
-    .login{
+
+    .login {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
         margin-bottom: 20px;
     }
-    .regi{
+
+    .regi {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
         margin-bottom: 20px;
     }
+
     .cardtxt {
         text-align: center;
     }
