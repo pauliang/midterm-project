@@ -7,7 +7,7 @@
                 </el-col>
 
                 <el-col v-for="info in docList.infos" :key="info">
-                    <notification class="card" shadow="hover" :question="info.question" :solution="info.solution"></notification>
+                    <notification class="card" shadow="hover" :question="info.question" :solution="info.solution" ></notification>
                 </el-col>
             </el-row>
         </el-main>
@@ -22,7 +22,7 @@
             return {
                 docList: {
                     infos: [
-                        {question: 'aaa',solution: '多喝开水'},
+                        {question: 'aaa',solution: '多喝开水，送你的秋裤怎么不穿，天气凉多穿衣服'},
                         {question: 'bbb',solution: '少喝开水'},
                         {question: 'ccc',solution: '多喝自来水'},
                         {question: 'ddd',solution: '少喝自来水'},

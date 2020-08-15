@@ -95,15 +95,10 @@
                         </el-menu-item>
 
                         <el-menu-item index="5" @click="zipornot()">
-
                             <i class="el-icon-s-unfold" v-if="isCollapse"></i>
                             <span slot="title" v-if="isCollapse">光翼展开!</span>
                             <i class="el-icon-s-fold" v-if="!isCollapse"></i>
                             <span slot="title" v-if="!isCollapse">收起</span>
-                            <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;margin-left:0">
-                            <el-radio-button :label="false">展开</el-radio-button>
-                            <el-radio-button :label="true">收起</el-radio-button>
-                            </el-radio-group> -->
                         </el-menu-item>
                     </el-menu>
 
