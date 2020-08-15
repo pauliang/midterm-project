@@ -6,14 +6,8 @@
                     <div class="grid-content bg-purple delete">回收站</div>
                 </el-col>
             </el-row>
+
             <el-row>
-                <!-- <el-col :span="4" class="cardbox" v-for="o in delist" :key="o">
-                        <div style="margin-right:25px; padding-top: 25px">
-                            <img src="../assets/word.png" >
-                        </div>
-                    <div class="">{{ o.name }}</div>
-                    <div class="">{{ o.cut }}</div>
-                </el-col> -->
                 <el-col class="debox" v-for="o in delist" :key="o">
                     <el-card shadow="hover" class="decard">
                         <i class="el-icon-delete deicon"></i>

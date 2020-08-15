@@ -66,11 +66,11 @@
                             </template>
 
                             <el-menu-item-group>
-                                <el-menu-item index="1-1" class="shit" @click="shortjmp('worktable')">最近浏览
+                                <el-menu-item index="1-1" class="shit" @click="shortjmp('1-1')">最近浏览
                                 </el-menu-item>
-                                <el-menu-item index="1-2" class="shit" @click="shortjmp('worktable')">我的文档
+                                <el-menu-item index="1-2" class="shit" @click="shortjmp('1-2')">我的文档
                                 </el-menu-item>
-                                <el-menu-item index="1-3" class="shit" @click="shortjmp('worktable')">我的收藏
+                                <el-menu-item index="1-3" class="shit" @click="shortjmp('1-3')">我的收藏
                                 </el-menu-item>
                                 <el-menu-item index="1-4" class="shit" @click="longjmp('Models')">创建文档</el-menu-item>
                             </el-menu-item-group>
@@ -78,32 +78,27 @@
                         </el-submenu>
 
 
-                        <el-menu-item index="2" @click="shortjmp('Gtable')">
+                        <el-menu-item index="2" @click="shortjmp('2')">
                             <i class="el-icon-menu"></i>
                             <span slot="title">团队空间</span>
                         </el-menu-item>
 
-                        <el-menu-item index="3" @click="shortjmp('dele')">
+                        <el-menu-item index="3" @click="shortjmp('3')">
                             <i class="el-icon-delete-solid"></i>
                             <span slot="title">回收站</span>
                         </el-menu-item>
 
 
-                        <el-menu-item index="4">
+                        <el-menu-item index="4" @click="longjmp('Help')">
                             <i class="el-icon-s-tools"></i>
                             <span slot="title">帮助中心</span>
                         </el-menu-item>
 
                         <el-menu-item index="5" @click="zipornot()">
-
                             <i class="el-icon-s-unfold" v-if="isCollapse"></i>
                             <span slot="title" v-if="isCollapse">光翼展开!</span>
                             <i class="el-icon-s-fold" v-if="!isCollapse"></i>
                             <span slot="title" v-if="!isCollapse">收起</span>
-                            <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;margin-left:0">
-                            <el-radio-button :label="false">展开</el-radio-button>
-                            <el-radio-button :label="true">收起</el-radio-button>
-                            </el-radio-group> -->
                         </el-menu-item>
                     </el-menu>
 
@@ -111,9 +106,9 @@
                 </el-aside>
 
                 <!-- 组件部分 -->
-                <worktable v-if="which=='worktable'"></worktable>
-                <dele v-else-if="which=='dele'"></dele>
-                <Gtable v-else-if="which=='Gtable'"></Gtable>
+                <worktable v-if="which==='worktable'" :emm="emm"></worktable>
+                <dele v-else-if="which==='dele'"></dele>
+                <Gtable v-else-if="which==='Gtable'"></Gtable>
 
             </el-container>
             <el-footer>
@@ -151,11 +146,31 @@
             zipornot() {
                 this.isCollapse = !this.isCollapse;
             },
-            shortjmp(which) {
-                this.which = which
+            shortjmp(index) {
+                if (index == '1-1') {
+                    this.which = 'worktable';
+                    this.emm = '1-1';
+                } else if (index == '1-2') {
+                    this.which = 'worktable';
+                    this.emm = '1-2';
+                } else if (index == '1-3') {
+                    this.which = 'worktable';
+                    this.emm = '1-3';
+                } else if (index == '2') {
+                    this.which = 'Gtable';
+                } else if (index == '3') {
+                    this.which = 'dele';
+                }
             },
             longjmp(name) {
-                if (name == "Profile") {
+                if (name === "Profile") {
+                    this.$router.push({
+                        path: '/profile',
+                        query: {
+                            id: this.localStorageID,
+                        }
+                    });
+                } else if (name === "") {
                     this.$router.push({
                         path: '/profile',
                         query: {
@@ -179,7 +194,7 @@
         components: {
             worktable,
             dele,
-            Gtable,
+            Gtable
         },
         created() {
             var userID = localStorage.getItem('userID');
