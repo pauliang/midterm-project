@@ -88,6 +88,11 @@ Vue.use(VueRouter)
       name: 'Help',
       component: () => import('@/views/help.vue')
     },
+    {
+      path: '/team_inside',
+      name: 'Team_inside',
+      component: () => import('@/components/team_inside.vue')
+    },
 ]
 
 const router = new VueRouter({

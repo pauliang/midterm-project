@@ -8,9 +8,8 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col class="cardbox" v-for="o in teamList" :key="o">
-                        <Gcard></Gcard>
-                        <div class="cardname">{{ o.name }}</div>
+                    <el-col class="cardbox" v-for="team in teamList" :key="team">
+                        <Gcard :name="team.name" :url="team.url"></Gcard>
                     </el-col>
                 </el-row>
             </el-main>
@@ -25,23 +24,37 @@
         name: 'Gtable',
         data() {
             return {
-                teamList:[
-                    {name:'Team 1'},
-                    {name:'Team 2'},
-                    {name:'Team 3'},
-                    {name:'Team 4'},
-                    {name:'Team 5'},
-                    {name:'Team 6'},
-                    {name:'Team 7'},
-                    {name:'Team 8'},
-                    {name:'Team 9'},
-                    {name:'Team 10'},
-                    {name:'Team 11'},
-                    {name:'Team 12'},
-                ]
+                    teamList: [{
+                        name: 'Team 1',
+                        url: '/team_inside'
+                    }, {
+                        name: 'Team 2',
+                        url: '/team_inside'
+                    }, {
+                        name: 'Team 3',
+                        url: '/team_inside'
+                    }, {
+                        name: 'Team 4',
+                        url: '/team_inside'
+                    }, {
+                        name: 'Team 5',
+                        url: '/team_inside'
+                    }, {
+                        name: 'Team 6',
+                        url: '/team_inside'
+                    }, {
+                        name: 'Team 7',
+                        url: '/team_inside'
+                    }, {
+                        name: 'Team 8',
+                        url: '/team_inside'
+                    },  ]
             };
         },
-        components:{
+        methods: {
+
+        },
+        components: {
             Gcard
         }
     };
