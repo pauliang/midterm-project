@@ -6,7 +6,7 @@
         :visible.sync="dialogVisible"
         width="30%"
         >
-        <!-- :before-close="handleClose" -->
+       
 
         <el-input
           placeholder="输入邮箱/用户名发送邀请"
@@ -53,8 +53,7 @@
                         <el-col :span="8" style="min-height:40px;padding-top:12px"> 631803439@qq.com</el-col>
                           <el-col :span="6" style="text-align:right">
                             <el-button type="primary" plain v-if="ob.power==1" >管理员</el-button>
-                            <!-- <el-button type="primary" plain v-if="ob.power==4" >只读权限</el-button>
-                            <el-button type="primary" plain v-if="ob.power==2" >只写权限</el-button> -->
+                            
                             <el-button type="primary" plain v-if="ob.power==0" >某组员</el-button>
                           </el-col>
                     </el-row>
@@ -97,7 +96,6 @@ export default {
     },
     methods: {
       punch(){
-     
             this.$axios({
             method:'post',
             url:'http://39.97.122.202/group/send_invitation/',
@@ -116,6 +114,10 @@ export default {
           alert('咦，似乎发生了一点小错误,好像没发出去..');
         })
       }
+    },
+    mounted(){
+      this.myid=localStorage.getItem('userID');
+      // alert(this.myid);
     }
 }
 </script>
