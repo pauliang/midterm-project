@@ -90,7 +90,7 @@
         display: inline-block;
         float: left;
         font-size: 30px;
-        margin: 10px 10px 0 -200px;
+        margin: 5px 10px 0 -200px;
     }
 
     .clearfix:before,
