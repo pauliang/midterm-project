@@ -8,7 +8,7 @@
                 <el-row>
                     <el-col :span="4" >
                         <div style="margin-right:25px">
-                            <img src="../assets/logo.png" >
+                            <img src="../assets/logo.png" @click="goBack()">
                         </div>
 
                     </el-col>
@@ -24,9 +24,6 @@
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
                             <el-link href="https://element.eleme.io" target="_blank" class="wel_text">欢迎您使用金石文档！</el-link>
-                        </el-col>
-                        <el-col :span="6" class="avator">
-                            <el-avatar icon="el-icon-user-solid"></el-avatar>
                         </el-col>
                     </el-col>
                 </el-row>
@@ -128,6 +125,11 @@
             {
                 this.isCollapse=!this.isCollapse;
             },
+            goBack(){
+                this.$router.push({
+                    name:'Page',
+                })
+            },
             shortjmp(which){
                 this.which = which
             },
@@ -184,16 +186,10 @@
         color:#fbfcfe;
         float: right;
         margin-right: 20px;
+        margin-left: 30px;
         margin-top: 5px;
         line-height: 30px;
         text-decoration: none!important;
-    }
-    .head .avator {
-        position: relative;
-        width: 150px;
-        height: 40px;
-        float: right;
-        margin-right: 100px;
     }
 
     .el-menu-item {

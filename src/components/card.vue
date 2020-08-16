@@ -9,10 +9,10 @@
 
             <div style="padding: 14px;">
                 <div class="bottom clearfix">
-                    <el-button v-if="doc.stat>=0 || user==doc.author" type="text" class="button" @click="jmp(doc.url)">
+                    <el-button v-if="doc.stat>=0 || user==doc.author" type="text" class="button" @click="jmp(url)">
                         {{doc.docname}}</el-button>
                     <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button><br>
-                    <span style="font-size: 7px; color: gray">{{doc.lasttime}}</span>
+                    <span style="font-size: 7px; color: gray">{{dateString}}</span>
                 </div>
             </div>
 
@@ -20,7 +20,7 @@
         <el-popover ref="popover" placement="bottom" trigger="click">
             <div>
                 <el-button v-if="doc.stat==3 || doc.stat==0 || user==doc.author" class="option el-icon-share"
-                    type="text" size="small" @click="generateQR(doc.url)">&nbsp;分享</el-button>
+                    type="text" size="small" @click="generateQR(url)">&nbsp;分享</el-button>
                 <el-button v-else disabled class="option el-icon-share" type="text" size="small">&nbsp;分享</el-button>
             </div>
             <div>
@@ -48,7 +48,7 @@
         props: {
             doc: Object,
             // docname: String,
-            // url: String,
+            url: String,
             // lasttime: Date,
             // docnum: Number,
             user: Number,
@@ -60,6 +60,7 @@
                 ishover: true,
                 def: '',
                 isShow: false,
+                dateString: '',
             };
         },
         methods: {
@@ -76,7 +77,7 @@
                 window.open(x.href);
             },
             generateQR(url) {
-                var baseurl = 'http://192.168.0.101:8080';
+                var baseurl = 'http://118.31.175.39';
                 var docurl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + baseurl + url;
                 this.$axios.get(docurl, {
                         responseType: 'arraybuffer'
@@ -104,6 +105,23 @@
                 this.doc.isCollected = false;
             },
         },
+        created() {
+            function getDatetime(date) {
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                var d = date.getDate();
+                var index = date.getDay();
+                var h = date.getHours();
+                h = h < 10 ? '0' + h : h;
+                var min = date.getMinutes();
+                min = min < 10 ? '0' + min : min;
+                var s = date.getSeconds();
+                s = s < 10 ? '0' + s : s;
+                var arr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+                return y + '年' + m + '月' + d + '日\t' + arr[index] + '\t' + h + '时' + min + '分' + s + '秒';
+            }
+            this.dateString = getDatetime(this.doc.lasttime);
+        }
     };
 </script>
 

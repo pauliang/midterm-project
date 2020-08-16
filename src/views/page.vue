@@ -30,13 +30,16 @@
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-popover placement="top-start" width="240" trigger="hover">
+                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
                                 <div v-if="islogin==true">
                                     <div class="item cardtxt">{{ this.localStorageName }}</div>
-                                    <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <el-badge value="new">
+                                        <el-button index="0" class="item more_info1" @click="shortjmp2('view_remark')">查看系统通知</el-button>
+                                    </el-badge>
+                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
-                                <div v-if="islogin==false">
+                                <div v-if="islogin===false">
                                     <div class="item cardtxt">你尚未登陆</div>
                                     <el-button class="item login" @click="longjmp('Login')">登录</el-button>
                                     <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
@@ -110,6 +113,8 @@
                 <dele v-else-if="which==='dele'"></dele>
                 <Gtable v-else-if="which==='Gtable'"  @event1="shortjmp($event)"></Gtable>
                 <Tinside v-else-if="which==='Tinside'"></Tinside>
+                <view_remark v-else-if="which==='view_remark'"></view_remark>
+
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png">
@@ -124,6 +129,7 @@
     import dele from "@/components/dele.vue";
     import Gtable from "@/components/Gtable.vue";
     import Tinside from "@/components/team_inside.vue";
+    import view_remark from "../components/view_remark";
     export default {
         name: 'Page',
         data() {
@@ -165,6 +171,9 @@
                     this.which = 'dele';
                 }
             },
+            shortjmp2(which){
+                this.which = which
+            },
             longjmp(name) {
                 if (name === "Profile") {
                     this.$router.push({
@@ -199,6 +208,7 @@
             dele,
             Gtable,
             Tinside,
+            view_remark,
         },
         created() {
             var userID = localStorage.getItem('userID');
@@ -352,14 +362,19 @@
     }
 
     .box-card {
-        /* width: 240px;
-        height: 280px; */
+        /*width: 240px;*/
+        /*height: 280px;*/
         margin: 0 0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
-
-    .more_info {
+    .more_info1 {
+        display: block;
+        color: #409eff;
+        margin: 0 auto 10px 30px;
+        width: 180px;
+    }
+    .more_info2 {
         display: block;
         color: #409eff;
         margin: 0 auto;
@@ -392,5 +407,29 @@
 
     .cardtxt {
         text-align: center;
+    }
+</style>
+<style>
+    .el-popover.av  {
+        position: absolute;
+        background: #FFF;
+        min-width: 100px;
+        height: 250px;
+        border: 1px solid #EBEEF5;
+        padding: 10px 0;
+        z-index: 2000;
+        color: #606266;
+        line-height: 1.4;
+        text-align: justify;
+        font-size: 14px;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        word-break: break-all;
+    }
+    .el-badge__content.is-fixed {
+        position: absolute;
+        top: 3px;
+        right: 18px;
+
+        transform: translateY(-50%) translateX(100%);
     }
 </style>

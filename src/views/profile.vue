@@ -23,14 +23,15 @@
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
                             <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
-                                class="wel_text">{{  this.localStorageName }}，您好！
+                                     class="wel_text">{{  this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-popover placement="top-start" width="240" trigger="hover">
+                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av2">
                                 <div v-if="islogin==true">
                                     <div class="item cardtxt">{{ this.localStorageName }}</div>
-                                    <el-button class="item more_info" @click="goMyProfile()">修改个人资料</el-button>
+                                    <el-button class="item more_info1">消息通知</el-button>
+                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
                                 <div v-if="islogin==false">
@@ -543,7 +544,13 @@
         text-align: center;
     }
 
-    .more_info {
+    .more_info1 {
+        display: block;
+        color: #409eff;
+        margin: 0 auto 10px auto;
+        width: 180px;
+    }
+    .more_info2 {
         display: block;
         color: #409eff;
         margin: 0 auto;
@@ -572,5 +579,22 @@
         margin: 0 auto;
         width: 180px;
         margin-bottom: 20px;
+    }
+</style>
+<style>
+    .el-popover.av2  {
+        position: absolute;
+        background: #FFF;
+        min-width: 100px;
+        height: 200px;
+        border: 1px solid #EBEEF5;
+        padding: 10px 0;
+        z-index: 2000;
+        color: #606266;
+        line-height: 1.4;
+        text-align: justify;
+        font-size: 14px;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        word-break: break-all;
     }
 </style>

@@ -27,22 +27,22 @@
 
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
-                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
+                            <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
+                                     class="wel_text">{{  this.localStorageName }}，您好！
+                            </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-popover
-                                    placement="top-start"
-                                    width="240"
-                                    trigger="hover">
-                                <div v-if="islogin === true">
-                                    <div class="item cardtxt">既然选择了远方</div>
-                                    <div class="item cardtxt">1002609249@qq.com</div>
-                                    <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
+                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
+                                <div v-if="islogin==true">
+                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
+                                    <el-badge value="new">
+                                        <el-button index="0" class="item more_info1" @click="shortjmp2('view_remark')">查看系统通知</el-button>
+                                    </el-badge>
+                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
-                                <div v-if="islogin === false">
-                                    <div class="item cardtxt">游客</div>
-                                    <div class="item cardtxt">您尚未登陆</div>
+                                <div v-if="islogin===false">
+                                    <div class="item cardtxt">你尚未登陆</div>
                                     <el-button class="item login" @click="longjmp('Login')">登录</el-button>
                                     <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
                                 </div>
@@ -130,6 +130,9 @@
                 which:'model_all',
                 islogin: true,
                 emm: 'model_all',
+                isCollapse: false,
+                localStorageName: '',
+                localStorageID: '',
                 board_list:[
                     {name:'空白模板'},
                     {name:'会议纪要模板',url:require('@/assets/model1.png')},
@@ -172,8 +175,23 @@
                     name:name,
                 })
             },
-            logout(){
-                this.islogin=false
+            logout() {
+                this.islogin = false;
+                localStorage.removeItem('userID');
+                localStorage.removeItem('username');
+                this.longjmp("Login");
+            },
+        },
+        created() {
+            var userID = localStorage.getItem('userID');
+            if (userID != null) {
+                this.islogin = true;
+                this.localStorageName = localStorage.getItem('username');
+                this.localStorageID = userID;
+            } else {
+                //暂时修改
+                localStorage.getItem('aaa');
+                // this.longjmp("Login");
             }
         },
         props:{
@@ -429,24 +447,33 @@
         display: block;
         width: 100%;
     }
+    /*这部分是个人信息的小卡片*/
     .item {
         padding: 18px 0;
         font-size: 14px;
         color: #24292e;
     }
+
     .box-card {
-        /* width: 240px;
-        height: 280px; */
-        margin: 0,0;
+        /*width: 240px;*/
+        /*height: 280px;*/
+        margin: 0 0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
-    .more_info {
+    .more_info1 {
+        display: block;
+        color: #409eff;
+        margin: 0 auto 10px 30px;
+        width: 180px;
+    }
+    .more_info2 {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
     }
+
     .logout {
         display: block;
         color: #c81623;
@@ -454,21 +481,41 @@
         width: 180px;
         margin-bottom: 20px;
     }
-    .login{
+
+    .login {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
         margin-bottom: 20px;
     }
-    .regi{
+
+    .regi {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
         margin-bottom: 20px;
     }
+
     .cardtxt {
         text-align: center;
+    }
+</style>
+<style>
+    .el-popover.av2  {
+        position: absolute;
+        background: #FFF;
+        min-width: 100px;
+        height: 200px;
+        border: 1px solid #EBEEF5;
+        padding: 10px 0;
+        z-index: 2000;
+        color: #606266;
+        line-height: 1.4;
+        text-align: justify;
+        font-size: 14px;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        word-break: break-all;
     }
 </style>
