@@ -168,7 +168,7 @@
         created() {
             this.$axios({
                 method: 'post',
-                url: 'http://39.97.122.202/User/register/usernameList',
+                url: 'http://39.97.122.202/User/register/usernameList/',
             }).then(
                 response => {
                     this.usernameList = response.data.usernameList;

@@ -177,6 +177,7 @@
         position: absolute;
         float: right;
     }
+
     .head .wel_text {
         position: absolute;
         width: 400px;
@@ -188,6 +189,7 @@
         line-height: 30px;
         text-decoration: none!important;
     }
+
     .head .avator {
         position: relative;
         width: 150px;

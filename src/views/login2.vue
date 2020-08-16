@@ -1,7 +1,6 @@
 <template>
     <div class="bg">
         <el-container>
-            <!-- <el-button @click="test"></el-button> -->
             <img :src="def">
 
             <el-container class="mid">
@@ -68,19 +67,6 @@
                 this.$router.push({
                     path: "/regi"
                 });
-            },
-            test() {
-                this.$axios.get('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://www.yhrc8.com', {
-                        responseType: 'arraybuffer'
-                    })
-                    .then(response => {
-                        return 'data:image/png;base64,' + btoa(new Uint8Array(response.data).reduce((data, byte) =>
-                            data + String.fromCharCode(byte), ''));
-                    })
-                    .then(data => {
-                        this.def = data;
-                        console.log(data);
-                    })
             },
             onSubmit(name, code) {
                 this.$axios({

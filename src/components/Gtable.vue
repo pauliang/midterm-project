@@ -14,12 +14,14 @@
                 </el-row>
             </el-main>
         </el-container>
+        <team_inside v-if="which==='team_inside'"></team_inside>
     </div>
 </template>
 
 <script>
     // import { ParticlesBg } from "particles-bg-vue";
     import Gcard from "@/components/Gcard.vue";
+    import team_inside from "@/components/team_inside.vue";
     export default {
         name: 'Gtable',
         data() {
@@ -52,10 +54,13 @@
             };
         },
         methods: {
-
+            shortjmp(which) {
+                this.which = which
+            },
         },
         components: {
-            Gcard
+            Gcard,
+            team_inside,
         }
     };
 </script>

@@ -97,7 +97,6 @@
         },
         methods: {
             punch(){
-
                 this.$axios({
                     method:'post',
                     url:'http://39.97.122.202/group/send_invitation/',
@@ -130,5 +129,48 @@
         font-weight: bold;
         margin-top: 30px;
         padding-left: 8px;
+    }
+</style>
+<style>
+    .el-dialog__header {
+        padding: 40px 180px 10px 0;
+        margin-top: 30px;
+    }
+    .el-dialog__title {
+        line-height: 24px;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: left;
+        color: #303133;
+    }
+    .el-input--suffix .el-input__inner {
+        padding-right: 50px;
+    }
+    .el-input__inner {
+        margin-top: -10px;
+        -webkit-appearance: none;
+        background-color: #FFF;
+        background-image: none;
+        border-radius: 4px;
+        border: 1px solid #DCDFE6;
+        box-sizing: border-box;
+        color: #606266;
+        display: inline-block;
+        font-size: inherit;
+        height: 40px;
+        line-height: 40px;
+        outline: 0;
+        padding: 0 15px;
+        transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+        width: 90%;
+    }
+    .el-input__icon {
+        margin-top: -10px;
+        margin-left: -25px;
+        margin-right: 30px;
+    }
+    .el-icon-s-promotion {
+        margin-top: -10px;
+        margin-left: 30px;
     }
 </style>

@@ -90,8 +90,13 @@ Vue.use(VueRouter)
     },
     {
       path: '/team_inside',
-      name: 'Team_inside',
-      component: () => import('@/components/team_inside.vue')
+      name: 'team_inside',
+      component: () => import('@/components/team_inside')
+    },
+    {
+      path: '/testmyc',
+      name: 'testmyc',
+      component: () => import('@/views/testmyc.vue')
     },
 ]
 

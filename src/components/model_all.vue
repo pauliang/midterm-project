@@ -1,135 +1,34 @@
 <template>
-    <div>
-        <el-container class="container whole w">
-            <el-header class="head">
+    <el-container>
+        <el-main class="main">
 
-                <el-row>
-                    <el-col :span="4" >
-                        <div style="margin-right:25px">
-                            <img src="../assets/logo.png" @click="goBack()" >
-                        </div>
+            <el-row>
+                <el-col :span="24" class="choice">
+                    <h1>全部模板</h1>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-card shadow="hover" class="box" v-for="o in board_list" :key="o">
+                    <div v-if="o.name === '空白模板'">
+                        <i class="el-icon-circle-plus-outline plus" ></i>
+                    </div>
+                    <div v-else>
+                        <el-image :src=o.url  style="height:220px;width:180px"></el-image>
+                    </div>
+                    <el-button class="b_name"  @click="goBoard(o.name)">{{ o.name }}</el-button>
+                </el-card>
+            </el-row>
 
-                    </el-col>
-                    <el-col :span="1">
-                        <div class="grid-content"></div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div style="margin-top:3px">
-                            <el-input
-                                    clearable
-                                    placeholder="随便找点什么吧"
-                                    prefix-icon="el-icon-search"
-                                    v-model="inputbox">
-                            </el-input>
-                        </div>
-
-                    </el-col>
-
-                    <el-col :span="13" style="text-align:right">
-                        <el-col :span="6" class="welcome">
-                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
-                        </el-col>
-                        <el-col :span="6" class="avator">
-                            <el-popover
-                                    placement="top-start"
-                                    width="240"
-                                    trigger="hover">
-                                <div v-if="islogin === true">
-                                    <div class="item cardtxt">既然选择了远方</div>
-                                    <div class="item cardtxt">1002609249@qq.com</div>
-                                    <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
-                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
-                                </div>
-                                <div v-if="islogin === false">
-                                    <div class="item cardtxt">游客</div>
-                                    <div class="item cardtxt">您尚未登陆</div>
-                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
-                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
-                                </div>
-
-                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
-                            </el-popover>
-                        </el-col>
-                    </el-col>
-                </el-row>
-
-            </el-header>
-            <el-divider/>
-            <el-container>
-                <el-aside class="aside">
-                    <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-
-<!--                        <el-menu-item index="1" class="nav title">-->
-<!--                            <span slot="title">金石模板</span>-->
-<!--                        </el-menu-item>-->
-
-                        <el-row class="nav title">金石模板</el-row>
-
-                        <el-menu-item index="2" class="nav all" @click="shortjmp('model_all')">
-                            <span slot="title">全部模板</span>
-                        </el-menu-item>
-
-                        <el-menu-item index="3" class="nav third" @click="shortjmp('model_efficiency')">
-                            <span slot="title">工作效率</span>
-                        </el-menu-item>
-
-                        <el-menu-item index="4" class="nav" @click="shortjmp('model_cooperation')">
-                            <span slot="title">团队协作</span>
-                        </el-menu-item>
-
-                        <el-menu-item index="5" class="nav" @click="shortjmp('model_life')">
-                            <span slot="title">生活出行</span>
-                        </el-menu-item>
-
-                        <el-menu-item index="6" class="nav" @click="shortjmp('model_study')">
-                            <span slot="title">学生必备</span>
-                        </el-menu-item>
-
-                        <el-menu-item index="7" class="nav" @click="shortjmp('model_vocation')">
-                            <span slot="title">行业模板</span>
-                        </el-menu-item>
-                    </el-menu>
-
-                </el-aside>
-
-                <model_all v-if="which === 'model_all'" :emm="emm"></model_all>
-                <model_efficiency v-else-if="which === 'model_efficiency'"></model_efficiency>
-                <model_cooperation v-else-if="which === 'model_cooperation'"></model_cooperation>
-                <model_life v-else-if="which === 'model_life'"></model_life>
-                <model_study v-else-if="which === 'model_study'"></model_study>
-                <model_vocation v-else-if="which === 'model_vocation'"></model_vocation>
-
-            </el-container>
-            <el-footer>
-                <img src="../assets/footer.png" >
-            </el-footer>
-        </el-container>
-
-    </div>
+        </el-main>
+    </el-container>
 </template>
 
 <script>
-    import model_all from "../components/model_all";
-    import model_efficiency from "../components/model_efficiency";
-    import model_cooperation from "../components/model_cooperation";
-    import model_life from "../components/model_life";
-    import model_study from "../components/model_study";
-    import model_vocation from "../components/model_vocation";
     export default {
-        name: 'models',
-        components: {
-            model_all,
-            model_efficiency,
-            model_cooperation,
-            model_life,
-            model_study,
-            model_vocation
-        },
+        name: 'model_vocation',
         data(){
             return {
-                which:'model_all',
-                islogin: true,
-                emm: 'model_all',
+                which:'worktable',
                 board_list:[
                     {name:'空白模板'},
                     {name:'会议纪要模板',url:require('@/assets/model1.png')},
@@ -148,40 +47,15 @@
                         id:name
                     }
                 })
-            },
-            goBack(){
-                this.$router.push({
-                    name:'Page',
-                })
-            },
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            zipornot()
-            {
-                this.isCollapse=!this.isCollapse;
-            },
-            shortjmp(which){
-                this.which = which
-            },
-            longjmp(name){
-                this.$router.push({
-                    name:name,
-                })
-            },
-            logout(){
-                this.islogin=false
             }
         },
         props:{
             choice:Number,
             msg:String
-        }
+        },
     }
 </script>
+
 <style scoped>
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 220px;
@@ -385,10 +259,11 @@
     }
     .choice{
         text-align: left;
+        font-size: 24px;
     }
     .box {
         float: left;
-        margin: 15px 15px;
+        margin: -20px 40px 60px 0;
         width: 220px;
         height: 300px;
     }
