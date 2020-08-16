@@ -1,6 +1,7 @@
 <template>
     <div class="outer" @mouseover="overShow" @mouseout="shut">
-        <el-card :body-style="{ padding: '0px', height:'180px'}" shadow="hover" class="card">
+        <el-card :body-style="{ padding: '0px', height:'180px'}" shadow="hover"
+            style="position: relative;border-radius:10px;border:1px rgb(199, 199, 204) solid;height: 235px">
 
             <i class="el-icon-document" style="font-size:90px;margin-top:20px" v-if="ishover"></i>
             <i class="el-icon-document-checked" style="font-size:90px;margin-top:20px" v-if="!ishover"></i>
@@ -8,35 +9,30 @@
 
             <div style="padding: 14px;">
                 <div class="bottom clearfix">
-                    <el-button v-if="doc.stat>=0 || user===doc.author" type="text" class="button" @click="jmp(doc.url)">
-                        {{doc.docname}}
-                    </el-button>
-                    <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button>
-                    <br>
+                    <el-button v-if="doc.stat>=0 || user==doc.author" type="text" class="button" @click="jmp(doc.url)">
+                        {{doc.docname}}</el-button>
+                    <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button><br>
                     <span style="font-size: 7px; color: gray">{{doc.lasttime}}</span>
                 </div>
             </div>
 
         </el-card>
-        <el-popover ref="popover" placement="bottom" trigger="click" class="pop">
+        <el-popover ref="popover" placement="bottom" trigger="click">
             <div>
-                <el-button v-if="doc.stat === 3 || doc.stat === 0 || user === doc.author" class="option el-icon-share"
-                           type="text" size="small" @click="generateQR(doc.url)">&nbsp;分享
-                </el-button>
+                <el-button v-if="doc.stat==3 || doc.stat==0 || user==doc.author" class="option el-icon-share"
+                    type="text" size="small" @click="generateQR(doc.url)">&nbsp;分享</el-button>
                 <el-button v-else disabled class="option el-icon-share" type="text" size="small">&nbsp;分享</el-button>
             </div>
             <div>
                 <el-button v-if="!doc.isCollected" class="option el-icon-star-off" type="text" size="small"
-                           @click="collectItem(doc.docnum)">收藏
-                </el-button>
+                    @click="collectItem(doc.docnum)">收藏</el-button>
                 <el-button v-else class="option el-icon-star-on" type="text" size="small"
-                           @click="cancelCollectItem(doc.docnum)">已收藏
+                    @click="cancelCollectItem(doc.docnum)">已收藏
                 </el-button>
             </div>
             <div>
                 <el-button v-if="this.user==doc.author" class="option el-icon-delete" type="text" size="small"
-                           @click="removeItem(doc.docnum)">删除
-                </el-button>
+                    @click="removeItem(doc.docnum)">删除</el-button>
                 <el-button v-else disabled class="option el-icon-delete" type="text" size="small">删除</el-button>
             </div>
         </el-popover>
@@ -83,8 +79,8 @@
                 var baseurl = 'http://192.168.0.101:8080';
                 var docurl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + baseurl + url;
                 this.$axios.get(docurl, {
-                    responseType: 'arraybuffer'
-                })
+                        responseType: 'arraybuffer'
+                    })
                     .then(response => {
                         return 'data:image/png;base64,' + btoa(new Uint8Array(response.data).reduce((data, byte) =>
                             data + String.fromCharCode(byte), ''));
@@ -138,26 +134,17 @@
         height: 25px;
         line-height: 25px;
     }
-
-    .card {
-        position: relative;
-        border-radius: 10px;
-        border: 1px rgb(199, 199, 204) solid;
-    }
-    .pop {
-        width: 100px;
-    }
 </style>
 <style>
-    .outer .el-popover {
+    .el-popover {
         position: absolute;
         background: #FFF;
-        width: 60px;
+        width: 40px;
         min-width: 100px;
-        height: 200px;
+        height: 100px;
         border: 1px solid #EBEEF5;
         padding: 10px 0;
-        z-index: 4000;
+        z-index: 2000;
         color: #606266;
         line-height: 1.4;
         text-align: justify;
@@ -165,6 +152,10 @@
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
         word-break: break-all;
     }
+
+    /* .el-popover, .el-time-panel {
+         -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+     } */
     .option {
         color: #409EFF;
         background: 0 0;

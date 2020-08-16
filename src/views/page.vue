@@ -108,8 +108,8 @@
                 <!-- 组件部分 -->
                 <worktable v-if="which==='worktable'" :emm="emm"></worktable>
                 <dele v-else-if="which==='dele'"></dele>
-                <Gtable v-else-if="which==='Gtable'"></Gtable>
-
+                <Gtable v-else-if="which==='Gtable'"  @event1="shortjmp($event)"></Gtable>
+                <Tinside v-else-if="which==='Tinside'"></Tinside>
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png">
@@ -123,6 +123,7 @@
     import worktable from "@/components/worktable.vue";
     import dele from "@/components/dele.vue";
     import Gtable from "@/components/Gtable.vue";
+    import Tinside from "@/components/team_inside.vue";
     export default {
         name: 'Page',
         data() {
@@ -158,7 +159,9 @@
                     this.emm = '1-3';
                 } else if (index == '2') {
                     this.which = 'Gtable';
-                } else if (index == '3') {
+                } else if (index == '2+'){
+                    this.which = 'Tinside';
+                }else if (index == '3') {
                     this.which = 'dele';
                 }
             },
@@ -194,7 +197,8 @@
         components: {
             worktable,
             dele,
-            Gtable
+            Gtable,
+            Tinside,
         },
         created() {
             var userID = localStorage.getItem('userID');
@@ -203,7 +207,9 @@
                 this.localStorageName = localStorage.getItem('username');
                 this.localStorageID = userID;
             } else {
-                this.longjmp("Login");
+              //暂时修改
+              localStorage.getItem('aaa');
+                // this.longjmp("Login");
             }
         }
     };
@@ -348,7 +354,7 @@
     .box-card {
         /* width: 240px;
         height: 280px; */
-        margin: 0, 0;
+        margin: 0 0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }

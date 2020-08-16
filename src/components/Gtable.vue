@@ -8,20 +8,18 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col class="cardbox" v-for="team in teamList" :key="team">
-                        <Gcard :name="team.name" :url="team.url"></Gcard>
+                    <el-col class="cardbox" v-for="team in teamList" :key="team.name">
+                        <Gcard :name="team.name" :url="team.url" @event2="goIntro()"></Gcard>
                     </el-col>
                 </el-row>
             </el-main>
         </el-container>
-        <team_inside v-if="which==='team_inside'"></team_inside>
     </div>
 </template>
 
 <script>
     // import { ParticlesBg } from "particles-bg-vue";
     import Gcard from "@/components/Gcard.vue";
-    import team_inside from "@/components/team_inside.vue";
     export default {
         name: 'Gtable',
         data() {
@@ -54,13 +52,12 @@
             };
         },
         methods: {
-            shortjmp(which) {
-                this.which = which
-            },
+            goIntro(){
+              this.$emit('event1','2+')
+            }
         },
         components: {
-            Gcard,
-            team_inside,
+            Gcard
         }
     };
 </script>

@@ -39,21 +39,6 @@ Vue.use(VueRouter)
       component: () => import('@/views/models.vue')
     },
     {
-      path: '/base',
-      name: 'Base',
-      component: () => import('@/views/base.vue')
-    },
-    {
-      path: '/delete',
-      name: 'Delete',
-      component: () => import('@/views/delete.vue')
-    },
-    {
-      path: '/test-card',
-      name: 'Test-card',
-      component: () => import('@/views/test-card.vue')
-    },
-    {
       path: '/profile',
       name: 'Profile',
       component: () => import('@/views/profile.vue')
@@ -64,24 +49,14 @@ Vue.use(VueRouter)
       component: () => import('@/views/test-team.vue')
     },
     {
-      path: '/test-comment',
-      name: 'Test-comment',
-      component: () => import('@/views/test-comment.vue')
+      path: '/testmyc',
+      name: 'Testmyc',
+      component: () => import('@/views/testmyc.vue')
     },
     {
       path: '/page',
       name: 'Page',
       component: () => import('@/views/page.vue')
-    },
-    {
-      path: '/test-remark',
-      name: 'Test-remark',
-      component: () => import('@/views/test-remark.vue')
-    },
-    {
-      path: '/ckr',
-      name: 'Ckr',
-      component: () => import('@/views/ckr.vue')
     },
     {
       path: '/help',
@@ -90,18 +65,14 @@ Vue.use(VueRouter)
     },
     {
       path: '/team_inside',
-      name: 'team_inside',
-      component: () => import('@/components/team_inside')
-    },
-    {
-      path: '/testmyc',
-      name: 'testmyc',
-      component: () => import('@/views/testmyc.vue')
+      name: 'Team_inside',
+      component: () => import('@/components/team_inside.vue')
     },
 ]
 
 const router = new VueRouter({
-  routes
+  routes:routes,
+  mode: 'history',
 })
 
 export default router

@@ -7,11 +7,13 @@
                     <el-col :span="4">
                         <el-button class="grid-content bg-purple now delete">团队详情</el-button>
                     </el-col>
-                    <group-intro class="intro"></group-intro>
+                    <el-col>
+                      <group-intro class="intro"></group-intro>
+                    </el-col>
                 </el-row>
                 <div v-for="domain in docList.domains" :key="domain.docname"
                      style="width: 150px;float: left; margin: 35px;">
-                    <card :docname="domain.docname" :url="domain.url">
+                    <card :doc="domain" :user=localStorageID>
                     </card>
                 </div>
             </el-main>
@@ -30,7 +32,16 @@
                 isCollapse: false,
                 emm: '1-1',
                 docList: {
-                    domains: [{
+                    domains: [
+                      {
+                        author: 1,
+                        docnum: 1,
+                        docname: 'New Document 1',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-1'),
+                        isCollected: true,
+                        stat: 0,
+                      },{
                         docname: '团队文件1',
                         url: '/doc'
                     }, {
@@ -141,8 +152,7 @@
         width: 40px;
     }
     .intro {
-        float: left;
-        margin: 12px -30px 0 0;
+        margin: 10px 10px -40px 20px;
         width: 100px;
     }
 

@@ -13,13 +13,7 @@ import comment from 'hbl-comment'; // 开发文件
 export default {
   name: 'test-remark',
   props:{
-    // commentNum: {
-    //   type:Number,
-    //   default: () => 0
-    // },
-    user:{
-      type:Object,
-    },
+    user:Object,
     users:Array,
     commentList:Array,
   },
