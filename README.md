@@ -49,3 +49,10 @@ components中新增了createdFiles.vue, recentFiles.vue, collectedFiles.vue三�
 
 回收站部分待更新。后端要等回收站部分做好了以后一起进行本地调试。
 
+2020/8/16 22:10 更新：
+
+components中修改了dele.vue，实现回收站还原文件，彻底删除文件，清空回收站功能的前端部分，已经交给后端进行本地测试。
+
+view中修复了profile.vue中的少许bug。
+
+回收站样式较丑。。。等待后续调整。
