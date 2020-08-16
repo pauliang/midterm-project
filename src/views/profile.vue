@@ -101,13 +101,15 @@
                         <el-form-item label-width="0px">
                             <el-button v-if="this.isEditable == true" type="primary" @click="submitForm('profile')">保存
                             </el-button>
+                            <el-button type="primary" @click="longjmp('Page')">返回个人工作台
+                            </el-button>
                         </el-form-item>
                     </el-form>
 
                     <!-- 修改密码弹出的对话框 -->
                     <el-dialog title="修改密码" :visible.sync="dialogVisible" width="400px">
                         <el-form ref="password" :model="password" :rules="rules">
-                            <el-form-item label="原密码">
+                            <el-form-item label="原密码" prop="formerPwd">
                                 <el-input type="password" v-model="password.formerPwd" autocomplete="off">
                                 </el-input>
                             </el-form-item>
@@ -147,18 +149,18 @@
     export default {
         name: 'profile',
         data() {
-            // var validatePass = (rule, value, callback) => {
-            //     if (value === "") {
-            //         callback(new Error("请输入原密码"));
-            //     } else if (value !== this.profile.password) {
-            //         callback(new Error("密码错误"));
-            //     } else {
-            //         if (this.password.newPwd !== "") {
-            //             this.$refs.password.validateField("newPwd");
-            //         }
-            //         callback();
-            //     }
-            // };
+            var validatePass = (rule, value, callback) => {
+                if (value === "") {
+                    callback(new Error("请输入原密码"));
+                } else if (value !== this.profile.password) {
+                    callback(new Error("密码错误"));
+                } else {
+                    if (this.password.newPwd !== "") {
+                        this.$refs.password.validateField("newPwd");
+                    }
+                    callback();
+                }
+            };
             var validatePass1 = (rule, value, callback) => {
                 if (value === "") {
                     callback(new Error("请输入新密码"));
@@ -271,11 +273,11 @@
                     }],
                 },
                 rules: {
-                    // formerPwd: [{
-                    //     required: true,
-                    //     validator: validatePass,
-                    //     trigger: "blur"
-                    // }],
+                    formerPwd: [{
+                        required: true,
+                        validator: validatePass,
+                        trigger: "blur"
+                    }],
                     newPwd: [{
                         required: true,
                         validator: validatePass1,
@@ -296,7 +298,7 @@
                 var newPwd = this.password.newPwd;
                 this.$axios({
                     method: 'post',
-                    url: 'http://127.0.0.1:8000/User/edit/' + uid + '/',
+                    url: 'http://39.97.122.202/User/edit/' + uid + '/',
                     data: {
                         newPwd: newPwd,
                     }
@@ -327,7 +329,7 @@
                 var phone = this.profile.phone;
                 this.$axios({
                     method: 'post',
-                    url: 'http://127.0.0.1:8000/User/edit/' + uid + '/',
+                    url: 'http://39.97.122.202/User/edit/' + uid + '/',
                     data: {
                         username: uname,
                         age: age,
@@ -354,13 +356,12 @@
             goMyProfile() {
                 if (!this.isEditable) { //不可编辑说明查看的不是自己的个人信息页面
                     var id = this.localStorageID; //data()中定义了一个属性，获取localStorage的值
-                    alert("gomyprofile!")
                     this.$axios({
                         method: 'post',
-                        url: 'http://127.0.0.1:8000/User/profile/' + id + '/', //此处不传data
+                        url: 'http://39.97.122.202/User/edit/' + id + '/', //此处不传data
                     }).then(
                         response => {
-                            this.profile = response.data[0]; //重新获取自身页面的数据
+                            this.profile = response.data; //重新获取自身页面的数据
                             this.isEditable = true; //并且调整当前页面可以编辑
                         },
                         err => {
@@ -406,29 +407,28 @@
             var id = this.$route.query.id;
             this.$axios({
                 method: 'post',
-                url: 'http://39.97.122.202/User/profile/' + id + '/', //此处不传data
+                url: 'http://39.97.122.202/User/edit/' + id + '/', //此处不传data
             }).then(
                 response => {
-                    console.log(response.data[0])
-                    this.profile = response.data[0];
-                    this.usernameList = response.data[0].usernameList;
-                    console.log(this.usernameList)
+                    this.profile = response.data.user;
+                    this.usernameList = response.data.usernameList;
+                    var userID = localStorage.getItem('userID');
+                    if (userID != null) {
+                        if (userID == this.profile.id)
+                            this.isEditable = true;
+                        else
+                            this.isEditable = false;
+                        this.islogin = true;
+                        this.localStorageName = localStorage.getItem('username');
+                        this.localStorageID = userID;
+                    } else this.logout();
                 },
                 err => {
                     console.log(err);
                 }).catch((error) => {
                 console.log(error);
             });
-            var userID = localStorage.getItem('userID');
-            if (userID != null) {
-                if (userID == this.profile.id)
-                    this.isEditable = true;
-                else
-                    this.isEditable = false;
-                this.islogin = true;
-                this.localStorageName = localStorage.getItem('username');
-                this.localStorageID = userID;
-            } else this.logout();
+
         },
     }
 </script>
