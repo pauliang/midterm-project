@@ -9,8 +9,8 @@
                 </el-row>
                 <div v-for="collection in docList.collections" :key="collection.docnum"
                     style="position: relative; width: 150px;float: left; margin: 35px;">
-                    <card :doc="collection" :url="'/doc?docid='+ collection.docnum" :user=localStorageID
-                        @collect-event="collectItem" @cancel-event="cancelCollectItem" @remove-event="removeItem">
+                    <card :doc="collection" :url="'/doc?docid='+ collection.docnum" :user="localStorageID"
+                        @cancel-event="cancelCollectItem" @remove-event="removeItem">
                     </card>
                 </div>
 
@@ -86,7 +86,7 @@
                 });
                 if (index > -1)
                     collection.splice(index, 1);
-                    var deleteurl = 'http://39.97.122.202/delete_file/';
+                var deleteurl = 'http://39.97.122.202/delete_file/';
                 this.$axios({
                     method: 'post',
                     url: deleteurl,
@@ -156,7 +156,7 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var collecturl = 'http://39.97.122.202/Table/collect/' + id + '/';
+            var collecturl = 'http://39.97.122.202/collect/' + id + '/';
             this.$axios({
                 method: 'post',
                 url: collecturl, //此处不传data
