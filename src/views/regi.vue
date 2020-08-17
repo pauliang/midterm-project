@@ -59,7 +59,7 @@
                     callback(new Error("请输入用户名"));
                 } else {
                     this.usernameList.forEach(username => {
-                        if (this.form.name == username) {
+                        if (this.form.name === username) {
                             callback(new Error("该用户名已存在"));
                         }
                     });
@@ -143,7 +143,7 @@
                     response => {
                         var fmsg = '请重新注册！'
                         var info = response.data.info;
-                        if (info == '成功') {
+                        if (info === '成功') {
                             alert('注册成功！');
                             this.$router.push({
                                 name: "Login",

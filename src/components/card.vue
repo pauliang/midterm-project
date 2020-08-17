@@ -9,7 +9,7 @@
 
             <div style="padding: 14px;">
                 <div class="bottom clearfix">
-                    <el-button v-if="doc.stat>=0 || user === doc.author" type="text" class="button" @click="jmp(url)">
+                    <el-button v-if="doc.stat>=0 || user == doc.author" type="text" class="button" @click="jmp(url)">
                         {{doc.docname}}
                     </el-button>
                     <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button>
@@ -129,34 +129,28 @@
         border: 1px rgb(199, 199, 204) solid;
         height: 200px;
     }
-
     .outer :hover {
         background: rgb(228, 228, 233);
     }
-
     .el-button--text {
         font-size: 15px;
     }
-
     /*日期样式*/
     .bottom .date {
         font-size: 12px;
         color: gray;
     }
-
     .posi {
         position: absolute;
         right: 0;
         top: 0;
     }
-
     .el-button--primary {
         color: #000000;
         background-color: transparent;
         /* border-color: #8B83D2; */
         border: none;
     }
-
     .option {
         width: 150px;
         height: 25px;
@@ -180,7 +174,6 @@
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
         word-break: break-all;
     }
-
     /* .el-popover, .el-time-panel {
          -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
      } */

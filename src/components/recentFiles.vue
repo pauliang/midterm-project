@@ -9,7 +9,7 @@
                 </el-row>
                 <div v-for="recent in docList.recents" :key="recent.docnum"
                     style="position: relative; width: 150px;float: left; margin: 35px;">
-                    <card :doc="recent" :url="'/doc?docid='+ recent.docnum" :user=localStorageID
+                    <card :doc="recent" :user="localStorageID"
                         @collect-event="collectItem" @cancel-event="cancelCollectItem" @remove-event="removeItem">
                     </card>
                 </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import card from "@/components/card.vue";
+    import card from "@/components/card_guo.vue";
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
         name: 'recentFiles',
@@ -193,7 +193,7 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var recenturl = 'http://39.97.122.202/Table/recent/' + id + '/';
+            var recenturl = 'http://39.97.122.202/recent/' + id + '/';
             this.$axios({
                 method: 'post',
                 url: recenturl, //此处不传data

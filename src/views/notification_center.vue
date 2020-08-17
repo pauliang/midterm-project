@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!--        <particles-bg type="cobweb" :bg="true" />-->
         <el-container class="whole">
 
             <el-header class="head">
@@ -7,7 +8,7 @@
                 <el-row>
                     <el-col :span="4">
                         <div style="margin-right:25px">
-                            <img src="../assets/logo.png">
+                            <img src="../assets/logo.png" @click="goBack()">
                         </div>
 
                     </el-col>
@@ -15,25 +16,24 @@
                         <div class="grid-content"></div>
                     </el-col>
                     <el-col :span="6">
-                        <div style="margin-top:3px">
-                            <el-input clearable placeholder="随便找点什么吧" prefix-icon="el-icon-search" v-model="inputbox">
-                            </el-input>
+                        <div class="slogan">
+                            <el-tag class="slogan2">“精诚所至，金石为开”</el-tag>
                         </div>
-
                     </el-col>
 
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
-                            <el-link v-if="islogin===true" href="https://element.eleme.io" target="_blank"
+                            <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
                                      class="wel_text">{{ this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
                             <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
-                                <div v-if="islogin===true">
+                                <div v-if="islogin==true">
                                     <div class="item cardtxt">{{ this.localStorageName }}</div>
                                     <el-badge value="new">
-                                        <el-button index="0" class="item more_info1" @click="longjmp('Notification_center')">
+                                        <el-button index="0" class="item more_info1"
+                                                   @click="longjmp('Notification_center')">
                                             查看系统通知
                                         </el-button>
                                     </el-badge>
@@ -60,64 +60,43 @@
             <el-divider/>
 
             <el-container>
-                <el-aside>
-                    <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                             :collapse="isCollapse">
-                        <el-submenu index="1">
-                            <template slot="title">
-                                <i class="el-icon-location"></i>
-                                <span slot="title">工作台</span>
-                            </template>
-
-                            <el-menu-item-group>
-                                <el-menu-item index="1-1" class="shit" @click="shortjmp('1-1')">最近浏览
-                                </el-menu-item>
-                                <el-menu-item index="1-2" class="shit" @click="shortjmp('1-2')">我的文档
-                                </el-menu-item>
-                                <el-menu-item index="1-3" class="shit" @click="shortjmp('1-3')">我的收藏
-                                </el-menu-item>
-                                <el-menu-item index="1-4" class="shit" @click="longjmp('Models')">创建文档</el-menu-item>
-                            </el-menu-item-group>
-
-                        </el-submenu>
+                <el-aside class="slide_menu">
+                    <el-menu
+                            :default-active="emm"
+                            class="el-menu-vertical-demo"
+                            @open="handleOpen"
+                            @close="handleClose"
+                            :collapse="isCollapse"
+                    >
+                        <el-menu-item index="1" @click="shortjmp('invi_note')">
+                            <i class="el-icon-question"></i>
+                            <span slot="title" class="aside first">团队邀请通知</span>
+                        </el-menu-item>
 
 
-                        <el-menu-item index="2" @click="shortjmp('2')">
+                        <el-menu-item index="2" @click="shortjmp('msg_note')">
                             <i class="el-icon-menu"></i>
-                            <span slot="title">团队空间</span>
+                            <span slot="title" class="aside">团队消息提醒</span>
                         </el-menu-item>
 
-                        <el-menu-item index="3" @click="shortjmp('3')">
-                            <i class="el-icon-delete-solid"></i>
-                            <span slot="title">回收站</span>
-                        </el-menu-item>
-
-
-                        <el-menu-item index="4" @click="longjmp('Help')">
+                        <el-menu-item index="3" @click="shortjmp('remark_note')">
                             <i class="el-icon-s-tools"></i>
-                            <span slot="title">帮助中心</span>
+                            <span slot="title" class="aside">文档评论通知</span>
                         </el-menu-item>
 
-                        <el-menu-item index="5" @click="zipornot()">
+                        <el-menu-item index="4" @click="zipornot()">
                             <i class="el-icon-s-unfold" v-if="isCollapse"></i>
                             <span slot="title" v-if="isCollapse">光翼展开!</span>
                             <i class="el-icon-s-fold" v-if="!isCollapse"></i>
                             <span slot="title" v-if="!isCollapse">收起</span>
                         </el-menu-item>
+
                     </el-menu>
 
-
                 </el-aside>
-
-                <!-- 组件部分 -->
-                <recentFiles v-if="which==='recentFiles'"></recentFiles>
-                <createdFiles v-else-if="which==='createdFiles'"></createdFiles>
-                <collectedFiles v-else-if="which==='collectedFiles'"></collectedFiles>
-                <dele v-else-if="which==='dele'"></dele>
-                <Gtable v-else-if="which==='Gtable'" @event1="shortjmp($event)"></Gtable>
-                <Tinside v-else-if="which==='Tinside'"></Tinside>
-<!--                <view_remark v-else-if="which==='view_remark'"></view_remark>-->
-
+                <invi_note v-if="which==='invi_note'"></invi_note>
+                <msg_note v-else-if="which==='msg_note'"></msg_note>
+                <remark_note v-else-if="which==='remark_note'"></remark_note>
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png">
@@ -127,23 +106,23 @@
 </template>
 
 <script>
-    // import { ParticlesBg } from "particles-bg-vue";
-    import recentFiles from "@/components/recentFiles.vue";
-    import collectedFiles from "@/components/collectedFiles.vue";
-    import createdFiles from "@/components/createdFiles.vue";
-    import dele from "@/components/dele.vue";
-    import Gtable from "@/components/Gtable.vue";
-    import Tinside from "@/components/team_inside.vue";
-    // import view_remark from "../components/view_remark";
+    import invi_note from "../components/invi_note";
+    import msg_note from "../components/msg_note";
+    import remark_note from "../components/remark_note";
 
     export default {
-        name: 'Page',
+        components: {
+            invi_note,
+            msg_note,
+            remark_note
+        },
+        name: "notification_center",
         data() {
             return {
                 isCollapse: false,
                 emm: '1-1',
                 inputbox: '',
-                which: 'recentFiles',
+                which: 'invi_note',
                 islogin: true,
                 localStorageName: '',
                 localStorageID: '',
@@ -159,22 +138,12 @@
             zipornot() {
                 this.isCollapse = !this.isCollapse;
             },
-            shortjmp(index) {
-                if (index === '1-1') {
-                    this.which = 'recentFiles';
-                } else if (index === '1-2') {
-                    this.which = 'createdFiles';
-                } else if (index === '1-3') {
-                    this.which = 'collectedFiles';
-                } else if (index === '2') {
-                    this.which = 'Gtable';
-                } else if (index === '2+') {
-                    this.which = 'Tinside';
-                } else if (index === '3') {
-                    this.which = 'dele';
-                }
+            goBack() {
+                this.$router.push({
+                    name: 'Page',
+                })
             },
-            shortjmp2(which) {
+            shortjmp(which) {
                 this.which = which
             },
             longjmp(name) {
@@ -185,19 +154,11 @@
                             id: this.localStorageID,
                         }
                     });
-                } else if (name === "") {
-                    this.$router.push({
-                        path: '/profile',
-                        query: {
-                            id: this.localStorageID,
-                        }
-                    });
-                } else {
+                }else {
                     this.$router.push({
                         name: name,
                     });
                 }
-
             },
             logout() {
                 this.islogin = false;
@@ -205,15 +166,6 @@
                 localStorage.removeItem('username');
                 this.longjmp("Login");
             },
-        },
-        components: {
-            recentFiles,
-            collectedFiles,
-            createdFiles,
-            dele,
-            Gtable,
-            Tinside,
-            // view_remark,
         },
         created() {
             var userID = localStorage.getItem('userID');
@@ -231,8 +183,14 @@
 </script>
 
 <style scoped>
+
+    .whole {
+        position: relative;
+        height: 1000px;
+    }
+
     .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 220px;
+        width: 240px;
         min-height: 600px;
     }
 
@@ -270,6 +228,52 @@
         margin-right: 100px;
     }
 
+    .head .el-col-6 .slogan {
+        width: 100px;
+        margin-top: 5px;
+        margin-left: 300px;
+    }
+
+    .head .el-col-6 .slogan2 {
+        font-size: 28px;
+        font-weight: 400;
+        font-family: "KaiTi", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        line-height: 40px;
+        height: 40px;
+        background-color: transparent;
+        color: #ffffff;
+        border: none;
+    }
+
+    .head .welcome {
+        position: absolute;
+        float: right;
+    }
+
+    .head .wel_text {
+        position: absolute;
+        width: 400px;
+        height: 30px;
+        color: #fbfcfe;
+        float: right;
+        margin-right: 20px;
+        margin-left: 30px;
+        margin-top: 5px;
+        line-height: 30px;
+        text-decoration: none !important;
+    }
+
+    .el-menu-item {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 42px 20px 60px 0;
+    }
+
+    .el-menu-item * {
+        color: #555555;
+    }
+
+
     .el-container {
         position: relative;
     }
@@ -282,6 +286,12 @@
     .el-link--default {
         color: #303133;
         font-size: 17px;
+        text-decoration: none;
+        border-color: transparent;
+    }
+
+    .el-link.el-link--default:after, .el-link.el-link--primary.is-underline:hover:after, .el-link.el-link--primary:after {
+        border-color: transparent;
     }
 
     .el-row {
@@ -336,6 +346,7 @@
         font-weight: 600;
         line-height: 18px;
         color: #bababa;
+
     }
 
     .el-container .now {
@@ -349,10 +360,6 @@
     .el-footer img {
         display: block;
         width: 100%;
-    }
-
-    .whole {
-        height: 1500px;
     }
 
     .text {
@@ -415,29 +422,5 @@
     .cardtxt {
         text-align: center;
     }
-</style>
-<style>
-    .el-popover.av {
-        position: absolute;
-        background: #FFF;
-        min-width: 100px;
-        height: 250px;
-        border: 1px solid #EBEEF5;
-        padding: 10px 0;
-        z-index: 2000;
-        color: #606266;
-        line-height: 1.4;
-        text-align: justify;
-        font-size: 14px;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
-        word-break: break-all;
-    }
 
-    .el-badge__content.is-fixed {
-        position: absolute;
-        top: 3px;
-        right: 18px;
-
-        transform: translateY(-50%) translateX(100%);
-    }
 </style>

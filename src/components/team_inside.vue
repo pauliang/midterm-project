@@ -10,6 +10,7 @@
                     <el-col :span="16">
                         <group-intro class="intro"></group-intro>
                         <dismiss class="dismiss"></dismiss>
+                        <Gexit class="exit"></Gexit>
                     </el-col>
                 </el-row>
                 <div v-for="domain in docList.domains" :key="domain.docname"
@@ -25,13 +26,15 @@
     import card from "./card";
     import groupIntro from "./groupIntro";
     import dismiss from "./dismiss";
+    import Gexit from "./Gexit";
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
-        name: 'worktable',
+        name: 'Tinside',
         components: {
             card,
             groupIntro,
-            dismiss
+            dismiss,
+            Gexit
         },
         data() {
             return {
@@ -42,39 +45,39 @@
                       {
                         docname: '团队文件1',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件2',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件3',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件4',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件5',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件6',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件7',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件8',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     },{
                         docname: '新团队文件',
                         url: '/doc',
-                        lasttime: new Date(),
+                        last_time: new Date(),
                     },]
                 }
             };
@@ -163,8 +166,12 @@
         width: 100px;
     }
     .dismiss {
-        margin: 20px 10px -40px 115px;
+        margin: 21px 10px -40px 115px;
         width: 200px;
+    }
+    .exit {
+        margin: 0 10px -20px 210px;
+        width: 300px;
     }
 
     .cooperate {

@@ -83,6 +83,7 @@
                         localStorage.setItem('userID', res.data.userID);
                         this.$router.push({
                             name: "Page",
+                            // path: '/page',
                         })
                     } else {
                         alert("登录失败，请确认你的用户名和密码是否正确");
@@ -106,7 +107,6 @@
         z-index: -1;
         position: fixed;
         background-image: url("../assets/login.jpg");
-        position: fixed;
         background-size: 100% 100%;
         overflow-y: auto;
         overflow-x: auto;

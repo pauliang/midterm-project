@@ -39,21 +39,6 @@ Vue.use(VueRouter)
       component: () => import('@/views/models.vue')
     },
     {
-      path: '/base',
-      name: 'Base',
-      component: () => import('@/views/base.vue')
-    },
-    {
-      path: '/delete',
-      name: 'Delete',
-      component: () => import('@/views/delete.vue')
-    },
-    {
-      path: '/test-card',
-      name: 'Test-card',
-      component: () => import('@/views/test-card.vue')
-    },
-    {
       path: '/profile',
       name: 'Profile',
       component: () => import('@/views/profile.vue')
@@ -64,35 +49,35 @@ Vue.use(VueRouter)
       component: () => import('@/views/test-team.vue')
     },
     {
-      path: '/test-comment',
-      name: 'Test-comment',
-      component: () => import('@/views/test-comment.vue')
-    },
-    // {
-    //   path: '/page',
-    //   name: 'Page',
-    //   component: () => import('@/views/page.vue')
-    // },
-    {
-      path: '/test-remark',
-      name: 'Test-remark',
-      component: () => import('@/views/test-remark.vue')
+      path: '/testmyc',
+      name: 'Testmyc',
+      component: () => import('@/views/testmyc.vue')
     },
     {
-      path: '/ckr',
-      name: 'Ckr',
-      component: () => import('@/views/ckr.vue')
+      path: '/page',
+      name: 'Page',
+      component: () => import('@/views/page.vue')
     },
     {
       path: '/help',
       name: 'Help',
       component: () => import('@/views/help.vue')
     },
+    {
+      path: '/team_inside',
+      name: 'Team_inside',
+      component: () => import('@/components/team_inside.vue')
+    },
+    {
+      path: '/notification_center',
+      name: 'Notification_center',
+      component: () => import('@/views/notification_center.vue')
+    },
 ]
 
 const router = new VueRouter({
-    mode: 'history',
-    routes: routes
+  routes:routes,
+  mode: 'history',
 })
 
 export default router

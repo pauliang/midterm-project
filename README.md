@@ -62,3 +62,11 @@ view中修复了profile.vue中的少许bug。
 components中更新edt.vue，加入返回到模板库，保存，另存为三个按钮，完成功能的前端部分，等待后端进行本地测试。
 
 此外还替换了一下回收站dele.vue，样式得以调整。
+
+2020/8/18 00:20 更新：
+
+获取了edt_pauliang中的内容，进行了一些简单的样式调整，修复了一点跳转异常和显示异常。
+
+将recentFiles.vue,createdFiles.vue,collectedFiles.vue中的card替换成了card_guo，郭总tql！
+
+Gtable中加入了创建团队按钮，按照后端的设计写好了前后端交互函数，等待跟后端的进一步沟通和测试。

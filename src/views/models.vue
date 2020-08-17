@@ -27,22 +27,22 @@
 
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
-                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
+                            <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
+                                     class="wel_text">{{  this.localStorageName }}，您好！
+                            </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-popover
-                                    placement="top-start"
-                                    width="240"
-                                    trigger="hover">
+                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
                                 <div v-if="islogin==true">
-                                    <div class="item cardtxt">既然选择了远方</div>
-                                    <div class="item cardtxt">1002609249@qq.com</div>
-                                    <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
+                                    <el-badge value="new">
+                                        <el-button index="0" class="item more_info1" @click="shortjmp2('view_remark')">查看系统通知</el-button>
+                                    </el-badge>
+                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
-                                <div v-if="islogin==false">
-                                    <div class="item cardtxt">游客</div>
-                                    <div class="item cardtxt">您尚未登陆</div>
+                                <div v-if="islogin===false">
+                                    <div class="item cardtxt">你尚未登陆</div>
                                     <el-button class="item login" @click="longjmp('Login')">登录</el-button>
                                     <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
                                 </div>
@@ -59,71 +59,80 @@
                 <el-aside class="aside">
                     <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
 
-                        <el-menu-item index="1" class="nav title">
-                            <span slot="title">金石模板</span>
-                        </el-menu-item>
+<!--                        <el-menu-item index="1" class="nav title">-->
+<!--                            <span slot="title">金石模板</span>-->
+<!--                        </el-menu-item>-->
 
-                        <el-menu-item index="2" class="nav all">
+                        <el-row class="nav title">金石模板</el-row>
+
+                        <el-menu-item index="2" class="nav all" @click="shortjmp('model_all')">
                             <span slot="title">全部模板</span>
                         </el-menu-item>
 
-                        <el-menu-item index="3" class="nav third">
+                        <el-menu-item index="3" class="nav third" @click="shortjmp('model_efficiency')">
                             <span slot="title">工作效率</span>
                         </el-menu-item>
 
-                        <el-menu-item index="4" class="nav">
+                        <el-menu-item index="4" class="nav" @click="shortjmp('model_cooperation')">
                             <span slot="title">团队协作</span>
                         </el-menu-item>
 
-                        <el-menu-item index="5" class="nav">
+                        <el-menu-item index="5" class="nav" @click="shortjmp('model_life')">
                             <span slot="title">生活出行</span>
                         </el-menu-item>
 
-                        <el-menu-item index="6" class="nav">
+                        <el-menu-item index="6" class="nav" @click="shortjmp('model_study')">
                             <span slot="title">学生必备</span>
                         </el-menu-item>
 
-                        <el-menu-item index="7" class="nav">
+                        <el-menu-item index="7" class="nav" @click="shortjmp('model_vocation')">
                             <span slot="title">行业模板</span>
                         </el-menu-item>
                     </el-menu>
 
                 </el-aside>
 
-                <el-main class="main">
-                    <el-row>
-                        <el-col :span="24" class="choice">
-                            <h1>全部模板</h1>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-card shadow="hover" class="box" v-for="o in board_list" :key="o">
-                            <div v-if="o.name=='空白模板'">
-                                <i class="el-icon-circle-plus-outline plus" ></i>
-                            </div>
-                            <div v-else>
-                                <el-image :src=o.url  style="height:220px;width:180px"></el-image>
-                            </div>
-                            <el-button class="b_name"  @click="goBoard(o.name)">{{ o.name }}</el-button>
-                        </el-card>
-                    </el-row>
+                <model_all v-if="which === 'model_all'" :emm="emm"></model_all>
+                <model_efficiency v-else-if="which === 'model_efficiency'"></model_efficiency>
+                <model_cooperation v-else-if="which === 'model_cooperation'"></model_cooperation>
+                <model_life v-else-if="which === 'model_life'"></model_life>
+                <model_study v-else-if="which === 'model_study'"></model_study>
+                <model_vocation v-else-if="which === 'model_vocation'"></model_vocation>
 
-                </el-main>
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png" >
             </el-footer>
         </el-container>
+
     </div>
 </template>
 
 <script>
+    import model_all from "../components/model_all";
+    import model_efficiency from "../components/model_efficiency";
+    import model_cooperation from "../components/model_cooperation";
+    import model_life from "../components/model_life";
+    import model_study from "../components/model_study";
+    import model_vocation from "../components/model_vocation";
     export default {
-        name: 'pre',
+        name: 'models',
+        components: {
+            model_all,
+            model_efficiency,
+            model_cooperation,
+            model_life,
+            model_study,
+            model_vocation
+        },
         data(){
             return {
-                which:'worktable',
-                islogin:true,
+                which:'model_all',
+                islogin: true,
+                emm: 'model_all',
+                isCollapse: false,
+                localStorageName: '',
+                localStorageID: '',
                 board_list:[
                     {name:'空白模板'},
                     {name:'会议纪要模板',url:require('@/assets/model1.png')},
@@ -166,14 +175,29 @@
                     name:name,
                 })
             },
-            logout(){
-                this.islogin=false
+            logout() {
+                this.islogin = false;
+                localStorage.removeItem('userID');
+                localStorage.removeItem('username');
+                this.longjmp("Login");
+            },
+        },
+        created() {
+            var userID = localStorage.getItem('userID');
+            if (userID != null) {
+                this.islogin = true;
+                this.localStorageName = localStorage.getItem('username');
+                this.localStorageID = userID;
+            } else {
+                //暂时修改
+                localStorage.getItem('aaa');
+                // this.longjmp("Login");
             }
         },
         props:{
             choice:Number,
             msg:String
-        },
+        }
     }
 </script>
 <style scoped>
@@ -423,24 +447,33 @@
         display: block;
         width: 100%;
     }
+    /*这部分是个人信息的小卡片*/
     .item {
         padding: 18px 0;
         font-size: 14px;
         color: #24292e;
     }
+
     .box-card {
-        /* width: 240px;
-        height: 280px; */
-        margin: 0,0;
+        /*width: 240px;*/
+        /*height: 280px;*/
+        margin: 0 0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
-    .more_info {
+    .more_info1 {
+        display: block;
+        color: #409eff;
+        margin: 0 auto 10px 30px;
+        width: 180px;
+    }
+    .more_info2 {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
     }
+
     .logout {
         display: block;
         color: #c81623;
@@ -448,21 +481,41 @@
         width: 180px;
         margin-bottom: 20px;
     }
-    .login{
+
+    .login {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
         margin-bottom: 20px;
     }
-    .regi{
+
+    .regi {
         display: block;
         color: #409eff;
         margin: 0 auto;
         width: 180px;
         margin-bottom: 20px;
     }
+
     .cardtxt {
         text-align: center;
+    }
+</style>
+<style>
+    .el-popover.av2  {
+        position: absolute;
+        background: #FFF;
+        min-width: 100px;
+        height: 200px;
+        border: 1px solid #EBEEF5;
+        padding: 10px 0;
+        z-index: 2000;
+        color: #606266;
+        line-height: 1.4;
+        text-align: justify;
+        font-size: 14px;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        word-break: break-all;
     }
 </style>
