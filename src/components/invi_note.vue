@@ -5,8 +5,8 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple delete">团队邀请通知</div>
                 </el-col>
-                <el-col v-for="invite in teamInvite" :key="invite">
-                    <new_message :name="invite.name" :url="invite.url" class="message"></new_message>
+                <el-col v-for="invite in invitations" :key="invite">
+                    <new_message :send="invite.send" :accept="invite.accept" :message="invite.msg" :time="invite.time" class="message"></new_message>
                 </el-col>
             </el-tabs>
         </el-main>
@@ -15,6 +15,7 @@
 
 <script>
     import new_message from "./new_message";
+
     export default {
         name: "invi_note",
         components: {
@@ -22,18 +23,25 @@
         },
         data() {
             return {
-                teamInvite: [{
-                    name: '通知：团队A邀请消息',
-                    url: '点击查看详情'
+                invitations: [{
+                    send: '团队A',
+                    accept: '当前用户',
+                    msg: '加入团队邀请',
+                    time: new Date()
                 }, {
-                    name: '通知：团队B邀请消息',
-                    url: '点击查看详情'
+                    send: '团队B',
+                    accept: '当前用户',
+                    msg: '加入团队邀请',
+                    time: new Date()
                 }, {
-                    name: '通知：团队C邀请消息',
-                    url: '点击查看详情'
+                    send: '团队C',
+                    accept: '当前用户',
+                    msg: '加入团队邀请',
+                    time: new Date()
                 }]
             }
         },
+
         props: {
             choice: Number,
             msg: String
@@ -162,6 +170,7 @@
     .cardtxt {
         text-align: center;
     }
+
     .cardbox {
         width: 200px;
     }
@@ -170,6 +179,7 @@
     .new_message {
         margin-right: 50px;
     }
+
     .titles .el-tabs__item {
         padding: 0 20px;
         height: 40px;

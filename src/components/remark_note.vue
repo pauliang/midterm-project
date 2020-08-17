@@ -5,8 +5,8 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple delete">文档评论通知</div>
                 </el-col>
-                <el-col v-for="invite in teamInvite" :key="invite">
-                    <new_message :name="invite.name" :url="invite.url" class="message"></new_message>
+                <el-col v-for="remark in remarkList" :key="remark">
+                    <new_message :send="remark.send" :accept="remark.accept" :message="remark.msg" :time="remark.time" class="message"></new_message>
                 </el-col>
             </el-tabs>
         </el-main>
@@ -15,22 +15,29 @@
 
 <script>
     import new_message from "./new_message";
+
     export default {
-        name: "invi_note",
+        name: "remark_note",
         components: {
             new_message
         },
         data() {
             return {
-                teamInvite: [{
-                    name: '通知：团队A邀请消息',
-                    url: '点击查看详情'
+                remarkList: [{
+                    send: '用户A',
+                    accept: '当前用户',
+                    msg: '评论',
+                    time: new Date()
                 }, {
-                    name: '通知：团队B邀请消息',
-                    url: '点击查看详情'
+                    send: '用户B',
+                    accept: '当前用户',
+                    msg: '评论',
+                    time: new Date()
                 }, {
-                    name: '通知：团队C邀请消息',
-                    url: '点击查看详情'
+                    send: '用户C',
+                    accept: '当前用户',
+                    msg: '评论',
+                    time: new Date()
                 }]
             }
         },
@@ -162,6 +169,7 @@
     .cardtxt {
         text-align: center;
     }
+
     .cardbox {
         width: 200px;
     }
@@ -170,6 +178,7 @@
     .new_message {
         margin-right: 50px;
     }
+
     .titles .el-tabs__item {
         padding: 0 20px;
         height: 40px;

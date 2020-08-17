@@ -5,8 +5,8 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple delete">团队消息提醒</div>
                 </el-col>
-                <el-col v-for="invite in teamInvite" :key="invite">
-                    <new_message :name="invite.name" :url="invite.url" class="message"></new_message>
+                <el-col v-for="message in list" :key="message">
+                    <new_message :send="message.send" :accept="message.accept" :message="message.msg" :time="message.time" class="message"></new_message>
                 </el-col>
             </el-tabs>
         </el-main>
@@ -15,22 +15,29 @@
 
 <script>
     import new_message from "./new_message";
+
     export default {
-        name: "invi_note",
+        name: "msg_note",
         components: {
             new_message
         },
         data() {
             return {
-                teamInvite: [{
-                    name: '通知：团队A邀请消息',
-                    url: '点击查看详情'
+                list: [{
+                    send: '团队A',
+                    accept: '当前用户',
+                    msg: '成功加入信息',
+                    time: new Date()
                 }, {
-                    name: '通知：团队B邀请消息',
-                    url: '点击查看详情'
+                    send: '团队B',
+                    accept: '当前用户',
+                    msg: '成功退出信息',
+                    time: new Date()
                 }, {
-                    name: '通知：团队C邀请消息',
-                    url: '点击查看详情'
+                    send: '团队C',
+                    accept: '当前用户',
+                    msg: '团队解散信息',
+                    time: new Date()
                 }]
             }
         },
@@ -162,6 +169,7 @@
     .cardtxt {
         text-align: center;
     }
+
     .cardbox {
         width: 200px;
     }
@@ -170,6 +178,7 @@
     .new_message {
         margin-right: 50px;
     }
+
     .titles .el-tabs__item {
         padding: 0 20px;
         height: 40px;

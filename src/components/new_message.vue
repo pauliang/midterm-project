@@ -4,7 +4,7 @@
             <el-card :body-style="{ padding: '0px' }" class="card">
                 <div style="padding: 14px;">
                     <i class="el-icon-chat-dot-round img"></i>
-                    <span class="topic">{{"消息："+ accept + "收到了" + send + "的" + message}}</span>
+                    <span class="topic">{{"消息："+ accept + "收到了来自" + send + "的" + message}}</span>
                     <div class="bottom clearfix">
                         <time class="time">{{ dateFormat(time) }}</time>
                     </div>
