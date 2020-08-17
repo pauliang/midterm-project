@@ -1,23 +1,23 @@
 <template>
   <div style="width:150px">
-      <card :docname="x" :url="y">
-      </card>
+      <Gcard :name="x" :url="y">
+      </Gcard>
   </div>
 </template>
 
 <script>
- import card from '@/components/card.vue'
+ import Gcard from '@/components/Gcard.vue'
 
 export default {
-    name:'test',
+    name:'test-team',
     data(){
         return{
-            x:'hhh',
+            x:'hhhhhhhhh',
             y:'/login',
         }
     },
      components:{
-            card
+            Gcard
         }
 
 }

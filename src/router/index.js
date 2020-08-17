@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Page',
+    component: () => import('@/views/page.vue')
   },
   {
     path: '/regi',
@@ -29,44 +29,55 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: () => import('@/views/test.vue')
-  },
-  {
-    path: '/test2',
-    name: 'Test2',
-    component: () => import('@/views/test2.vue')
-  },
-  {
-    path: '/test3',
-    name: 'Test3',
-    component: () => import('@/views/test3.vue')
-  },
-  {
-    path: '/test4',
-    name: 'Test4',
-    component: () => import('@/views/test4.vue')
+    path: '/model1',
+    name: 'Model1',
+    component: () => import('@/views/model1.vue')
   },
     {
-      path: '/base',
-      name: 'Base',
-      component: () => import('@/views/base.vue')
+      path: '/models',
+      name: 'Models',
+      component: () => import('@/views/models.vue')
     },
     {
-      path: '/delete',
-      name: 'Delete',
-      component: () => import('@/views/delete.vue')
+      path: '/profile',
+      name: 'Profile',
+      component: () => import('@/views/profile.vue')
     },
     {
-      path: '/worktable',
-      name: 'Worktable',
-      component: () => import('@/views/worktable.vue')
+      path: '/test-team',
+      name: 'Test-team',
+      component: () => import('@/views/test-team.vue')
+    },
+    {
+      path: '/testmyc',
+      name: 'Testmyc',
+      component: () => import('@/views/testmyc.vue')
+    },
+    {
+      path: '/test-comment',
+      name: 'Test-comment',
+      component: () => import('@/views/test-comment.vue')
+    },
+    {
+      path: '/page',
+      name: 'Page',
+      component: () => import('@/views/page.vue')
+    },
+    {
+      path: '/help',
+      name: 'Help',
+      component: () => import('@/views/help.vue')
+    },
+    {
+      path: '/team_inside',
+      name: 'Team_inside',
+      component: () => import('@/components/team_inside.vue')
     },
 ]
 
 const router = new VueRouter({
-  routes
+  routes:routes,
+  mode: 'history',
 })
 
 export default router

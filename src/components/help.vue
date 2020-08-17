@@ -16,20 +16,14 @@
                         <div class="grid-content"></div>
                     </el-col>
                     <el-col :span="6">
-                        <div style="margin-top:3px">
-                            <el-input
-                                    clearable
-                                    placeholder="随便找点什么吧"
-                                    prefix-icon="el-icon-search"
-                                    v-model="inputbox">
-                            </el-input>
+                        <div class="slogan">
+                            <el-tag class="slogan2">“精诚所至，金石为开”</el-tag>
                         </div>
-
                     </el-col>
 
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
-                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">既然选择了远方，您好！</el-link>
+                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">欢迎您使用金石文档！</el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
                             <el-avatar icon="el-icon-user-solid"></el-avatar>
@@ -45,7 +39,7 @@
             <el-divider/>
 
             <el-container>
-                <el-aside>
+                <el-aside class="slide_menu">
                     <el-menu
                             :default-active="emm"
                             class="el-menu-vertical-demo"
@@ -53,74 +47,43 @@
                             @close="handleClose"
                             :collapse="isCollapse"
                     >
-                        <el-submenu index="1">
-                            <template slot="title">
-                                <i class="el-icon-location"></i>
-                                <span slot="title">工作台</span>
-                            </template>
-
-                            <el-menu-item-group>
-                                <el-menu-item index="1-1" class="shit">最近浏览</el-menu-item>
-                                <el-menu-item index="1-2" class="shit">我的文档</el-menu-item>
-                                <el-menu-item index="1-3" class="shit">我的收藏</el-menu-item>
-                            </el-menu-item-group>
-
-                        </el-submenu>
+                        <el-menu-item index="1" @click="shortjmp('common_help')">
+                            <i class="el-icon-question"></i>
+                            <span slot="title" class="aside first">常见问题</span>
+                        </el-menu-item>
 
 
-                        <el-menu-item index="2">
+                        <el-menu-item index="2" @click="shortjmp('file_help')">
                             <i class="el-icon-menu"></i>
-                            <span slot="title">团队空间</span>
+                            <span slot="title" class="aside">文档问题</span>
                         </el-menu-item>
 
-                        <el-menu-item index="3">
-                            <i class="el-icon-delete-solid"></i>
-                            <span slot="title">回收站</span>
-                        </el-menu-item>
-
-
-                        <el-menu-item index="4">
+                        <el-menu-item index="3" @click="shortjmp('setting_help')">
                             <i class="el-icon-s-tools"></i>
-                            <span slot="title">帮助中心</span>
+                            <span slot="title" class="aside">权限问题</span>
+                        </el-menu-item>
+
+
+                        <el-menu-item index="4" @click="shortjmp('team_help')">
+                            <i class="el-icon-user-solid"></i>
+                            <span slot="title" class="aside">团队问题</span>
                         </el-menu-item>
 
                         <el-menu-item index="5" @click="zipornot()">
-
                             <i class="el-icon-s-unfold" v-if="isCollapse" ></i>
                             <span slot="title" v-if="isCollapse">光翼展开!</span>
                             <i class="el-icon-s-fold" v-if="!isCollapse" ></i>
                             <span slot="title" v-if="!isCollapse">收起</span>
-                            <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;margin-left:0">
-                            <el-radio-button :label="false">展开</el-radio-button>
-                            <el-radio-button :label="true">收起</el-radio-button>
-                            </el-radio-group> -->
                         </el-menu-item>
-                    </el-menu>
 
+                    </el-menu>
 
                 </el-aside>
 
-                <el-container style="min-height:650px">
-                    <el-main>
-                        <el-row :gutter="20">
-                            <el-col :span="4">
-                                <div class="grid-content bg-purple now delete">最近使用</div>
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="grid-content bg-purple delete">我创建的</div>
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="grid-content bg-purple delete">收藏文档</div>
-                            </el-col>
-                        </el-row>
-                    </el-main>
-                </el-container>
-                <el-card class="box-card" shadow="hover">
-                    <div class="text item">既然选择了远方</div>
-                    <div class="text item">1002609249@qq.com</div>
-                    <el-button type="text" class="item more_info">修改个人资料</el-button>
-                    <el-button type="text" class="item logout">退出登录</el-button>
-                </el-card>
+                <common_help v-if="which==='common_help'"></common_help>
+                <file_help v-else-if="which==='file_help'"></file_help>
+                <setting_help v-else-if="which==='setting_help'"></setting_help>
+                <team_help v-else-if="which==='team_help'"></team_help>
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png" >
@@ -131,16 +94,26 @@
 
 <script>
     // import { ParticlesBg } from "particles-bg-vue";
+    import common_help from "@/components/common_help.vue";
+    import file_help from "@/components/file_help.vue";
+    import setting_help from "@/components/setting_help.vue";
+    import team_help from "@/components/team_help.vue";
+
     export default {
         components: {
             // ParticlesBg
+            common_help,
+            file_help,
+            setting_help,
+            team_help,
         },
-        name: "worktable",
+        name: "help",
         data() {
             return {
                 isCollapse: false,
                 emm:'1-1',
                 inputbox:'',
+                which:'help',
 
             };
         },
@@ -154,14 +127,27 @@
             zipornot()
             {
                 this.isCollapse=!this.isCollapse;
-            }
-        },
+            },
+            shortjmp(which){
+                this.which = which
+            },
+            longjmp(name){
+                this.$router.push({
+                    name:name,
+                })
+            },
+        }
     };
 </script>
 
 <style scoped>
+
+    .whole {
+        position: relative;
+        height: 1500px;
+    }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 220px;
+        width: 280px;
         min-height: 600px;
     }
     .shit{
@@ -171,6 +157,21 @@
         position: relative;
         background: rgba(8, 1, 1, 0.342);
         padding: 0;
+    }
+    .head .el-col-6 .slogan {
+        width: 100px;
+        margin-top: 5px;
+        margin-left: 300px;
+    }
+    .head .el-col-6 .slogan2 {
+        font-size: 28px;
+        font-weight: 400;
+        font-family: "KaiTi","Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        line-height: 40px;
+        height: 40px;
+        background-color: transparent;
+        color: #ffffff;
+        border: none;
     }
     .head .welcome {
         position: absolute;
@@ -185,6 +186,7 @@
         margin-right: 20px;
         margin-top: 5px;
         line-height: 30px;
+        text-decoration: none!important;
     }
     .head .avator {
         position: relative;
@@ -193,6 +195,17 @@
         float: right;
         margin-right: 100px;
     }
+
+    .el-menu-item {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 42px 20px 60px 0;
+    }
+
+    .el-menu-item * {
+        color: #555555;
+    }
+
 
     .el-container {
         position: relative;
@@ -204,6 +217,11 @@
     .el-link--default{
         color: #303133;
         font-size: 17px;
+        text-decoration: none;
+        border-color: transparent;
+    }
+    .el-link.el-link--default:after, .el-link.el-link--primary.is-underline:hover:after, .el-link.el-link--primary:after {
+        border-color: transparent;
     }
     .el-row {
         margin-bottom: 20px;
@@ -249,6 +267,7 @@
         font-weight: 600;
         line-height: 18px;
         color: #bababa;
+
     }
     .el-container .now {
         color: #575757;
@@ -260,9 +279,7 @@
         display: block;
         width: 100%;
     }
-    .whole {
-        height: 1500px;
-    }
+
     .text {
         font-size: 14px;
     }
