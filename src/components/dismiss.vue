@@ -1,14 +1,9 @@
 <template>
     <div>
         <el-button type="text" @click="dialogVisible = true" :disabled="power">解散团队</el-button>
-        <el-dialog
-                :title="'团队解散'"
-                :visible.sync="dialogVisible"
-                width="30%"
-                class="title"
-        >
+        <el-dialog :title="'团队解散'" class="dismiss title" :visible.sync="dialogVisible" width="20%">
 
-            <div style="margin-bottom:40px;font-weight:bold;font-size:16px">
+            <div class="confirm">
                 (ﾉ´∀｀*) 您确定要解散 {{groupName}} 吗?
             </div>
 
@@ -44,7 +39,6 @@
                 myid: 1,
                 ishover: true,
                 ishover2: true,
-
             }
         },
         props: {
@@ -108,10 +102,17 @@
 
 <style scoped>
     .title {
-        text-align: left;
-        font-weight: bold;
+        text-align: center;
+        font-weight: 400;
+        font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
         margin-top: 30px;
         padding-left: 8px;
 
+    }
+
+    .confirm {
+        margin-bottom: 40px;
+        font-weight: bold;
+        font-size: 16px;
     }
 </style>

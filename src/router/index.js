@@ -68,6 +68,11 @@ Vue.use(VueRouter)
       name: 'Team_inside',
       component: () => import('@/components/team_inside.vue')
     },
+    {
+      path: '/notification_center',
+      name: 'Notification_center',
+      component: () => import('@/views/notification_center.vue')
+    },
 ]
 
 const router = new VueRouter({

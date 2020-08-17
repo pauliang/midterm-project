@@ -4,10 +4,9 @@
             <el-card :body-style="{ padding: '0px' }" class="card">
                 <div style="padding: 14px;">
                     <i class="el-icon-chat-dot-round img"></i>
-                    <span class="topic">{{name}}</span>
+                    <span class="topic">{{"消息："+ accept + "收到了" + send + "的" + message}}</span>
                     <div class="bottom clearfix">
-                        <time class="time">{{ dateFormat(currentDate) }}</time>
-                        <el-button type="text" class="button">{{url}}</el-button>
+                        <time class="time">{{ dateFormat(time) }}</time>
                     </div>
                 </div>
             </el-card>
@@ -18,10 +17,11 @@
 <script>
     export default {
         name: 'new_message',
-        data() {
-            return {
-                currentDate: new Date()
-            };
+        props: {
+            send: String,
+            accept: String,
+            message: String,
+            time: Date
         },
         methods: {
             dateFormat: function(time) {
@@ -36,10 +36,6 @@
                 return year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
             }
         },
-        props: {
-            name: String,
-            url: String
-        }
     }
 </script>
 

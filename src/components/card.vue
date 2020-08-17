@@ -14,7 +14,7 @@
                     </el-button>
                     <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button>
                     <br>
-                    <span class="date">{{dateFormat(doc.last_time)}}</span>
+                    <span class="date">{{dateFormat(doc.lasttime)}}</span>
                 </div>
             </div>
 
@@ -54,9 +54,8 @@
             doc: Object,
             // docname: String,
             url: String,
-            last_time: Date,
             // docnum: Number,
-            user: Number,
+            user: String,
             // author: Number,
             // isCollected: Boolean,
         },
@@ -65,7 +64,6 @@
                 ishover: true,
                 def: '',
                 isShow: false,
-                dateString: '',
             };
         },
         methods: {
@@ -121,24 +119,6 @@
                 this.doc.isCollected = false;
             },
         },
-        created() {
-            function getDatetime(date) {
-                var y = date.getFullYear();
-                var m = date.getMonth() + 1;
-                var d = date.getDate();
-                var index = date.getDay();
-                var h = date.getHours();
-                h = h < 10 ? '0' + h : h;
-                var min = date.getMinutes();
-                min = min < 10 ? '0' + min : min;
-                var s = date.getSeconds();
-                s = s < 10 ? '0' + s : s;
-                var arr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-                return y + '年' + m + '月' + d + '日\t' + arr[index] + '\t' + h + '时' + min + '分' + s + '秒';
-            }
-
-            this.dateString = getDatetime(this.doc.lasttime);
-        }
     };
 </script>
 
@@ -149,34 +129,28 @@
         border: 1px rgb(199, 199, 204) solid;
         height: 200px;
     }
-
     .outer :hover {
         background: rgb(228, 228, 233);
     }
-
     .el-button--text {
         font-size: 15px;
     }
-
     /*日期样式*/
     .bottom .date {
         font-size: 12px;
         color: gray;
     }
-
     .posi {
         position: absolute;
         right: 0;
         top: 0;
     }
-
     .el-button--primary {
         color: #000000;
         background-color: transparent;
         /* border-color: #8B83D2; */
         border: none;
     }
-
     .option {
         width: 150px;
         height: 25px;
@@ -200,7 +174,6 @@
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
         word-break: break-all;
     }
-
     /* .el-popover, .el-time-panel {
          -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
      } */

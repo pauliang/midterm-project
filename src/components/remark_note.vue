@@ -1,30 +1,13 @@
 <template>
     <el-container>
         <el-main class="main">
-            <el-tabs v-model="activeName" @tab-click="handleClick" class="titles">
-                <el-tab-pane label="团队邀请通知" name="first" class="grid-content bg-purple delete " >
-                  <el-row  v-for="invite in teamInvite" :key="invite.name">
-                    <el-col class="cardbox">
-                      <new_message :name="invite.name" :url="invite.url" @event2="goIntro()" class="message"></new_message>
-                    </el-col>
-                  </el-row>
-                </el-tab-pane>
-                  <el-tab-pane label="团队消息提醒" name="second" class="grid-content bg-purple delete">
-                    <el-row v-for="info in teamInfo" :key="info.name">
-                      <el-col class="cardbox">
-                        <new_message :name="info.name" @event2="goIntro()" class="message"></new_message>
-                      </el-col>
-                    </el-row>
-
-                  </el-tab-pane>
-                  <el-tab-pane label="文档评论通知" name="third" class="grid-content bg-purple delete">
-                    <el-row v-for="remark in remarkList" :key="remark.name">
-                      <el-col class="cardbox">
-                        <new_message :name="remark.name" :url="remark.url" @event2="goIntro()" class="message"></new_message>
-                      </el-col>
-                    </el-row>
-
-                  </el-tab-pane>
+            <el-tabs class="titles">
+                <el-col :span="6">
+                    <div class="grid-content bg-purple delete">文档评论通知</div>
+                </el-col>
+                <el-col v-for="invite in teamInvite" :key="invite">
+                    <new_message :name="invite.name" :url="invite.url" class="message"></new_message>
+                </el-col>
             </el-tabs>
         </el-main>
     </el-container>
@@ -32,15 +15,13 @@
 
 <script>
     import new_message from "./new_message";
-
     export default {
-        name: 'view_remark',
+        name: "invi_note",
         components: {
             new_message
         },
         data() {
             return {
-                activeName: 'first',
                 teamInvite: [{
                     name: '通知：团队A邀请消息',
                     url: '点击查看详情'
@@ -50,40 +31,7 @@
                 }, {
                     name: '通知：团队C邀请消息',
                     url: '点击查看详情'
-                }],
-                teamInfo: [{
-                    name: '通知：您已成功加入团队A',
-                }, {
-                    name: '通知：您已成功退出团队B',
-                }, {
-                    name: '通知：您已被团队C踢出去',
-                }],
-                remarkList: [{
-                    name: '通知：您的好友A给您的文章Article留言',
-                    url: '点击查看详情'
-                }, {
-                    name: '通知：您的好友B给您的文章Article留言',
-                    url: '点击查看详情'
-                }, {
-                    name: '通知：您的好友C给您的文章Article留言',
-                    url: '点击查看详情'
-                }],
-            };
-        },
-        methods: {
-            goBoard(name) {
-                this.$router.push({
-                    name: 'Model1',
-                    params: {
-                        id: name
-                    }
-                })
-            },
-            goIntro() {
-                this.$emit('event1', '2+')
-            },
-            handleClick(tab, event) {
-                console.log(tab, event);
+                }]
             }
         },
         props: {
@@ -92,7 +40,6 @@
         },
     }
 </script>
-
 <style scoped>
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 220px;
@@ -198,8 +145,9 @@
         text-align: center;
         font-size: 20px;
         line-height: 10px;
-        margin-right: 100px;
+        margin-right: 160px;
         margin-bottom: 30px;
+        margin-top: 20px;
         font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
         color: #4d4d4d;
         font-weight: 400;

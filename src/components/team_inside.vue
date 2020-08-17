@@ -10,6 +10,7 @@
                     <el-col :span="16">
                         <group-intro class="intro"></group-intro>
                         <dismiss class="dismiss"></dismiss>
+                        <Gexit class="exit"></Gexit>
                     </el-col>
                 </el-row>
                 <div v-for="domain in docList.domains" :key="domain.docname"
@@ -25,13 +26,15 @@
     import card from "./card";
     import groupIntro from "./groupIntro";
     import dismiss from "./dismiss";
+    import Gexit from "./Gexit";
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
         name: 'worktable',
         components: {
             card,
             groupIntro,
-            dismiss
+            dismiss,
+            Gexit
         },
         data() {
             return {
@@ -163,8 +166,12 @@
         width: 100px;
     }
     .dismiss {
-        margin: 20px 10px -40px 115px;
+        margin: 21px 10px -40px 115px;
         width: 200px;
+    }
+    .exit {
+        margin: 0 10px -20px 210px;
+        width: 300px;
     }
 
     .cooperate {

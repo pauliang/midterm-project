@@ -8,9 +8,9 @@
                     </el-col>
                 </el-row>
                 <div v-for="collection in docList.collections" :key="collection.docnum"
-                    style="position: relative; width: 150px;float: left; margin: 35px;">
-                    <card :doc="collection" :url="'/doc?docid='+ collection.docnum" :user=localStorageID
-                        @collect-event="collectItem" @cancel-event="cancelCollectItem" @remove-event="removeItem">
+                     style="position: relative; width: 150px;float: left; margin: 35px;">
+                    <card :doc="collection" :url="'/doc?docid='+ collection.docnum" :user="localStorageID"
+                          @cancel-event="cancelCollectItem" @remove-event="removeItem">
                     </card>
                 </div>
 
@@ -86,7 +86,7 @@
                 });
                 if (index > -1)
                     collection.splice(index, 1);
-                    var deleteurl = 'http://39.97.122.202/delete_file/';
+                var deleteurl = 'http://39.97.122.202/delete_file/';
                 this.$axios({
                     method: 'post',
                     url: deleteurl,
@@ -180,22 +180,18 @@
         width: 220px;
         min-height: 600px;
     }
-
     .shit {
         font-size: 13px !important;
     }
-
     .head {
         position: relative;
         background: rgba(8, 1, 1, 0.342);
         padding: 0;
     }
-
     .head .welcome {
         position: absolute;
         float: right;
     }
-
     .head .wel_text {
         position: absolute;
         width: 400px;
@@ -206,7 +202,6 @@
         margin-top: 5px;
         line-height: 30px;
     }
-
     .head .avator {
         position: relative;
         width: 150px;
@@ -214,30 +209,24 @@
         float: right;
         margin-right: 100px;
     }
-
     .el-container {
         position: relative;
     }
-
     .el-divider--horizontal {
         margin-bottom: 1px !important;
         margin-top: 0 !important;
     }
-
     .el-link--default {
         color: #303133;
         font-size: 17px;
     }
-
     .el-row {
         margin-bottom: 20px;
     }
-
     .el-col {
         margin-top: 5px;
         border-radius: 4px;
     }
-
     .delete {
         position: relative;
         text-align: center;
@@ -250,32 +239,26 @@
         border: none;
         width: 40px;
     }
-
     .bg-purple-dark {
         background: #99a9bf;
     }
-
     .box {
         float: left;
         margin: 10px 100px 10px 0;
     }
-
     .box img {
         display: block;
     }
-
     .pic {
         padding: 0;
         position: relative;
         margin: 10px 10px;
     }
-
     .content {
         margin: 5px 50px 10px -10px;
         width: 200px;
         background-color: #ffffff;
     }
-
     .bg-purple {
         background: transparent;
         text-align: center;
@@ -285,35 +268,28 @@
         color: #bababa;
         width: 400px;
     }
-
     .el-container .now {
         color: #575757;
     }
-
     .el-footer {
         padding: 0 0;
     }
-
     .el-footer img {
         display: block;
         width: 100%;
     }
-
     .whole {
         height: 1500px;
     }
-
     .text {
         font-size: 14px;
     }
-
     /*这部分是个人信息的小卡片*/
     .item {
         padding: 18px 0;
         font-size: 14px;
         color: #24292e;
     }
-
     .box-card {
         width: 240px;
         height: 280px;
@@ -321,13 +297,11 @@
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
-
     .more_info {
         display: block;
         color: #409eff;
         margin: 0 auto;
     }
-
     .logout {
         display: block;
         color: #c81623;
