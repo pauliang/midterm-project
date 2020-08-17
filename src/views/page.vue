@@ -26,7 +26,7 @@
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
                             <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
-                                class="wel_text">{{  this.localStorageName }}，您好！
+                                     class="wel_text">{{ this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
@@ -34,7 +34,9 @@
                                 <div v-if="islogin==true">
                                     <div class="item cardtxt">{{ this.localStorageName }}</div>
                                     <el-badge value="new">
-                                        <el-button index="0" class="item more_info1" @click="shortjmp2('view_remark')">查看系统通知</el-button>
+                                        <el-button index="0" class="item more_info1" @click="shortjmp2('view_remark')">
+                                            查看系统通知
+                                        </el-button>
                                     </el-badge>
                                     <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
@@ -53,15 +55,15 @@
 
             </el-header>
 
-            <el-divider />
+            <el-divider/>
 
 
-            <el-divider />
+            <el-divider/>
 
             <el-container>
                 <el-aside>
                     <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                        :collapse="isCollapse">
+                             :collapse="isCollapse">
                         <el-submenu index="1">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
@@ -109,9 +111,11 @@
                 </el-aside>
 
                 <!-- 组件部分 -->
-                <worktable v-if="which==='worktable'" :emm="emm"></worktable>
+                <recentFiles v-if="which==='recentFiles'"></recentFiles>
+                <createdFiles v-else-if="which==='createdFiles'"></createdFiles>
+                <collectedFiles v-else-if="which==='createdFiles'"></collectedFiles>
                 <dele v-else-if="which==='dele'"></dele>
-                <Gtable v-else-if="which==='Gtable'"  @event1="shortjmp($event)"></Gtable>
+                <Gtable v-else-if="which==='Gtable'" @event1="shortjmp($event)"></Gtable>
                 <Tinside v-else-if="which==='Tinside'"></Tinside>
                 <view_remark v-else-if="which==='view_remark'"></view_remark>
 
@@ -125,11 +129,14 @@
 
 <script>
     // import { ParticlesBg } from "particles-bg-vue";
-    import worktable from "@/components/worktable.vue";
+    import recentFiles from "@/components/recentFiles.vue";
+    import collectedFiles from "@/components/collectedFiles.vue";
+    import createdFiles from "@/components/createdFiles.vue";
     import dele from "@/components/dele.vue";
     import Gtable from "@/components/Gtable.vue";
     import Tinside from "@/components/team_inside.vue";
     import view_remark from "../components/view_remark";
+
     export default {
         name: 'Page',
         data() {
@@ -154,24 +161,21 @@
                 this.isCollapse = !this.isCollapse;
             },
             shortjmp(index) {
-                if (index == '1-1') {
-                    this.which = 'worktable';
-                    this.emm = '1-1';
-                } else if (index == '1-2') {
-                    this.which = 'worktable';
-                    this.emm = '1-2';
-                } else if (index == '1-3') {
-                    this.which = 'worktable';
-                    this.emm = '1-3';
-                } else if (index == '2') {
+                if (index === '1-1') {
+                    this.which = 'recentFiles';
+                } else if (index === '1-2') {
+                    this.which = 'createdFiles';
+                } else if (index === '1-3') {
+                    this.which = 'collectedFiles';
+                } else if (index === '2') {
                     this.which = 'Gtable';
-                } else if (index == '2+'){
+                } else if (index === '2+') {
                     this.which = 'Tinside';
-                }else if (index == '3') {
+                } else if (index === '3') {
                     this.which = 'dele';
                 }
             },
-            shortjmp2(which){
+            shortjmp2(which) {
                 this.which = which
             },
             longjmp(name) {
@@ -204,7 +208,9 @@
             },
         },
         components: {
-            worktable,
+            recentFiles,
+            collectedFiles,
+            createdFiles,
             dele,
             Gtable,
             Tinside,
@@ -217,8 +223,8 @@
                 this.localStorageName = localStorage.getItem('username');
                 this.localStorageID = userID;
             } else {
-              //暂时修改
-              localStorage.getItem('aaa');
+                //暂时修改
+                localStorage.getItem('aaa');
                 // this.longjmp("Login");
             }
         }
@@ -368,12 +374,14 @@
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
+
     .more_info1 {
         display: block;
         color: #409eff;
         margin: 0 auto 10px 30px;
         width: 180px;
     }
+
     .more_info2 {
         display: block;
         color: #409eff;
@@ -410,7 +418,7 @@
     }
 </style>
 <style>
-    .el-popover.av  {
+    .el-popover.av {
         position: absolute;
         background: #FFF;
         min-width: 100px;
@@ -425,6 +433,7 @@
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
         word-break: break-all;
     }
+
     .el-badge__content.is-fixed {
         position: absolute;
         top: 3px;

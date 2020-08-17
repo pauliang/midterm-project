@@ -14,7 +14,7 @@
 
         <div>
           <div v-for="(ob,id) in group" :key="id+1">
-            <div v-if="ob.power==2" style="height:100%;text-align:left;" >
+            <div v-if="ob.power === 2" style="height:100%;text-align:left;" >
                 <div style="margin-bottom:10px">
                     <el-row>
                         <el-col :span="3" style="text-align:center"><el-avatar icon="el-icon-user-solid"></el-avatar> </el-col>

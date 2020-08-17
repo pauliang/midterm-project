@@ -1,7 +1,7 @@
 <template>
     <div class="outer" @mouseover="overShow" @mouseout="shut">
         <el-card :body-style="{ padding: '0px', height:'180px'}" shadow="hover"
-            style="position: relative;border-radius:10px;border:1px rgb(199, 199, 204) solid;height: 235px">
+                 class="card">
 
             <i class="el-icon-document" style="font-size:90px;margin-top:20px" v-if="ishover"></i>
             <i class="el-icon-document-checked" style="font-size:90px;margin-top:20px" v-if="!ishover"></i>
@@ -9,10 +9,12 @@
 
             <div style="padding: 14px;">
                 <div class="bottom clearfix">
-                    <el-button v-if="doc.stat>=0 || user==doc.author" type="text" class="button" @click="jmp(url)">
-                        {{doc.docname}}</el-button>
-                    <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button><br>
-                    <span style="font-size: 7px; color: gray">{{dateString}}</span>
+                    <el-button v-if="doc.stat>=0 || user === doc.author" type="text" class="button" @click="jmp(url)">
+                        {{doc.docname}}
+                    </el-button>
+                    <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button>
+                    <br>
+                    <span class="date">{{dateFormat(doc.last_time)}}</span>
                 </div>
             </div>
 
@@ -20,19 +22,22 @@
         <el-popover ref="popover" placement="bottom" trigger="click">
             <div>
                 <el-button v-if="doc.stat==3 || doc.stat==0 || user==doc.author" class="option el-icon-share"
-                    type="text" size="small" @click="generateQR(url)">&nbsp;分享</el-button>
+                           type="text" size="small" @click="generateQR(url)">&nbsp;分享
+                </el-button>
                 <el-button v-else disabled class="option el-icon-share" type="text" size="small">&nbsp;分享</el-button>
             </div>
             <div>
                 <el-button v-if="!doc.isCollected" class="option el-icon-star-off" type="text" size="small"
-                    @click="collectItem(doc.docnum)">收藏</el-button>
+                           @click="collectItem(doc.docnum)">收藏
+                </el-button>
                 <el-button v-else class="option el-icon-star-on" type="text" size="small"
-                    @click="cancelCollectItem(doc.docnum)">已收藏
+                           @click="cancelCollectItem(doc.docnum)">已收藏
                 </el-button>
             </div>
             <div>
                 <el-button v-if="this.user==doc.author" class="option el-icon-delete" type="text" size="small"
-                    @click="removeItem(doc.docnum)">删除</el-button>
+                           @click="removeItem(doc.docnum)">删除
+                </el-button>
                 <el-button v-else disabled class="option el-icon-delete" type="text" size="small">删除</el-button>
             </div>
         </el-popover>
@@ -49,7 +54,7 @@
             doc: Object,
             // docname: String,
             url: String,
-            // lasttime: Date,
+            last_time: Date,
             // docnum: Number,
             user: Number,
             // author: Number,
@@ -64,6 +69,17 @@
             };
         },
         methods: {
+            dateFormat: function (time) {
+                var date = new Date(time);
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+                // 拼接
+                return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+            },
             overShow() {
                 this.ishover = false;
             },
@@ -80,8 +96,8 @@
                 var baseurl = 'http://118.31.175.39';
                 var docurl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + baseurl + url;
                 this.$axios.get(docurl, {
-                        responseType: 'arraybuffer'
-                    })
+                    responseType: 'arraybuffer'
+                })
                     .then(response => {
                         return 'data:image/png;base64,' + btoa(new Uint8Array(response.data).reduce((data, byte) =>
                             data + String.fromCharCode(byte), ''));
@@ -120,18 +136,32 @@
                 var arr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
                 return y + '年' + m + '月' + d + '日\t' + arr[index] + '\t' + h + '时' + min + '分' + s + '秒';
             }
+
             this.dateString = getDatetime(this.doc.lasttime);
         }
     };
 </script>
 
 <style scoped>
+    .card {
+        position: relative;
+        border-radius: 10px;
+        border: 1px rgb(199, 199, 204) solid;
+        height: 200px;
+    }
+
     .outer :hover {
         background: rgb(228, 228, 233);
     }
 
     .el-button--text {
         font-size: 15px;
+    }
+
+    /*日期样式*/
+    .bottom .date {
+        font-size: 12px;
+        color: gray;
     }
 
     .posi {

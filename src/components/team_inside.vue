@@ -7,14 +7,14 @@
                     <el-col :span="4">
                         <el-button class="grid-content bg-purple now delete">团队详情</el-button>
                     </el-col>
-                    <el-col>
-                      <group-intro class="intro"></group-intro>
+                    <el-col :span="16">
+                        <group-intro class="intro"></group-intro>
+                        <dismiss class="dismiss"></dismiss>
                     </el-col>
                 </el-row>
                 <div v-for="domain in docList.domains" :key="domain.docname"
                      style="width: 150px;float: left; margin: 35px;">
-                    <card :doc="domain" :user=localStorageID>
-                    </card>
+                    <card :doc="domain" :user=localStorageID></card>
                 </div>
             </el-main>
         </el-container>
@@ -22,11 +22,17 @@
 </template>
 
 <script>
-    import card from "@/components/card.vue";
+    import card from "./card";
     import groupIntro from "./groupIntro";
+    import dismiss from "./dismiss";
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
         name: 'worktable',
+        components: {
+            card,
+            groupIntro,
+            dismiss
+        },
         data() {
             return {
                 isCollapse: false,
@@ -34,44 +40,44 @@
                 docList: {
                     domains: [
                       {
-                        author: 1,
-                        docnum: 1,
-                        docname: 'New Document 1',
-                        url: '/doc',
-                        lasttime: new Date('2020-8-1'),
-                        isCollected: true,
-                        stat: 0,
-                      },{
                         docname: '团队文件1',
-                        url: '/doc'
+                        url: '/doc',
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件2',
-                        url: '/doc'
+                        url: '/doc',
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件3',
-                        url: '/doc'
+                        url: '/doc',
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件4',
-                        url: '/doc'
+                        url: '/doc',
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件5',
-                        url: '/doc'
+                        url: '/doc',
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件6',
-                        url: '/doc'
+                        url: '/doc',
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件7',
-                        url: '/doc'
+                        url: '/doc',
+                        last_time: new Date(),
                     }, {
                         docname: '团队文件8',
-                        url: '/doc'
-                    }],
+                        url: '/doc',
+                        last_time: new Date(),
+                    },{
+                        docname: '新团队文件',
+                        url: '/doc',
+                        last_time: new Date(),
+                    },]
                 }
             };
-        },
-        components: {
-            card,
-            groupIntro
         }
     };
 </script>
@@ -85,7 +91,7 @@
     .shit {
         font-size: 13px !important;
     }
-
+    /*头像的css*/
     .head {
         position: relative;
         background: rgba(8, 1, 1, 0.342);
@@ -138,7 +144,7 @@
         margin-top: 5px;
         border-radius: 4px;
     }
-
+    /*团队详情标题的css*/
     .delete {
         position: relative;
         text-align: center;
@@ -151,13 +157,19 @@
         border: none;
         width: 40px;
     }
+    /* 新组件的加入:团队概况、解散团队和成员管理 */
     .intro {
-        margin: 10px 10px -40px 20px;
+        margin: 10px 10px -60px 20px;
         width: 100px;
     }
+    .dismiss {
+        margin: 20px 10px -40px 115px;
+        width: 200px;
+    }
 
-    .bg-purple-dark {
-        background: #99a9bf;
+    .cooperate {
+        margin: 20px 10px 0 50px;
+        width: 300px;
     }
 
     .box {
@@ -195,7 +207,7 @@
     .el-container .now {
         color: #575757;
     }
-
+    /*底部的信息栏*/
     .el-footer {
         padding: 0 0;
     }
@@ -204,7 +216,7 @@
         display: block;
         width: 100%;
     }
-
+    /*版心*/
     .whole {
         height: 1500px;
     }

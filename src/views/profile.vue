@@ -23,15 +23,14 @@
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
                             <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
-                                     class="wel_text">{{  this.localStorageName }}，您好！
+                                class="wel_text">{{  this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av2">
+                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av3">
                                 <div v-if="islogin==true">
                                     <div class="item cardtxt">{{ this.localStorageName }}</div>
-                                    <el-button class="item more_info1">消息通知</el-button>
-                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <el-button class="item more_info" @click="goMyProfile()">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
                                 <div v-if="islogin==false">
@@ -102,13 +101,15 @@
                         <el-form-item label-width="0px">
                             <el-button v-if="this.isEditable == true" type="primary" @click="submitForm('profile')">保存
                             </el-button>
+                            <el-button v-if="this.islogin == true" type="primary" @click="longjmp('Page')">返回个人工作台
+                            </el-button>
                         </el-form-item>
                     </el-form>
 
                     <!-- 修改密码弹出的对话框 -->
                     <el-dialog title="修改密码" :visible.sync="dialogVisible" width="400px">
                         <el-form ref="password" :model="password" :rules="rules">
-                            <el-form-item label="原密码" prop="formerPwd">
+                            <el-form-item label="原密码">
                                 <el-input type="password" v-model="password.formerPwd" autocomplete="off">
                                 </el-input>
                             </el-form-item>
@@ -148,18 +149,18 @@
     export default {
         name: 'profile',
         data() {
-            var validatePass = (rule, value, callback) => {
-                if (value === "") {
-                    callback(new Error("请输入原密码"));
-                } else if (value !== this.profile.password) {
-                    callback(new Error("密码错误"));
-                } else {
-                    if (this.password.newPwd !== "") {
-                        this.$refs.password.validateField("newPwd");
-                    }
-                    callback();
-                }
-            };
+            // var validatePass = (rule, value, callback) => {
+            //     if (value === "") {
+            //         callback(new Error("请输入原密码"));
+            //     } else if (value !== this.profile.password) {
+            //         callback(new Error("密码错误"));
+            //     } else {
+            //         if (this.password.newPwd !== "") {
+            //             this.$refs.password.validateField("newPwd");
+            //         }
+            //         callback();
+            //     }
+            // };
             var validatePass1 = (rule, value, callback) => {
                 if (value === "") {
                     callback(new Error("请输入新密码"));
@@ -231,15 +232,14 @@
             return {
                 inputbox: '',
                 profile: {
-                    id: '1',
-                    username: 'prof.H',
-                    password: '123abc',
-                    age: '10',
-                    gender: '1',
-                    introduction: 'test',
-                    hobby: 'test',
-                    email: 'test@163.com',
-                    phone: '13548658769',
+                    id: '',
+                    username: '',
+                    age: '',
+                    gender: '',
+                    introduction: '',
+                    hobby: '',
+                    email: '',
+                    phone: '',
                 },
                 password: {
                     formerPwd: '',
@@ -272,11 +272,11 @@
                     }],
                 },
                 rules: {
-                    formerPwd: [{
-                        required: true,
-                        validator: validatePass,
-                        trigger: "blur"
-                    }],
+                    // formerPwd: [{
+                    //     required: true,
+                    //     validator: validatePass,
+                    //     trigger: "blur"
+                    // }],
                     newPwd: [{
                         required: true,
                         validator: validatePass1,
@@ -294,11 +294,13 @@
         methods: {
             submitPassword() {
                 var uid = this.profile.id;
+                var formerPwd = this.password.formerPwd;
                 var newPwd = this.password.newPwd;
                 this.$axios({
                     method: 'post',
                     url: 'http://39.97.122.202/User/edit/' + uid + '/',
                     data: {
+                        formerPwd: formerPwd,
                         newPwd: newPwd,
                     }
                 }).then(
@@ -355,12 +357,13 @@
             goMyProfile() {
                 if (!this.isEditable) { //不可编辑说明查看的不是自己的个人信息页面
                     var id = this.localStorageID; //data()中定义了一个属性，获取localStorage的值
+                    alert("gomyprofile!")
                     this.$axios({
                         method: 'post',
-                        url: 'http://39.97.122.202/User/edit/' + id + '/', //此处不传data
+                        url: 'http://39.97.122.202/User/profile/' + id + '/', //此处不传data
                     }).then(
                         response => {
-                            this.profile = response.data; //重新获取自身页面的数据
+                            this.profile = response.data[0]; //重新获取自身页面的数据
                             this.isEditable = true; //并且调整当前页面可以编辑
                         },
                         err => {
@@ -399,34 +402,36 @@
                 this.islogin = false;
                 localStorage.removeItem('userID');
                 localStorage.removeItem('username');
-                this.$router.go(0);
+                this.longjmp('Login');
             }
         },
         created() {
             var id = this.$route.query.id;
             this.$axios({
                 method: 'post',
-                url: 'http://39.97.122.202/User/edit/' + id + '/', //此处不传data
+                url: 'http://39.97.122.202/User/profile/' + id + '/', //此处不传data
             }).then(
                 response => {
-                    this.profile = response.data.user;
-                    this.usernameList = response.data.usernameList;
+                    this.profile = response.data[0];
+                    this.usernameList = response.data[0].usernameList;
+
+                    var userID = localStorage.getItem('userID');
+                    if (userID != null) {
+                        if (userID == this.profile.id) {
+                            this.isEditable = true;
+                        } else
+                            this.isEditable = false;
+                        this.islogin = true;
+                        this.localStorageName = localStorage.getItem('username');
+                        this.localStorageID = userID;
+                    } else this.logout();
                 },
                 err => {
                     console.log(err);
                 }).catch((error) => {
                 console.log(error);
             });
-            var userID = localStorage.getItem('userID');
-            if (userID != null) {
-                if (userID == this.profile.id)
-                    this.isEditable = true;
-                else
-                    this.isEditable = false;
-                this.islogin = true;
-                this.localStorageName = localStorage.getItem('username');
-                this.localStorageID = userID;
-            } else this.logout();
+
         },
     }
 </script>
@@ -544,13 +549,7 @@
         text-align: center;
     }
 
-    .more_info1 {
-        display: block;
-        color: #409eff;
-        margin: 0 auto 10px auto;
-        width: 180px;
-    }
-    .more_info2 {
+    .more_info {
         display: block;
         color: #409eff;
         margin: 0 auto;
@@ -582,11 +581,12 @@
     }
 </style>
 <style>
-    .el-popover.av2  {
+    .el-popover.av3 {
         position: absolute;
         background: #FFF;
         min-width: 100px;
         height: 200px;
+        min-height: 200px;
         border: 1px solid #EBEEF5;
         padding: 10px 0;
         z-index: 2000;
