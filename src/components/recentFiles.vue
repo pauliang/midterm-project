@@ -193,7 +193,7 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var recenturl = 'http://39.97.122.202/recent/' + id + '/';
+            var recenturl = 'http://39.97.122.202/Table/recent/' + id + '/';
             this.$axios({
                 method: 'post',
                 url: recenturl, //此处不传data

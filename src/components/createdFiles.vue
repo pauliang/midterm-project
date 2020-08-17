@@ -168,7 +168,7 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var createurl = 'http://39.97.122.202/myfiles/' + id + '/';
+            var createurl = 'http://39.97.122.202/Table/myfiles/' + id + '/';
             this.$axios({
                 method: 'post',
                 url: createurl, //此处不传data

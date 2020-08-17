@@ -156,7 +156,7 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var collecturl = 'http://39.97.122.202/collect/' + id + '/';
+            var collecturl = 'http://39.97.122.202/Table/collect/' + id + '/';
             this.$axios({
                 method: 'post',
                 url: collecturl, //此处不传data
