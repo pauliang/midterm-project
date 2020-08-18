@@ -13,7 +13,7 @@
                     style="position: relative;border-radius:10px;border:1px rgb(199, 199, 204) solid;height: 200px">
                     <i class="el-icon-document-delete deicon"></i>
 <!--                    <div class="defont">{{ deleteFile.docname }}</div>-->
-                    <div class="defont">{{ deleteFile.docintro }}</div>
+                    <div class="defont">{{ deleteFile.docname }}{{ deleteFile.docintro }}</div>
                     <el-row>
                         <el-button class="debutton el-icon-document-add"
                             @click="operateDocnum=deleteFile.docnum;isShow1 = true" size="small">&nbsp;还原</el-button>
