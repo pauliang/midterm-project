@@ -141,7 +141,7 @@
                 else {
                     var div2 = document.getElementById("div2").innerHTML;
                     this.$axios({
-                        methods: 'post',
+                        method: 'post',
                         url: 'http://39.97.122.202/doc/save_doc/',
                         data: {
                             id: this.$route.query.docid,
