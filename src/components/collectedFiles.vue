@@ -127,7 +127,7 @@
                 });
                 if (index > -1)
                     array.splice(index, 1);
-                var cancelCollectUrl = 'http://39.97.122.202/Table/not_collect_file/';
+                var cancelCollectUrl = 'http://39.97.122.202/Table/not_collect/';
                 this.$axios({
                     method: 'post',
                     url: cancelCollectUrl,

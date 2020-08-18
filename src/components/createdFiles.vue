@@ -139,7 +139,7 @@
                         document.isCollected = false;
                     }
                 });
-                var cancelCollectUrl = 'http://39.97.122.202/Table/not_collect_file/';
+                var cancelCollectUrl = 'http://39.97.122.202/Table/not_collect/';
                 this.$axios({
                     method: 'post',
                     url: cancelCollectUrl,
