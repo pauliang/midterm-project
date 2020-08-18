@@ -9,8 +9,8 @@
                 </el-row>
                 <div v-for="recent in docList.recents" :key="recent.docnum"
                     style="position: relative; width: 150px;float: left; margin: 35px;">
-                    <card :doc="recent" :user="localStorageID"
-                        @collect-event="collectItem" @cancel-event="cancelCollectItem" @remove-event="removeItem">
+                    <card :doc="recent" :user="localStorageID" @collect-event="collectItem"
+                        @cancel-event="cancelCollectItem" @remove-event="removeItem">
                     </card>
                 </div>
             </el-main>
@@ -32,63 +32,63 @@
                 localStorageID: 0,
                 localStorageName: '',
                 docList: {
-                    recents: [{
-                        author: 1,
-                        docnum: 1,
-                        docname: 'New Document 1',
-                        lasttime: new Date('2020-8-1'),
-                        isCollected: true,
-                        stat: 0,
-                    }, {
-                        author: 1,
-                        docnum: 2,
-                        docname: 'New Document 2',
-                        lasttime: new Date('2020-8-2'),
-                        isCollected: false,
-                        stat: 0,
-                    }, {
-                        author: 1,
-                        docnum: 3,
-                        docname: 'New Document 3',
-                        lasttime: new Date('2020-8-3'),
-                        isCollected: true,
-                        stat: -1,
-                    }, {
-                        author: 1,
-                        docnum: 4,
-                        docname: 'New Document 4',
-                        lasttime: new Date('2020-8-4'),
-                        isCollected: true,
-                        stat: -1,
-                    }, {
-                        author: 9,
-                        docnum: 5,
-                        docname: 'New Document 5',
-                        lasttime: new Date('2020-8-15'),
-                        isCollected: true,
-                        stat: 0,
-                    }, {
-                        author: 9,
-                        docnum: 6,
-                        docname: 'New Document 6',
-                        lasttime: new Date('2020-8-6'),
-                        isCollected: false,
-                        stat: 0,
-                    }, {
-                        author: 9,
-                        docnum: 7,
-                        docname: 'New Document 7',
-                        lasttime: new Date('2020-8-7'),
-                        isCollected: false,
-                        stat: -1,
-                    }, {
-                        author: 9,
-                        docnum: 8,
-                        docname: 'New document8',
-                        lasttime: new Date('2020-8-9'),
-                        isCollected: true,
-                        stat: -1,
-                    }, ],
+                    recents: [
+                        //     author: 1,
+                        //     docnum: 1,
+                        //     docname: 'New Document 1',
+                        //     lasttime: new Date('2020-8-1'),
+                        //     isCollected: true,
+                        //     stat: 0,
+                        // }, {
+                        //     author: 1,
+                        //     docnum: 2,
+                        //     docname: 'New Document 2',
+                        //     lasttime: new Date('2020-8-2'),
+                        //     isCollected: false,
+                        //     stat: 0,
+                        // }, {
+                        //     author: 1,
+                        //     docnum: 3,
+                        //     docname: 'New Document 3',
+                        //     lasttime: new Date('2020-8-3'),
+                        //     isCollected: true,
+                        //     stat: -1,
+                        // }, {
+                        //     author: 1,
+                        //     docnum: 4,
+                        //     docname: 'New Document 4',
+                        //     lasttime: new Date('2020-8-4'),
+                        //     isCollected: true,
+                        //     stat: -1,
+                        // }, {
+                        //     author: 9,
+                        //     docnum: 5,
+                        //     docname: 'New Document 5',
+                        //     lasttime: new Date('2020-8-15'),
+                        //     isCollected: true,
+                        //     stat: 0,
+                        // }, {
+                        //     author: 9,
+                        //     docnum: 6,
+                        //     docname: 'New Document 6',
+                        //     lasttime: new Date('2020-8-6'),
+                        //     isCollected: false,
+                        //     stat: 0,
+                        // }, {
+                        //     author: 9,
+                        //     docnum: 7,
+                        //     docname: 'New Document 7',
+                        //     lasttime: new Date('2020-8-7'),
+                        //     isCollected: false,
+                        //     stat: -1,
+                        // }, {
+                        //     author: 9,
+                        //     docnum: 8,
+                        //     docname: 'New document8',
+                        //     lasttime: new Date('2020-8-9'),
+                        //     isCollected: true,
+                        //     stat: -1,
+                    ],
 
                 }
             };
@@ -107,7 +107,7 @@
                 });
                 if (index > -1)
                     array.splice(index, 1);
-                var deleteurl = 'http://39.97.122.202/delete_file/';
+                var deleteurl = 'http://39.97.122.202/Table/delete_file/';
                 this.$axios({
                     method: 'post',
                     url: deleteurl,
@@ -135,7 +135,7 @@
                         document.isCollected = true;
                     }
                 });
-                var collecturl = 'http://39.97.122.202/collect_file/';
+                var collecturl = 'http://39.97.122.202/Table/collect_file/';
                 this.$axios({
                     method: 'post',
                     url: collecturl,
@@ -164,7 +164,7 @@
                         document.isCollected = false;
                     }
                 });
-                var cancelCollectUrl = 'http://39.97.122.202/not_collect_file/';
+                var cancelCollectUrl = 'http://39.97.122.202/Table/not_collect_file/';
                 this.$axios({
                     method: 'post',
                     url: cancelCollectUrl,
@@ -193,7 +193,7 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var recenturl = 'http://39.97.122.202/recent/' + id + '/';
+            var recenturl = 'http://39.97.122.202/Table/recent/' + id + '/';
             this.$axios({
                 method: 'post',
                 url: recenturl, //此处不传data

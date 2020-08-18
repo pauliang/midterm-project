@@ -1,7 +1,6 @@
 <template>
     <div>
-        <!--        <particles-bg type="cobweb" :bg="true" />-->
-        <el-container class="whole w container">
+        <el-container class="whole w">
             <my_header></my_header>
             <el-container>
                 <el-aside class="slide_menu">
@@ -12,29 +11,23 @@
                             @close="handleClose"
                             :collapse="isCollapse"
                     >
-                        <el-menu-item index="1" @click="shortjmp('common_help')">
+                        <el-menu-item index="1" @click="shortjmp('invi_note')">
                             <i class="el-icon-question"></i>
-                            <span slot="title" class="aside first">常见问题</span>
+                            <span slot="title" class="aside first">团队邀请通知</span>
                         </el-menu-item>
 
 
-                        <el-menu-item index="2" @click="shortjmp('file_help')">
+                        <el-menu-item index="2" @click="shortjmp('msg_note')">
                             <i class="el-icon-menu"></i>
-                            <span slot="title" class="aside">文档问题</span>
+                            <span slot="title" class="aside">团队消息提醒</span>
                         </el-menu-item>
 
-                        <el-menu-item index="3" @click="shortjmp('setting_help')">
+                        <el-menu-item index="3" @click="shortjmp('remark_note')">
                             <i class="el-icon-s-tools"></i>
-                            <span slot="title" class="aside">权限问题</span>
+                            <span slot="title" class="aside">文档评论通知</span>
                         </el-menu-item>
 
-
-                        <el-menu-item index="4" @click="shortjmp('team_help')">
-                            <i class="el-icon-user-solid"></i>
-                            <span slot="title" class="aside">团队问题</span>
-                        </el-menu-item>
-
-                        <el-menu-item index="5" @click="zipornot()">
+                        <el-menu-item index="4" @click="zipornot()">
                             <i class="el-icon-s-unfold" v-if="isCollapse"></i>
                             <span slot="title" v-if="isCollapse">光翼展开!</span>
                             <i class="el-icon-s-fold" v-if="!isCollapse"></i>
@@ -44,11 +37,9 @@
                     </el-menu>
 
                 </el-aside>
-
-                <common_help v-if="which==='common_help'"></common_help>
-                <file_help v-else-if="which==='file_help'"></file_help>
-                <setting_help v-else-if="which==='setting_help'"></setting_help>
-                <team_help v-else-if="which==='team_help'"></team_help>
+                <invi_note v-if="which==='invi_note'"></invi_note>
+                <msg_note v-else-if="which==='msg_note'"></msg_note>
+                <remark_note v-else-if="which==='remark_note'"></remark_note>
             </el-container>
             <el-footer>
                 <img src="../assets/footer.png">
@@ -58,29 +49,28 @@
 </template>
 
 <script>
-    // import { ParticlesBg } from "particles-bg-vue";
-    import my_header from "./my_header";
-    import common_help from "@/components/common_help.vue";
-    import file_help from "@/components/file_help.vue";
-    import setting_help from "@/components/setting_help.vue";
-    import team_help from "@/components/team_help.vue";
+    import my_header from "../components/my_header";
+    import invi_note from "../components/invi_note";
+    import msg_note from "../components/msg_note";
+    import remark_note from "../components/remark_note";
 
     export default {
         components: {
-            my_header,
-            common_help,
-            file_help,
-            setting_help,
-            team_help
+            invi_note,
+            msg_note,
+            remark_note,
+            my_header
         },
-        name: "help",
+        name: "notification_center",
         data() {
             return {
                 isCollapse: false,
                 emm: '1-1',
                 inputbox: '',
-                which: 'help',
-
+                which: 'invi_note',
+                islogin: true,
+                localStorageName: '',
+                localStorageID: '',
             };
         },
         methods: {
@@ -93,6 +83,11 @@
             zipornot() {
                 this.isCollapse = !this.isCollapse;
             },
+            goBack() {
+                this.$router.push({
+                    name: 'Page',
+                })
+            },
             shortjmp(which) {
                 this.which = which
             },
@@ -101,28 +96,110 @@
                     name: name,
                 })
             },
+            logout() {
+                this.islogin = false;
+                localStorage.removeItem('userID');
+                localStorage.removeItem('username');
+                this.longjmp("Login");
+            },
+        },
+        created() {
+            var userID = localStorage.getItem('userID');
+            if (userID != null) {
+                this.islogin = true;
+                this.localStorageName = localStorage.getItem('username');
+                this.localStorageID = userID;
+            } else {
+                //暂时修改
+                localStorage.getItem('aaa');
+                // this.longjmp("Login");
+            }
         }
     };
 </script>
 
 <style scoped>
 
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 280px;
-        min-height: 600px;
-    }
-
     .whole {
-        position: relative;
         height: 1500px;
     }
 
     .w {
-        height: 900px;
+        height: 700px;
     }
 
-    .container {
-        background-color: #f2f2f2;
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 240px;
+        min-height: 600px;
+    }
+
+    .shit {
+        font-size: 13px !important;
+    }
+
+    .head {
+        position: relative;
+        background: rgba(8, 1, 1, 0.342);
+        padding: 0;
+    }
+
+    .head .welcome {
+        position: absolute;
+        float: right;
+    }
+
+    .head .wel_text {
+        position: absolute;
+        width: 400px;
+        height: 30px;
+        color: #fbfcfe;
+        float: right;
+        margin-right: 20px;
+        margin-top: 5px;
+        line-height: 30px;
+    }
+
+    .head .avator {
+        position: relative;
+        width: 150px;
+        height: 40px;
+        float: right;
+        margin-right: 100px;
+    }
+
+    .head .el-col-6 .slogan {
+        width: 100px;
+        margin-top: 5px;
+        margin-left: 300px;
+    }
+
+    .head .el-col-6 .slogan2 {
+        font-size: 28px;
+        font-weight: 400;
+        font-family: "KaiTi", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        line-height: 40px;
+        height: 40px;
+        background-color: transparent;
+        color: #ffffff;
+        border: none;
+    }
+
+    .head .welcome {
+        position: absolute;
+        float: right;
+    }
+
+    .head .wel_text {
+        position: absolute;
+        width: 400px;
+        height: 30px;
+        color: #fbfcfe;
+        float: right;
+        margin-right: 20px;
+        margin-left: 30px;
+        margin-top: 5px;
+        line-height: 30px;
+        text-decoration: none !important;
     }
 
     .el-menu-item {
@@ -134,6 +211,7 @@
     .el-menu-item * {
         color: #555555;
     }
+
 
     .el-container {
         position: relative;
@@ -235,23 +313,50 @@
     }
 
     .box-card {
-        width: 240px;
-        height: 280px;
-        margin: -4px 80px 0 0;
+        /*width: 240px;*/
+        /*height: 280px;*/
+        margin: 0 0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
 
-    .more_info {
+    .more_info1 {
+        display: block;
+        color: #409eff;
+        margin: 0 auto 10px 30px;
+        width: 180px;
+    }
+
+    .more_info2 {
         display: block;
         color: #409eff;
         margin: 0 auto;
+        width: 180px;
     }
 
     .logout {
         display: block;
         color: #c81623;
-        margin: 45px auto 0;
+        margin: 10px auto 20px;
+        width: 180px;
+    }
+
+    .login {
+        display: block;
+        color: #409eff;
+        margin: 0 auto 20px;
+        width: 180px;
+    }
+
+    .regi {
+        display: block;
+        color: #409eff;
+        margin: 0 auto 20px;
+        width: 180px;
+    }
+
+    .cardtxt {
+        text-align: center;
     }
 
 </style>

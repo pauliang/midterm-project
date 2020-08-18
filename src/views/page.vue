@@ -1,64 +1,7 @@
 <template>
     <div>
-        <el-container class="whole">
-
-            <el-header class="head">
-
-                <el-row>
-                    <el-col :span="4">
-                        <div style="margin-right:25px">
-                            <img src="../assets/logo.png">
-                        </div>
-
-                    </el-col>
-                    <el-col :span="1">
-                        <div class="grid-content"></div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div style="margin-top:3px">
-                            <el-input clearable placeholder="随便找点什么吧" prefix-icon="el-icon-search" v-model="inputbox">
-                            </el-input>
-                        </div>
-
-                    </el-col>
-
-                    <el-col :span="13" style="text-align:right">
-                        <el-col :span="6" class="welcome">
-                            <el-link v-if="islogin===true" href="https://element.eleme.io" target="_blank"
-                                     class="wel_text">{{ this.localStorageName }}，您好！
-                            </el-link>
-                        </el-col>
-                        <el-col :span="6" class="avator">
-                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
-                                <div v-if="islogin===true">
-                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
-                                    <el-badge value="new">
-                                        <el-button index="0" class="item more_info1" @click="longjmp('Notification_center')">
-                                            查看系统通知
-                                        </el-button>
-                                    </el-badge>
-                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
-                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
-                                </div>
-                                <div v-if="islogin===false">
-                                    <div class="item cardtxt">你尚未登陆</div>
-                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
-                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
-                                </div>
-
-                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
-                            </el-popover>
-                        </el-col>
-                    </el-col>
-                </el-row>
-
-            </el-header>
-
-            <el-divider/>
-
-
-            <el-divider/>
-
+        <el-container class="whole w">
+            <my_header></my_header>
             <el-container>
                 <el-aside>
                     <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
@@ -112,11 +55,11 @@
                 <!-- 组件部分 -->
                 <recentFiles v-if="which==='recentFiles'"></recentFiles>
                 <createdFiles v-else-if="which==='createdFiles'"></createdFiles>
-                <collectedFiles v-else-if="which==='createdFiles'"></collectedFiles>
+                <collectedFiles v-else-if="which==='collectedFiles'"></collectedFiles>
                 <dele v-else-if="which==='dele'"></dele>
                 <Gtable v-else-if="which==='Gtable'" @event1="shortjmp($event)"></Gtable>
                 <Tinside v-else-if="which==='Tinside'"></Tinside>
-<!--                <view_remark v-else-if="which==='view_remark'"></view_remark>-->
+                <!--                <view_remark v-else-if="which==='view_remark'"></view_remark>-->
 
             </el-container>
             <el-footer>
@@ -128,6 +71,7 @@
 
 <script>
     // import { ParticlesBg } from "particles-bg-vue";
+    import my_header from "../components/my_header";
     import recentFiles from "@/components/recentFiles.vue";
     import collectedFiles from "@/components/collectedFiles.vue";
     import createdFiles from "@/components/createdFiles.vue";
@@ -145,8 +89,10 @@
                 inputbox: '',
                 which: 'recentFiles',
                 islogin: true,
+                is_active: false,
                 localStorageName: '',
                 localStorageID: '',
+                msgList: [],
             };
         },
         methods: {
@@ -173,9 +119,6 @@
                 } else if (index === '3') {
                     this.which = 'dele';
                 }
-            },
-            shortjmp2(which) {
-                this.which = which
             },
             longjmp(name) {
                 if (name === "Profile") {
@@ -207,30 +150,59 @@
             },
         },
         components: {
+            my_header,
             recentFiles,
             collectedFiles,
             createdFiles,
             dele,
             Gtable,
-            Tinside,
-            // view_remark,
+            Tinside
         },
         created() {
-            var userID = localStorage.getItem('userID');
-            if (userID != null) {
-                this.islogin = true;
-                this.localStorageName = localStorage.getItem('username');
-                this.localStorageID = userID;
-            } else {
-                //暂时修改
-                localStorage.getItem('aaa');
-                // this.longjmp("Login");
-            }
+            var id = localStorage.getItem('userID');
+            if (id == null)
+                this.longjmp('Login');
+            this.localStorageID = localStorage.getItem('userID');
+            this.localStorageName = localStorage.getItem('username');
+            var msg_url = 'http://39.97.122.202/notice/get_notice';
+            this.$axios({
+                method: 'post',
+                url: msg_url, //此处不传data
+            }).then(
+                response => {
+                    var msgs = response.data;
+                    var before = this.msgList.length;
+                    var after = msgs.length;
+                    if (before === after){
+                        this.is_active = false;
+                    }
+                    else {
+                        this.is_active = true;
+                        this.msgList = msgs;
+                    }
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
         }
     };
 </script>
 
 <style scoped>
+
+    /*版心的设计*/
+    .whole {
+        height: 1500px;
+    }
+    .w {
+        height: 900px;
+    }
+    .container {
+        background-color: #f2f2f2;
+    }
+
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 220px;
         min-height: 600px;
@@ -351,10 +323,6 @@
         width: 100%;
     }
 
-    .whole {
-        height: 1500px;
-    }
-
     .text {
         font-size: 14px;
     }
@@ -364,14 +332,6 @@
         padding: 18px 0;
         font-size: 14px;
         color: #24292e;
-    }
-
-    .box-card {
-        /*width: 240px;*/
-        /*height: 280px;*/
-        margin: 0 0;
-        border: 1px solid #e1e4e8;
-        border-radius: 6px;
     }
 
     .more_info1 {

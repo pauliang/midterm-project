@@ -5,6 +5,7 @@
                 <div style="padding: 14px;">
                     <i class="el-icon-chat-dot-round img"></i>
                     <span class="topic">{{"消息："+ accept + "收到了来自" + send + "的" + message}}</span>
+                    <el-button type="text" class="button">标为已读</el-button>
                     <div class="bottom clearfix">
                         <time class="time">{{ dateFormat(time) }}</time>
                     </div>
@@ -65,7 +66,7 @@
         font-size: 13px;
         color: #999;
         margin-top: 20px;
-        margin-left: -300px;
+        margin-left: -285px;
     }
 
     .bottom {
@@ -75,8 +76,8 @@
 
     .button {
         padding: 0;
-        margin-top: -10px;
-        margin-right: 15px;
+        margin-top: 30px;
+        margin-left: -30px;
         float: right;
         font-size: 14px;
     }

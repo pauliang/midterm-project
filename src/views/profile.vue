@@ -1,58 +1,7 @@
 <template>
     <div class="profile">
-        <el-container>
-            <el-header class="head">
-                <el-row>
-                    <el-col :span="4">
-                        <div style="margin-right:25px">
-                            <img src="../assets/logo.png" alt="logo" @click="goPage()">
-                        </div>
-
-                    </el-col>
-                    <el-col :span="1">
-                        <div class="grid-content"></div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div style="margin-top:3px">
-                            <el-input clearable placeholder="随便找点什么吧" prefix-icon="el-icon-search" v-model="inputbox">
-                            </el-input>
-                        </div>
-
-                    </el-col>
-
-                    <el-col :span="13" style="text-align:right">
-                        <el-col :span="6" class="welcome">
-                            <el-link v-if="islogin===true" href="https://element.eleme.io" target="_blank"
-                                class="wel_text">{{ this.localStorageName }}，您好！
-                            </el-link>
-                        </el-col>
-                        <el-col :span="6" class="avator">
-                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
-                                <div v-if="islogin===true">
-                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
-                                    <el-badge value="new">
-                                        <el-button index="0" class="item more_info1"
-                                            @click="longjmp('Notification_center')">
-                                            查看系统通知
-                                        </el-button>
-                                    </el-badge>
-                                    <el-button class="item more_info2" @click="goMyProfile()">修改个人资料</el-button>
-                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
-                                </div>
-                                <div v-if="islogin===false">
-                                    <div class="item cardtxt">你尚未登陆</div>
-                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
-                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
-                                </div>
-
-                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
-                            </el-popover>
-                        </el-col>
-                    </el-col>
-                </el-row>
-
-            </el-header>
-
+        <el-container class="w2 whole">
+            <my_header></my_header>
             <el-main class="w" v-loading="loading">
                 <div class="form">
 
@@ -144,32 +93,23 @@
             <el-footer>
                 <img src="../assets/footer.png" alt="footer">
             </el-footer>
-
         </el-container>
     </div>
 </template>
 
 
 <script>
+    import my_header from "../components/my_header";
     function isvalidPass(str) {
         const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{6,18}$/;
         return reg.test(str);
     }
     export default {
         name: 'profile',
+        components: {
+            my_header
+        },
         data() {
-            // var validatePass = (rule, value, callback) => {
-            //     if (value === "") {
-            //         callback(new Error("请输入原密码"));
-            //     } else if (value !== this.profile.password) {
-            //         callback(new Error("密码错误"));
-            //     } else {
-            //         if (this.password.newPwd !== "") {
-            //             this.$refs.password.validateField("newPwd");
-            //         }
-            //         callback();
-            //     }
-            // };
             var validatePass1 = (rule, value, callback) => {
                 if (value === "") {
                     callback(new Error("请输入新密码"));
@@ -448,6 +388,14 @@
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 220px;
         min-height: 600px;
+    }
+
+    /*版心的设计*/
+    .whole {
+        height: 1500px;
+    }
+    .w2 {
+        height: 1000px;
     }
 
     .profile {

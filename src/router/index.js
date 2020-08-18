@@ -73,6 +73,11 @@ Vue.use(VueRouter)
       name: 'Notification_center',
       component: () => import('@/views/notification_center.vue')
     },
+    {
+      path: '/notification_center_old',
+      name: 'Notification_center_old',
+      component: () => import('@/views/notification_center_old.vue')
+    },
 ]
 
 const router = new VueRouter({
