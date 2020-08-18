@@ -92,17 +92,31 @@ export default {
         }
     },
     methods:{
-        longjmp(name) {
+         goBack2() {
                 this.$router.push({
-                    name: name,
+                    name: 'Page',
                 })
             },
-        logout() {
-                
+        longjmp(name) {
+                if (name === "Profile") {
+                    this.$router.push({
+                        path: '/profile',
+                        query: {
+                            id: localStorage.getItem('userID'),
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        name: name,
+                    });
+                }
+            },
+       logout() {
+                this.is_login = false;
                 localStorage.removeItem('userID');
                 localStorage.removeItem('username');
-                 this.$router.go(0);
-        },
+                this.longjmp("Login");
+            },
       punch(){
           if(this.list[2]!=1)
             {
