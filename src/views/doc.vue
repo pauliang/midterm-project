@@ -109,59 +109,22 @@ export default {
                 alert('你无权修改此文档');
             }
             else{
-                var vailable=0;
                  if(this.editorContent){
+                        // alert(this.editorContent);
                         this.$axios(
-                            {
-                                    methods:'post',
-                                    url:'http://39.97.122.202/doc/match_edit/',
-                                    data:{
-                                        id:this.$route.query.docid,
-                                    }
-                            }
-                        ).then( res =>{
-                            if(res.data==1){
-                                vailable=1;
-                            }
-                        }).catch(()=>{
-                            alert('网络状态不佳，修改状态验证失败');
-                        })
-
-                        if(vailable==1)
                         {
-                                
-                                this.$axios(
-                                {
-                                    methods:'post',
-                                    url:'http://39.97.122.202/doc/save_doc/',
-                                    data:{
-                                        id:this.$route.query.docid,
-                                        msg:this.editorContent,
-                                        userid:this.myid
-                                    }
-                                }).then( res => {
-                                    if(res.data==1)
-                                        alert('上传成功,正在结束修改..');
-                                }).catch(() =>{
-                                    alert('网络状态不佳，文本上传失败');
-                                })
-
-                                this.$axios({
-                                    methods:'post',
-                                    url:'http://39.97.122.202/doc/end_edit/',
-                                    data:{
-                                        id:this.$route.query.docid,
-                                    }
-                                }).then(res =>{
-                                    if(res.data==1){
-                                        alert('修改成功！');
-                                    }
-                                }).catch(()=>{
-                                    alert('未知力量使你修改失败，希望你永远不要看到这一行字');
-                                })
-
-                        }
-                        
+                            methods:'post',
+                            url:'http://39.97.122.202/doc/save_doc/',
+                            data:{
+                                id:this.$route.query.docid,
+                                msg:this.editorContent
+                            }
+                        }).then( res => {
+                            if(res.data==1)
+                                alert('上传成功');
+                        }).catch(() =>{
+                            alert('网络状态不佳，文本抓取失败');
+                        })
 
                     }
                     else
@@ -225,8 +188,7 @@ export default {
                 methods:'post',
                 url:'http://39.97.122.202/doc/get_doc/',
                 data:{
-                    id:docid,   
-                    op:3
+                    id:docid
                 }
             }).then( res => {
                 this.x.txt.html(res.data);

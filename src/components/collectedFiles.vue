@@ -33,42 +33,42 @@
                 localStorageID: 0,
                 localStorageName: '',
                 docList: {
-                    collections: [{
-                        author: 1,
-                        docnum: 1,
-                        docname: 'New Document 1',
-                        lasttime: new Date('2020-8-1'),
-                        isCollected: true,
-                        stat: 0,
-                    }, {
-                        author: 1,
-                        docnum: 3,
-                        docname: 'New Document 3',
-                        lasttime: new Date('2020-8-3'),
-                        isCollected: true,
-                        stat: -1,
-                    }, {
-                        author: 1,
-                        docnum: 4,
-                        docname: 'New Document 4',
-                        lasttime: new Date('2020-8-4'),
-                        isCollected: true,
-                        stat: -1,
-                    }, {
-                        author: 9,
-                        docnum: 5,
-                        docname: 'New Document 5',
-                        lasttime: new Date('2020-8-1'),
-                        isCollected: true,
-                        stat: 0,
-                    }, {
-                        author: 9,
-                        docnum: 8,
-                        docname: 'New Document 8',
-                        lasttime: new Date('2020-8-4'),
-                        isCollected: true,
-                        stat: -1,
-                    }, ],
+                    collections: [
+                    //     author: 1,
+                    //     docnum: 1,
+                    //     docname: 'New Document 1',
+                    //     lasttime: new Date('2020-8-1'),
+                    //     isCollected: true,
+                    //     stat: 0,
+                    // }, {
+                    //     author: 1,
+                    //     docnum: 3,
+                    //     docname: 'New Document 3',
+                    //     lasttime: new Date('2020-8-3'),
+                    //     isCollected: true,
+                    //     stat: -1,
+                    // }, {
+                    //     author: 1,
+                    //     docnum: 4,
+                    //     docname: 'New Document 4',
+                    //     lasttime: new Date('2020-8-4'),
+                    //     isCollected: true,
+                    //     stat: -1,
+                    // }, {
+                    //     author: 9,
+                    //     docnum: 5,
+                    //     docname: 'New Document 5',
+                    //     lasttime: new Date('2020-8-1'),
+                    //     isCollected: true,
+                    //     stat: 0,
+                    // }, {
+                    //     author: 9,
+                    //     docnum: 8,
+                    //     docname: 'New Document 8',
+                    //     lasttime: new Date('2020-8-4'),
+                    //     isCollected: true,
+                    //     stat: -1,
+                     ],
                 }
             };
         },
@@ -86,7 +86,7 @@
                 });
                 if (index > -1)
                     collection.splice(index, 1);
-                var deleteurl = 'http://39.97.122.202/delete_file/';
+                var deleteurl = 'http://39.97.122.202/Table/delete_file/';
                 this.$axios({
                     method: 'post',
                     url: deleteurl,
@@ -127,7 +127,7 @@
                 });
                 if (index > -1)
                     array.splice(index, 1);
-                var cancelCollectUrl = 'http://39.97.122.202/not_collect_file/';
+                var cancelCollectUrl = 'http://39.97.122.202/Table/not_collect/';
                 this.$axios({
                     method: 'post',
                     url: cancelCollectUrl,
@@ -156,7 +156,7 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var collecturl = 'http://39.97.122.202/collect/' + id + '/';
+            var collecturl = 'http://39.97.122.202/Table/collect/' + id + '/';
             this.$axios({
                 method: 'post',
                 url: collecturl, //此处不传data

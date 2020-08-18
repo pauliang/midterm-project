@@ -9,7 +9,7 @@
 
             <div style="padding: 14px;">
                 <div class="bottom clearfix">
-                    <el-button v-if="doc.stat>=0 || user == doc.author" type="text" class="button" @click="jmp(url)">
+                    <el-button v-if="doc.stat>=0 || user === doc.author" type="text" class="button" @click="jmp(url)">
                         {{doc.docname}}
                     </el-button>
                     <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button>
@@ -163,7 +163,7 @@
         background: #FFF;
         width: 40px;
         min-width: 100px;
-        height: 100px;
+        /* height: 100px; */
         border: 1px solid #EBEEF5;
         padding: 10px 0;
         z-index: 2000;

@@ -9,7 +9,7 @@
 
             <div style="padding: 14px;">
                 <div class="bottom clearfix">
-                    <el-button v-if="power[0]==1" type="text" class="button" @click="jmp(doc.url)">
+                    <el-button v-if="power[0]==1" type="text" class="button" @click="jmp(fakeurl)">
                         {{doc.docname}}</el-button>
                     <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button><br>
                     <span style="font-size: 7px; color: gray">{{dateFormat(doc.lasttime)}}</span>
@@ -20,7 +20,7 @@
         <el-popover ref="popover" placement="bottom" trigger="click">
             <div>
                 <el-button v-if="power[0]==1" class="option el-icon-share"
-                    type="text" size="small" @click="generateQR(doc.url)">&nbsp;分享</el-button>
+                    type="text" size="small" @click="generateQR()">&nbsp;分享</el-button>
                 <el-button v-else disabled class="option el-icon-share" type="text" size="small">&nbsp;分享</el-button>
             </div>
             <div>
@@ -108,6 +108,8 @@
                 name:'default',
                 job:0,//如果是小组的文档，这代表当前用户在小组里的职位：管理员&群主：1 / 一般人：2
                 groupid:-1,//如果是小组的文档这里会变成小组的id
+                realurl:'',
+                fakeurl:'',
             };
         },
         methods: {
@@ -265,9 +267,9 @@
                 });
                 window.open(x.href);
             },
-            generateQR(url) {
-                var baseurl = 'http://192.168.0.101:8080';
-                var docurl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + baseurl + url;
+            generateQR() {
+                var baseurl = this.realurl;
+                var docurl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + baseurl;
                 this.$axios.get(docurl, {
                         responseType: 'arraybuffer'
                     })
@@ -295,6 +297,8 @@
             },
         },
         mounted(){
+              this.fakeurl='doc?docid='+this.doc.docnum
+            this.realurl='http://118.31.175.39/doc?docid='+this.doc.docnum;
             if(this.doc.docname){
                this.name=this.doc.docname;  
             }

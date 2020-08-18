@@ -1,40 +1,9 @@
 <template>
     <div>
-<!--        <particles-bg type="cobweb" :bg="true" />-->
-        <el-container class="whole">
+        <!--        <particles-bg type="cobweb" :bg="true" />-->
+        <el-container class="whole w container">
 
-            <el-header class="head">
-
-                <el-row>
-                    <el-col :span="4" >
-                        <div style="margin-right:25px">
-                            <img src="../assets/logo.png" @click="goBack()">
-                        </div>
-
-                    </el-col>
-                    <el-col :span="1">
-                        <div class="grid-content"></div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="slogan">
-                            <el-tag class="slogan2">“精诚所至，金石为开”</el-tag>
-                        </div>
-                    </el-col>
-
-                    <el-col :span="13" style="text-align:right">
-                        <el-col :span="6" class="welcome">
-                            <el-link href="https://element.eleme.io" target="_blank" class="wel_text">欢迎您使用金石文档！</el-link>
-                        </el-col>
-                    </el-col>
-                </el-row>
-
-            </el-header>
-
-            <el-divider/>
-
-
-            <el-divider/>
-
+            <my_header></my_header>
             <el-container>
                 <el-aside class="slide_menu">
                     <el-menu
@@ -67,9 +36,9 @@
                         </el-menu-item>
 
                         <el-menu-item index="5" @click="zipornot()">
-                            <i class="el-icon-s-unfold" v-if="isCollapse" ></i>
+                            <i class="el-icon-s-unfold" v-if="isCollapse"></i>
                             <span slot="title" v-if="isCollapse">光翼展开!</span>
-                            <i class="el-icon-s-fold" v-if="!isCollapse" ></i>
+                            <i class="el-icon-s-fold" v-if="!isCollapse"></i>
                             <span slot="title" v-if="!isCollapse">收起</span>
                         </el-menu-item>
 
@@ -83,7 +52,7 @@
                 <team_help v-else-if="which==='team_help'"></team_help>
             </el-container>
             <el-footer>
-                <img src="../assets/footer.png" >
+                <img src="../assets/footer.png">
             </el-footer>
         </el-container>
     </div>
@@ -91,6 +60,7 @@
 
 <script>
     // import { ParticlesBg } from "particles-bg-vue";
+    import my_header from "../components/my_header";
     import common_help from "@/components/common_help.vue";
     import file_help from "@/components/file_help.vue";
     import setting_help from "@/components/setting_help.vue";
@@ -98,19 +68,19 @@
 
     export default {
         components: {
-            // ParticlesBg
+            my_header,
             common_help,
             file_help,
             setting_help,
-            team_help,
+            team_help
         },
         name: "help",
         data() {
             return {
                 isCollapse: false,
-                emm:'1-1',
-                inputbox:'',
-                which:'help',
+                emm: '1-1',
+                inputbox: '',
+                which: 'help',
 
             };
         },
@@ -121,21 +91,15 @@
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
             },
-            zipornot()
-            {
-                this.isCollapse=!this.isCollapse;
+            zipornot() {
+                this.isCollapse = !this.isCollapse;
             },
-            goBack(){
-                this.$router.push({
-                    name:'Page',
-                })
-            },
-            shortjmp(which){
+            shortjmp(which) {
                 this.which = which
             },
-            longjmp(name){
+            longjmp(name) {
                 this.$router.push({
-                    name:name,
+                    name: name,
                 })
             },
         }
@@ -144,52 +108,17 @@
 
 <style scoped>
 
-    .whole {
-        position: relative;
-        height: 1500px;
-    }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 280px;
         min-height: 600px;
     }
-    .shit{
-        font-size:13px !important;
+
+    .whole {
+        height: 1500px;
     }
-    .head{
-        position: relative;
-        background: rgba(8, 1, 1, 0.342);
-        padding: 0;
-    }
-    .head .el-col-6 .slogan {
-        width: 100px;
-        margin-top: 5px;
-        margin-left: 300px;
-    }
-    .head .el-col-6 .slogan2 {
-        font-size: 28px;
-        font-weight: 400;
-        font-family: "KaiTi","Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-        line-height: 40px;
-        height: 40px;
-        background-color: transparent;
-        color: #ffffff;
-        border: none;
-    }
-    .head .welcome {
-        position: absolute;
-        float: right;
-    }
-    .head .wel_text {
-        position: absolute;
-        width: 400px;
-        height: 30px;
-        color:#fbfcfe;
-        float: right;
-        margin-right: 20px;
-        margin-left: 30px;
-        margin-top: 5px;
-        line-height: 30px;
-        text-decoration: none!important;
+
+    .w {
+        height: 700px;
     }
 
     .el-menu-item {
@@ -202,60 +131,71 @@
         color: #555555;
     }
 
-
     .el-container {
         position: relative;
     }
-    .el-divider--horizontal{
+
+    .el-divider--horizontal {
         margin-bottom: 1px !important;
         margin-top: 0 !important;
     }
-    .el-link--default{
+
+    .el-link--default {
         color: #303133;
         font-size: 17px;
         text-decoration: none;
         border-color: transparent;
     }
+
     .el-link.el-link--default:after, .el-link.el-link--primary.is-underline:hover:after, .el-link.el-link--primary:after {
         border-color: transparent;
     }
+
     .el-row {
         margin-bottom: 20px;
     }
+
     .el-col {
-        margin-top:5px;
+        margin-top: 5px;
         border-radius: 4px;
     }
+
     .delete {
         position: relative;
         text-align: center;
         color: #555555;
-        font: bold 24px arial,sans-serif ;
+        font: bold 24px arial, sans-serif;
         line-height: 36px;
         margin: 0 auto;
         border-radius: 4px;
         min-height: 36px;
     }
+
     .bg-purple-dark {
         background: #99a9bf;
     }
+
     .box {
         float: left;
         margin: 10px 100px 10px 0;
     }
+
     .box img {
         display: block;
     }
+
     .pic {
         padding: 0;
         position: relative;
         margin: 10px 10px;
     }
+
     .content {
         margin: 5px 50px 10px -10px;
         width: 200px;
         background-color: #ffffff;
     }
+
     .bg-purple {
         background: #ffffff;
         text-align: center;
@@ -265,12 +205,15 @@
         color: #bababa;
 
     }
+
     .el-container .now {
         color: #575757;
     }
+
     .el-footer {
         padding: 0 0;
     }
+
     .el-footer img {
         display: block;
         width: 100%;

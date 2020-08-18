@@ -1,16 +1,12 @@
 <template>
     <div>
-        <!--        <particles-bg type="cobweb" :bg="true" />-->
         <el-container class="whole">
-
             <el-header class="head">
-
                 <el-row>
                     <el-col :span="4">
                         <div style="margin-right:25px">
                             <img src="../assets/logo.png" @click="goBack()">
                         </div>
-
                     </el-col>
                     <el-col :span="1">
                         <div class="grid-content"></div>
@@ -147,18 +143,9 @@
                 this.which = which
             },
             longjmp(name) {
-                if (name === "Profile") {
-                    this.$router.push({
-                        path: '/profile',
-                        query: {
-                            id: this.localStorageID,
-                        }
-                    });
-                }else {
-                    this.$router.push({
-                        name: name,
-                    });
-                }
+                this.$router.push({
+                    name: name,
+                })
             },
             logout() {
                 this.islogin = false;
@@ -398,25 +385,22 @@
     .logout {
         display: block;
         color: #c81623;
-        margin: 10px auto 0;
+        margin: 10px auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .login {
         display: block;
         color: #409eff;
-        margin: 0 auto;
+        margin: 0 auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .regi {
         display: block;
         color: #409eff;
-        margin: 0 auto;
+        margin: 0 auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .cardtxt {

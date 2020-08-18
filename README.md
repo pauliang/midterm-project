@@ -70,3 +70,10 @@ components中更新edt.vue，加入返回到模板库，保存，另存为三个
 将recentFiles.vue,createdFiles.vue,collectedFiles.vue中的card替换成了card_guo，郭总tql！
 
 Gtable中加入了创建团队按钮，按照后端的设计写好了前后端交互函数，等待跟后端的进一步沟通和测试。
+
+2020/8/18 20:15更新：
+
+profile进行小调整，page页面和团队空间组件进行调整和贯通，完成对接的前端部分，待后端验证，很可能存在bug。
+
+增加了一个创建团队文档功能，调整了models.vue和edt.vue来适应创建团队文档功能，可能存在bug，在没有非正常操作（比如手动输入地址跳转）的情况下应该能够使用。
+

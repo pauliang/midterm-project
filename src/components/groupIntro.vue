@@ -24,7 +24,9 @@
                                 <el-col :span="7" style="min-height:40px;padding-top:12px;font-weight:bold">
                                     {{ob.name}}
                                 </el-col>
-                                <el-col :span="8" class="email"> 631803439@qq.com</el-col>
+                                <el-col :span="8" class="email">
+                                    <el-button type="text" @click="checkPerson(ob.id)">点此查看他的信息</el-button>
+                                </el-col>
                                 <el-col :span="4" style="text-align:right;">
                                     <el-popover placement="bottom-start" trigger="click">
                                         <div>
@@ -67,7 +69,9 @@
                                 <el-col :span="7" style="min-height:40px;padding-top:12px;font-weight:bold">
                                     {{ob.name}}
                                 </el-col>
-                                <el-col :span="8" class="email"> 631803439@qq.com</el-col>
+                                <el-col :span="8" class="email">
+                                    <el-button type="text" @click="checkPerson(ob.id)">点此查看他的信息</el-button>
+                                </el-col>
                                 <el-col :span="4" style="text-align:right;">
                                     <el-popover placement="bottom-start" trigger="click">
                                         <div>
@@ -108,7 +112,13 @@
                 input: '',
                 myid: 1,
                 //myid,当前用户id，应该从本地存储里拿
-                mg: [['张三', 1314, 1, 1], ['李四', 521, 0, 1], ['李四', 521, 0, 1], ['李四', 521, 0, 1], ['李四', 521, 0, 1]],
+                mg: [
+                    ['张三', 1314, 1, 1],
+                    ['李四', 521, 0, 1],
+                    ['王五', 521, 0, 1],
+                    ['小二', 521, 0, 0],
+                    ['板凳', 521, 0, 0]
+                ],
                 group: [],
             }
         },
@@ -125,77 +135,82 @@
             },
         },
         methods: {
-            beAdmin(aid,apower){
-                if(apower==2)
+            checkPerson(uid) {
+                this.$router.push({
+                    name: 'Profile',
+                    query: {
+                        id: uid,
+                    }
+                })
+            },
+            beAdmin(aid, apower) {
+                if (apower == 2)
                     alert('组长不能降级');
-                if(apower==1)
+                if (apower == 1)
                     alert('ta已经是管理员了');
-                if(apower==0){
-                    var x=aid.toString();
+                if (apower == 0) {
+                    var x = aid.toString();
                     this.$axios({
-                        method:'post',
-                        url:'http://39.97.122.202/group/set_admin/',
-                        data:{
-                            users:x,
-                            groupnum:this.groupID
+                        method: 'post',
+                        url: 'http://39.97.122.202/group/set_admin/',
+                        data: {
+                            users: x,
+                            groupnum: this.groupID
                         }
-                    }).then( res => {
-                        if(res.data==1){
+                    }).then(res => {
+                        if (res.data == 1) {
                             alert('操作成功');
-                        }
-                        else{
+                        } else {
                             alert('操作失败');
                         }
-                    }).catch(()=>{
+                    }).catch(() => {
                         alert('网络似乎有些问题..');
                     })
                 }
             },
-            beNo(aid,apower){
-                if(apower==2)
+            beNo(aid, apower) {
+                if (apower == 2)
                     alert('组长不能降级');
-                if(apower==0)
+                if (apower == 0)
                     alert('ta已经是组员了');
-                if(apower==1){
-                    var x=aid.toString();
+                if (apower == 1) {
+                    var x = aid.toString();
                     this.$axios({
-                        method:'post',
-                        url:'http://39.97.122.202/group/cancel_admin/',
-                        data:{
-                            users:x,
-                            groupnum:this.groupID
+                        method: 'post',
+                        url: 'http://39.97.122.202/group/cancel_admin/',
+                        data: {
+                            users: x,
+                            groupnum: this.groupID
                         }
-                    }).then( res => {
-                        if(res.data==1){
+                    }).then(res => {
+                        if (res.data == 1) {
                             alert('操作成功');
-                        }
-                        else{
+                        } else {
                             alert('操作失败');
                         }
-                    }).catch(()=>{
+                    }).catch(() => {
                         alert('网络似乎有些问题..');
                     })
                 }
             },
-            getOut(aid,apower){
-                if(apower==2)
+            getOut(aid, apower) {
+                if (apower == 2)
                     alert('你想对组长干什么？！');
-                else{
+                else {
                     this.$axios({
-                        method:'post',
-                        url:'http://39.97.122.202/group/kick_out_user/',
-                        data:{
-                            id:aid,
-                            groupnum:this.groupID
+                        method: 'post',
+                        url: 'http://39.97.122.202/group/kick_out_user/',
+                        data: {
+                            id: aid,
+                            groupnum: this.groupID
                         }
-                    }).then( res => {
-                        if(res.data==1){
+                    }).then(res => {
+                        if (res.data == 1) {
                             alert('操作成功');
-                        }
-                        else{
+                        } else {
                             alert('操作失败');
                         }
-                    }).catch(()=>{
+                    }).catch(() => {
                         alert('网络似乎有些问题..');
                     })
                 }
@@ -237,29 +252,27 @@
                 alert('抓取组员信息失败');
             })
 
-            var x=0;
-            for(;x<this.mg.length;x++){
-                var y={
-                    name:this.mg[x][0],
-                    power:0,
-                    id:this.mg[x][1]
+            var x = 0;
+            for (; x < this.mg.length; x++) {
+                var y = {
+                    name: this.mg[x][0],
+                    power: 0,
+                    id: this.mg[x][1]
                 }
 
-                if(this.mg[x][2]==1){
-                    y.power=2;
-                }
-                else if(this.mg[x][3]==1){
-                    y.power=1;
-                }
-                else{
-                    y.power=0;
+                if (this.mg[x][2] == 1) {
+                    y.power = 2;
+                } else if (this.mg[x][3] == 1) {
+                    y.power = 1;
+                } else {
+                    y.power = 0;
                 }
 
-                if(y.id==this.myid){
+                if (y.id == this.myid) {
                     console.log('逮到！');
 
-                    if(y.power==0)
-                        this.aro=true;
+                    if (y.power == 0)
+                        this.aro = true;
                 }
 
                 this.group.push(y);
@@ -273,11 +286,14 @@
         margin-top: -40px;
         margin-bottom: 20px;
     }
+
     .email {
-        min-height:40px;
-        padding-top:12px;
+        min-height: 40px;
+        padding-top: 12px;
         margin-left: -50px;
+        margin-top: -10px;
     }
+
     .title {
         text-align: left;
         font-weight: bold;
@@ -285,12 +301,14 @@
         margin-bottom: -10px;
         padding-left: 8px;
     }
-    .title1{
+
+    .title1 {
         text-align: left;
         font-weight: bold;
         margin-bottom: -15px;
         padding-left: 8px;
     }
+
     .more {
         margin-top: -3px;
         margin-left: -30px;
@@ -298,6 +316,7 @@
         font-size: 20px;
         color: grey;
     }
+
     .plain {
         margin-left: -80px;
         margin-right: -15px;

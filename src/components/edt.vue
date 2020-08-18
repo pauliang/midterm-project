@@ -56,7 +56,7 @@
             <el-main>
 
                 <div id="div1" class="toolbar" style="width: 900px;">
-                    <el-tooltip effect="light" content="返回到模板库" placement="bottom">
+                    <el-tooltip effect="light" content="返回" placement="bottom">
                         <div style="font-size:25px;cursor:pointer;margin-left:35px;" class="el-icon-back"
                             @click="goBack"></div>
                     </el-tooltip>
@@ -66,7 +66,7 @@
                     </el-tooltip>
                     <el-tooltip effect="light" content="另存为" placement="bottom">
                         <div style="font-size:25px;cursor:pointer;margin-left:10px;" class="el-icon-document-add"
-                            @click="isShow = true"></div>
+                            @click="isShow1 = true"></div>
                     </el-tooltip>
                 </div>
                 <div id="div2" class="text">
@@ -79,7 +79,7 @@
                     <b class="intro1">编写于</b>
                     <b class="intro2">金石文档</b>
                 </div>
-                <el-dialog title="创建文档" :visible.sync="isShow" width="30%" modal="true">
+                <el-dialog title="创建文档" :visible.sync="isShow1" width="30%" modal="true">
                     <el-form ref="doc" :model="doc" label-width="100px">
                         <el-form-item label="文件名" prop="docname"
                             :rules="[{required: true, message: '请输入文件名', trigger: 'blur'}]">
@@ -88,11 +88,17 @@
                         </el-form-item>
                     </el-form>
                     <span slot="footer" class="dialog-footer">
-                        <el-button @click="isShow = false">取 消</el-button>
-                        <el-button @click="isShow = false;submitForm('doc')">确 定</el-button>
+                        <el-button @click="isShow1 = false">取 消</el-button>
+                        <el-button @click="isShow1 = false;submitForm('doc')">确 定</el-button>
                     </span>
                 </el-dialog>
-
+                <el-dialog title="提示" :visible.sync="isShow2" width="30%" :before-close="handleClose">
+                    <span>这是一段信息</span>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="isShow2 = false">取 消</el-button>
+                        <el-button type="primary" @click="goBack()">确 定</el-button>
+                    </span>
+                </el-dialog>
             </el-main>
 
         </el-container>
@@ -106,7 +112,8 @@
         name: 'edt',
         data() {
             return {
-                isShow: false,
+                isShow1: false,
+                isShow2: false,
                 isCollapse: false,
                 inputbox: '',
                 islogin: true,
@@ -131,17 +138,19 @@
         },
         methods: {
             goPage() {
+                if (localStorage.getItem('groupid') != null)
+                    localStorage.removeItem('groupid');
                 this.$router.push({
                     name: 'Page',
                 })
             },
             saveFile() {
-                if (localStorage.getItem('docid') == null) //该想记录
-                    this.isShow = true;
+                if (localStorage.getItem('docid') == null) //该项记录说明是否该文件已经创建，如果已创建则保存，否则创建新文档
+                    this.isShow1 = true;
                 else {
                     var div2 = document.getElementById("div2").innerHTML;
                     this.$axios({
-                        methods: 'post',
+                        method: 'post',
                         url: 'http://39.97.122.202/doc/save_doc/',
                         data: {
                             id: this.$route.query.docid,
@@ -184,6 +193,24 @@
                     }).catch((error) => {
                     console.log(error);
                 });
+                if (localStorage.getItem('groupid') != null) {
+                    this.$axios({
+                        method: 'post',
+                        url: 'http://39.97.122.202/autho/set_group_auth',
+                        data: {
+                            docnum: this.doc.docnum,
+                            groupnum: this.groupid
+                        }
+                    }).then(res => {
+                        if (res.data == 1) {
+                            console.log('组内文件创建成功');
+                        } else {
+                            console.log('组内文件创建失败');
+                        }
+                    }).catch(() => {
+                        console.log('网络问题，组内文件创建失败');
+                    })
+                }
             },
             goBack() {
                 this.$router.push({
@@ -191,14 +218,11 @@
                 })
             },
             longjmp(name) {
+                if (localStorage.getItem('groupid') != null)
+                    localStorage.removeItem('groupid');
+                if (localStorage.getItem('docid') != null)
+                    localStorage.removeItem('docid');
                 if (name === "Profile") {
-                    this.$router.push({
-                        path: '/profile',
-                        query: {
-                            id: this.localStorageID,
-                        }
-                    });
-                } else if (name === "") {
                     this.$router.push({
                         path: '/profile',
                         query: {
@@ -224,7 +248,7 @@
                         console.log("submitted");
                         this.createFile();
                     } else {
-                        this.isShow = true;
+                        this.isShow1 = true;
                         console.log('error submit!!');
                         return false;
                     }

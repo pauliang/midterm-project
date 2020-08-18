@@ -13,7 +13,7 @@
                     style="position: relative;border-radius:10px;border:1px rgb(199, 199, 204) solid;height: 200px">
                     <i class="el-icon-document-delete deicon"></i>
 <!--                    <div class="defont">{{ deleteFile.docname }}</div>-->
-                    <div class="defont">{{ deleteFile.docintro }}</div>
+                    <div class="defont">{{ deleteFile.docname }}{{ deleteFile.docintro }}</div>
                     <el-row>
                         <el-button class="debutton el-icon-document-add"
                             @click="operateDocnum=deleteFile.docnum;isShow1 = true" size="small">&nbsp;还原</el-button>
@@ -60,71 +60,71 @@
                 isShow3: false,
                 operateDocnum: 0,
                 docList: {
-                    deleteFiles: [{
-                        author: 1,
-                        docnum: 1,
-                        docname: 'New Document 1',
-                        docintro: 'Donald Trump Secret 1',
-                        lasttime: new Date('2020-8-1'),
-                        deletetime: new Date('2020-8-6'),
-                        isCollected: false,
-                    }, {
-                        author: 1,
-                        docnum: 2,
-                        docname: 'New Document 2',
-                        docintro: 'Donald Trump Secret 2',
-                        lasttime: new Date('2020-8-2'),
-                        deletetime: new Date('2020-8-6'),
-                        isCollected: false,
-                    }, {
-                        author: 1,
-                        docnum: 3,
-                        docname: 'New Document 3',
-                        docintro: 'Donald Trump Secret 3',
-                        lasttime: new Date('2020-8-3'),
-                        deletetime: new Date('2020-8-6'),
-                        isCollected: false,
-                    }, {
-                        author: 1,
-                        docnum: 4,
-                        docname: 'New Document 4',
-                        docintro: 'Donald Trump Secret 4',
-                        lasttime: new Date('2020-8-4'),
-                        deletetime: new Date('2020-8-6'),
-                        isCollected: false,
-                    }, {
-                        author: 9,
-                        docnum: 5,
-                        docname: 'New Document 5',
-                        docintro: 'Donald Trump Secret 5',
-                        lasttime: new Date('2020-8-15'),
-                        deletetime: new Date('2020-8-6'),
-                        isCollected: false,
-                    }, {
-                        author: 9,
-                        docnum: 6,
-                        docname: 'New Document 6',
-                        docintro: 'Donald Trump Secret 6',
-                        lasttime: new Date('2020-8-6'),
-                        deletetime: new Date('2020-8-6'),
-                        isCollected: false,
-                    }, {
-                        author: 9,
-                        docnum: 7,
-                        docname: 'New Document 7',
-                        docintro: 'Donald Trump Secret 7',
-                        lasttime: new Date('2020-8-7'),
-                        deletetime: new Date('2020-8-6'),
-                        isCollected: false,
-                    }, {
-                        author: 9,
-                        docnum: 8,
-                        docname: 'New document8',
-                        docintro: 'Donald Trump Secret 8',
-                        lasttime: new Date('2020-8-9'),
-                        deletetime: new Date('2020-8-6'),
-                        isCollected: false,
-                    }, ],
+                    deleteFiles: [
+                    //     author: 1,
+                    //     docnum: 1,
+                    //     docname: 'New Document 1',
+                    //     docintro: 'Donald Trump Secret 1',
+                    //     lasttime: new Date('2020-8-1'),
+                    //     deletetime: new Date('2020-8-6'),
+                    //     isCollected: false,
+                    // }, {
+                    //     author: 1,
+                    //     docnum: 2,
+                    //     docname: 'New Document 2',
+                    //     docintro: 'Donald Trump Secret 2',
+                    //     lasttime: new Date('2020-8-2'),
+                    //     deletetime: new Date('2020-8-6'),
+                    //     isCollected: false,
+                    // }, {
+                    //     author: 1,
+                    //     docnum: 3,
+                    //     docname: 'New Document 3',
+                    //     docintro: 'Donald Trump Secret 3',
+                    //     lasttime: new Date('2020-8-3'),
+                    //     deletetime: new Date('2020-8-6'),
+                    //     isCollected: false,
+                    // }, {
+                    //     author: 1,
+                    //     docnum: 4,
+                    //     docname: 'New Document 4',
+                    //     docintro: 'Donald Trump Secret 4',
+                    //     lasttime: new Date('2020-8-4'),
+                    //     deletetime: new Date('2020-8-6'),
+                    //     isCollected: false,
+                    // }, {
+                    //     author: 9,
+                    //     docnum: 5,
+                    //     docname: 'New Document 5',
+                    //     docintro: 'Donald Trump Secret 5',
+                    //     lasttime: new Date('2020-8-15'),
+                    //     deletetime: new Date('2020-8-6'),
+                    //     isCollected: false,
+                    // }, {
+                    //     author: 9,
+                    //     docnum: 6,
+                    //     docname: 'New Document 6',
+                    //     docintro: 'Donald Trump Secret 6',
+                    //     lasttime: new Date('2020-8-6'),
+                    //     deletetime: new Date('2020-8-6'),
+                    //     isCollected: false,
+                    // }, {
+                    //     author: 9,
+                    //     docnum: 7,
+                    //     docname: 'New Document 7',
+                    //     docintro: 'Donald Trump Secret 7',
+                    //     lasttime: new Date('2020-8-7'),
+                    //     deletetime: new Date('2020-8-6'),
+                    //     isCollected: false,
+                    // }, {
+                    //     author: 9,
+                    //     docnum: 8,
+                    //     docname: 'New document8',
+                    //     docintro: 'Donald Trump Secret 8',
+                    //     lasttime: new Date('2020-8-9'),
+                    //     deletetime: new Date('2020-8-6'),
+                    //     isCollected: false,
+                     ],
                 }
             }
         },
@@ -139,7 +139,7 @@
                 });
                 if (index > -1)
                     deleteFile.splice(index, 1);
-                var deleteurl = 'http://39.97.122.202/recover_file/';
+                var deleteurl = 'http://39.97.122.202/Table/recover_file/';
                 this.$axios({
                     method: 'post',
                     url: deleteurl,
@@ -171,7 +171,7 @@
                 });
                 if (index > -1)
                     deleteFile.splice(index, 1);
-                var deleteurl = 'http://39.97.122.202/delete_bin_file/';
+                var deleteurl = 'http://39.97.122.202/Table/delete_bin_file/';
                 this.$axios({
                     method: 'post',
                     url: deleteurl,
@@ -201,7 +201,7 @@
                 });
                 while (deleteFile.length > 0)
                     deleteFile.pop();
-                var deleteAllUrl = 'http://39.97.122.202/delete_bin_all/';
+                var deleteAllUrl = 'http://39.97.122.202/Table/delete_bin_all/';
                 this.$axios({
                     method: 'post',
                     url: deleteAllUrl,
@@ -223,6 +223,28 @@
                 });
                 this.isShow3 = false;
             },
+        },
+        created() {
+            var id = localStorage.getItem('userID');
+            if (id == null)
+                this.longjmp('Login');
+            this.localStorageID = localStorage.getItem('userID');
+            this.localStorageName = localStorage.getItem('username');
+            var deleteurl = 'http://39.97.122.202/Table/bin/' + id + '/';
+            this.$axios({
+                method: 'post',
+                url: deleteurl, //此处不传data
+            }).then(
+                response => {
+                    this.docList.deleteFiles = response.data;
+                    if (response.data == null)
+                        this.docList.deleteFiles = [];
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
         }
     }
 </script>

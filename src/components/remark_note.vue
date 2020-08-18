@@ -21,6 +21,10 @@
         components: {
             new_message
         },
+        props: {
+            choice: Number,
+            msg: String
+        },
         data() {
             return {
                 remarkList: [{
@@ -41,10 +45,28 @@
                 }]
             }
         },
-        props: {
-            choice: Number,
-            msg: String
-        },
+        created() {
+            var id = localStorage.getItem('userID');
+            if (id == null)
+                this.longjmp('Login');
+            this.localStorageID = localStorage.getItem('userID');
+            this.localStorageName = localStorage.getItem('username');
+            var msg_url = 'http://39.97.122.202/notice/get_notice';
+            this.$axios({
+                method: 'post',
+                url: msg_url, //此处不传data
+            }).then(
+                response => {
+                    this.docList.collections = response.data;
+                    if (response.data == null)
+                        this.docList.collections = [];
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
+        }
     }
 </script>
 <style scoped>

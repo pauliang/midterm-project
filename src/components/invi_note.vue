@@ -21,6 +21,10 @@
         components: {
             new_message
         },
+        props: {
+            choice: Number,
+            msg: String
+        },
         data() {
             return {
                 invitations: [{
@@ -42,10 +46,7 @@
             }
         },
 
-        props: {
-            choice: Number,
-            msg: String
-        },
+
     }
 </script>
 <style scoped>

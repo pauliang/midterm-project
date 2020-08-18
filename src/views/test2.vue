@@ -1,7 +1,7 @@
 <template>
   <div>    
-    <edt :msg="fmsg" :choice="choice" class="title"></edt>
-    <!-- <edt :title="ftitle" class="content"></edt> -->
+    <edt :msg="fmsg" class="title"></edt>
+    <edt :title="ftitle" class="content"></edt>
     <div>
 
     </div>
@@ -15,8 +15,7 @@
         data() {
             return{
                 fmsg: '',
-                ftitle: '',
-                choice:this.$route.params.id
+                ftitle: ''
             }
         },
         components: {
@@ -25,11 +24,11 @@
     }
 </script>
 <style scoped>
-  /* .title {
+  .title {
     text-align: center;
   }
   .content {
     text-align: left;
-  } */
+  }
 
 </style>

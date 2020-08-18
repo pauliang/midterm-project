@@ -1,16 +1,16 @@
 <template>
     <div class="outer" @mouseover="overShow" @mouseout="shut">
-        <el-card :body-style="{ padding: '0px', height:'140px'}" shadow="hover" class="card" >
+        <el-card :body-style="{ padding: '0px', height:'140px'}" shadow="hover" class="card">
 
             <el-image :src="require('../assets/group.png')" style="width: 100px; height: 60px ;margin-top:15px"
-                      v-if="ishover"></el-image>
+                v-if="ishover"></el-image>
 
-            <i class="el-icon-more-outline graph" @click="goIntro()" v-if="!ishover"></i>
+            <i class="el-icon-more-outline graph" @click="goIntro(groupid)" v-if="!ishover"></i>
 
             <div style="padding:4px;">
 
                 <div class="bottom clearfix">
-                    <el-button type="text" class="button" @click="goIntro()">{{name}}</el-button>
+                    <el-button type="text" class="button" @click="goIntro(groupid)">{{name}}</el-button>
                 </div>
             </div>
         </el-card>
@@ -22,7 +22,7 @@
         name: "Gcard",
         props: {
             name: String,
-            url: String
+            groupid: Number,
         },
         data() {
             return {
@@ -38,12 +38,14 @@
                 this.ishover = true;
             },
             jmp(addr) {
-                let x = this.$router.resolve({path: addr});
+                let x = this.$router.resolve({
+                    path: addr
+                });
                 window.open(x.href);
             },
-          goIntro(){
-              this.$emit('event2','')
-          }
+            goIntro() {
+                this.$emit('event2', '')
+            }
         }
     };
 </script>

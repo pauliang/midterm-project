@@ -4,80 +4,85 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-  const routes = [
-  {
-    path: '/',
-    name: 'Page',
-    component: () => import('@/views/page.vue')
-  },
-  {
-    path: '/regi',
-    name: 'Regi',
-    component: () => import('@/views/regi.vue')
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/login2.vue')
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
-    path: '/model1',
-    name: 'Model1',
-    component: () => import('@/views/model1.vue')
-  },
+const routes = [
     {
-      path: '/models',
-      name: 'Models',
-      component: () => import('@/views/models.vue')
+        path: '/',
+        name: 'Page',
+        component: () => import('@/views/page.vue')
     },
     {
-      path: '/profile',
-      name: 'Profile',
-      component: () => import('@/views/profile.vue')
+        path: '/regi',
+        name: 'Regi',
+        component: () => import('@/views/regi.vue')
     },
     {
-      path: '/test-team',
-      name: 'Test-team',
-      component: () => import('@/views/test-team.vue')
+        path: '/login',
+        name: 'Login',
+        component: () => import('@/views/login2.vue')
     },
     {
-      path: '/testmyc',
-      name: 'Testmyc',
-      component: () => import('@/views/testmyc.vue')
+        path: '/about',
+        name: 'About',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
     },
     {
-      path: '/page',
-      name: 'Page',
-      component: () => import('@/views/page.vue')
+        path: '/model1',
+        name: 'Model1',
+        component: () => import('@/views/model1.vue')
     },
     {
-      path: '/help',
-      name: 'Help',
-      component: () => import('@/views/help.vue')
+        path: '/models',
+        name: 'Models',
+        component: () => import('@/views/models.vue')
     },
     {
-      path: '/team_inside',
-      name: 'Team_inside',
-      component: () => import('@/components/team_inside.vue')
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('@/views/profile.vue')
     },
     {
-      path: '/notification_center',
-      name: 'Notification_center',
-      component: () => import('@/views/notification_center.vue')
+        path: '/test-team',
+        name: 'Test-team',
+        component: () => import('@/views/test-team.vue')
+    },
+    {
+        path: '/test-comment',
+        name: 'Test-comment',
+        component: () => import('@/views/test-comment.vue')
+    },
+    {
+        path: '/page',
+        name: 'Page',
+        component: () => import('@/views/page.vue')
+    },
+    {
+        path: '/help',
+        name: 'Help',
+        component: () => import('@/views/help.vue')
+    },
+    {
+        path: '/team_inside',
+        name: 'Team_inside',
+        component: () => import('@/components/team_inside.vue')
+    },
+    {
+        path: '/notification_center',
+        name: 'Notification_center',
+        component: () => import('@/views/notification_center.vue')
+    },
+    {
+        path: '/doc',
+        name: 'Doc',
+        component: () => import('@/views/doc.vue')
     },
 ]
 
 const router = new VueRouter({
-  routes:routes,
-  mode: 'history',
+    routes: routes,
+    mode: 'history',
 })
 
 export default router
