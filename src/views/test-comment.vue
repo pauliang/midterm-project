@@ -1,24 +1,24 @@
 <template>
-        <div style="width: 300px; height: 100px" >
-                <comment :submit="sub" :del="del" :addition="add" :remark="rem"></comment>
-        </div>
+    <div style="width: 900px; height: 100px">
+        <com :user="user" :docnum="docnum"></com>
+    </div>
 </template>
 
+
 <script>
-    import comment from '@/components/comment.vue'
+    import com from '@/components/comment.vue'
+
     export default {
         name: "test-comment",
-        data(){
-            return{
-                sub: '提交',
-                del: '删除',
-                add: '新增评论',
-                rem: '评论'
+        data() {
+            return {
+                user: {id: 5, nickName: 'rbl', avatar: ''},
+                docnum: 1,
             }
         },
-        components:{
-            comment
-        }
+        components: {
+            com
+        },
     }
 </script>
 

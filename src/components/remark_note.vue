@@ -21,6 +21,10 @@
         components: {
             new_message
         },
+        props: {
+            choice: Number,
+            msg: String
+        },
         data() {
             return {
                 remarkList: [{
@@ -41,10 +45,9 @@
                 }]
             }
         },
-        props: {
-            choice: Number,
-            msg: String
-        },
+        methods: {
+
+        }
     }
 </script>
 <style scoped>

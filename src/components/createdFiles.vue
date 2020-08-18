@@ -9,7 +9,7 @@
                 </el-row>
                 <div v-for="create in docList.creates" :key="create.docnum"
                     style="position: relative; width: 150px;float: left; margin: 35px;">
-                    <card :doc="create" :url="'/doc?docid='+ create.docnum" :user=localStorageID
+                    <card :doc="create" :user="localStorageID"
                         @collect-event="collectItem" @cancel-event="cancelCollectItem" @remove-event="removeItem">
                     </card>
                 </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import card from "@/components/card.vue";
+    import card from "@/components/card_guo.vue";
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
         name: 'createdFiles',

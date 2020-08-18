@@ -49,9 +49,9 @@ Vue.use(VueRouter)
       component: () => import('@/views/test-team.vue')
     },
     {
-      path: '/testmyc',
-      name: 'Testmyc',
-      component: () => import('@/views/testmyc.vue')
+      path: '/test-comment',
+      name: 'Test-comment',
+      component: () => import('@/views/test-comment.vue')
     },
     {
       path: '/page',

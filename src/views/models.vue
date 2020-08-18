@@ -36,7 +36,7 @@
                                 <div v-if="islogin==true">
                                     <div class="item cardtxt">{{ this.localStorageName }}</div>
                                     <el-badge value="new">
-                                        <el-button index="0" class="item more_info1" @click="shortjmp2('view_remark')">查看系统通知</el-button>
+                                        <el-button index="0" class="item more_info1" @click="longjmp('Notification_center')">查看系统通知</el-button>
                                     </el-badge>
                                     <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>

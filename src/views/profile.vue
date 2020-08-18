@@ -23,7 +23,7 @@
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
                             <el-link v-if="islogin===true" href="https://element.eleme.io" target="_blank"
-                                     class="wel_text">{{ this.localStorageName }}，您好！
+                                class="wel_text">{{ this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
@@ -31,11 +31,12 @@
                                 <div v-if="islogin===true">
                                     <div class="item cardtxt">{{ this.localStorageName }}</div>
                                     <el-badge value="new">
-                                        <el-button index="0" class="item more_info1" @click="longjmp('Notification_center')">
+                                        <el-button index="0" class="item more_info1"
+                                            @click="longjmp('Notification_center')">
                                             查看系统通知
                                         </el-button>
                                     </el-badge>
-                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <el-button class="item more_info2" @click="goMyProfile()">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
                                 <div v-if="islogin===false">
@@ -68,11 +69,11 @@
                         <el-form-item label="密码：" class="pwd">
                             ******
                             <el-button v-if="this.isEditable == true" type="text" class="right"
-                                       @click="dialogVisible = true">修改密码</el-button>
+                                @click="dialogVisible = true">修改密码</el-button>
                         </el-form-item>
                         <el-form-item label="年龄：">
                             <el-input-number v-if="this.isEditable == true" :min="1" v-model.number="profile.age"
-                                             placeholder="请输入年龄">
+                                placeholder="请输入年龄">
                             </el-input-number>
                             <span v-else>{{ profile.age }}</span>
                         </el-form-item>
@@ -87,7 +88,7 @@
                         </el-form-item>
                         <el-form-item label="个人简介：">
                             <el-input v-if="this.isEditable == true" type="textarea" resize="none" :rows="4"
-                                      v-model="profile.introduction"></el-input>
+                                v-model="profile.introduction"></el-input>
                             <span v-else> {{ profile.introduction }} </span>
                         </el-form-item>
                         <el-form-item label="兴趣爱好：">
@@ -109,7 +110,7 @@
                             <el-button v-if="this.isEditable == true" type="primary" @click="submitForm('profile')">保存
                             </el-button>
                             <el-button style="margin-left: 100px;" v-if="this.islogin == true" type="primary"
-                                       @click="longjmp('Page')">返回个人工作台
+                                @click="longjmp('Page')">返回个人工作台
                             </el-button>
                         </el-form-item>
                     </el-form>
@@ -362,13 +363,14 @@
             },
             goMyProfile() {
                 if (!this.isEditable) { //不可编辑说明查看的不是自己的个人信息页面
-                    var id = this.localStorageID; //data()中定义了一个属性，获取localStorage的值
+                    var id = this.localStorageID;
+                    console.log(id); //data()中定义了一个属性，获取localStorage的值
                     this.$router.push({
-                        name: 'Profile',
-                        query: {
-                            id: id
-                        }
-                    }),
+                            name: 'Profile',
+                            query: {
+                                id: id
+                            }
+                        }),
                         this.$router.go(0);
                 }
             },
@@ -393,9 +395,18 @@
                 });
             },
             longjmp(name) {
-                this.$router.push({
-                    name: name,
-                })
+                if (name === "Profile") {
+                    this.$router.push({
+                        path: '/profile',
+                        query: {
+                            id: this.localStorageID,
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        name: name,
+                    });
+                }
             },
             logout() {
                 this.islogin = false;
@@ -413,7 +424,6 @@
                 response => {
                     this.profile = response.data[0];
                     this.usernameList = response.data[0].usernameList;
-                    console.log(this.profile.gender);
                     var userID = localStorage.getItem('userID');
                     if (userID != null) {
                         if (userID == this.profile.id) {
@@ -439,20 +449,25 @@
         width: 220px;
         min-height: 600px;
     }
+
     .profile {
         background-color: #f3f3f3;
     }
+
     .shit {
         font-size: 13px !important;
     }
+
     .head {
         background: rgba(8, 1, 1, 0.342);
         padding: 0;
     }
+
     .head .welcome {
         position: absolute;
         float: right;
     }
+
     .head .wel_text {
         position: absolute;
         width: 400px;
@@ -463,6 +478,7 @@
         margin-top: 5px;
         line-height: 30px;
     }
+
     .head .avator {
         position: relative;
         width: 150px;
@@ -470,54 +486,67 @@
         float: right;
         margin-right: 100px;
     }
+
     .el-container {
         position: relative;
     }
+
     .el-divider--horizontal {
         margin-bottom: 1px !important;
         margin-top: 0px !important;
     }
+
     .el-link--default {
         color: #303133;
         font-size: 17px;
     }
+
     .el-row {
         margin-bottom: 20px;
     }
+
     .el-col {
         margin-top: 5px;
         border-radius: 4px;
     }
+
     .left {
         position: absolute;
         top: 0;
         left: 0;
     }
+
     .right {
         position: absolute;
         top: 0;
         right: 0;
     }
+
     .w {
         width: 950px;
         margin: 50px auto;
         background-color: #fff;
         font-size: 15px;
     }
+
     .w .form {
         width: 500px;
         margin-left: 50px;
     }
+
     .pwd {
         position: relative;
     }
+
     .el-footer {
         padding: 0 0;
     }
+
     .el-footer img {
         display: block;
         width: 100%;
     }
+
     /*这部分是个人信息的小卡片*/
     .item {
         padding: 18px 0;
