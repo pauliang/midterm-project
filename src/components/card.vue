@@ -163,7 +163,7 @@
         background: #FFF;
         width: 40px;
         min-width: 100px;
-        height: 100px;
+        /* height: 100px; */
         border: 1px solid #EBEEF5;
         padding: 10px 0;
         z-index: 2000;
