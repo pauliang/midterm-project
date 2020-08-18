@@ -69,6 +69,16 @@ Vue.use(VueRouter)
       component: () => import('@/components/team_inside.vue')
     },
     {
+      path: '/doc',
+      name: 'Doc',
+      component: () => import('@/components/doc.vue')
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: () => import('@/components/search.vue')
+    },
+    {
       path: '/notification_center',
       name: 'Notification_center',
       component: () => import('@/views/notification_center.vue')
@@ -77,7 +87,7 @@ Vue.use(VueRouter)
       path: '/notification_center_old',
       name: 'Notification_center_old',
       component: () => import('@/views/notification_center_old.vue')
-    },
+    }
 ]
 
 const router = new VueRouter({

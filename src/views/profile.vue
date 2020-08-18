@@ -245,7 +245,7 @@
                 var newPwd = this.password.newPwd;
                 this.$axios({
                     method: 'post',
-                    url: 'http://39.97.122.202/User/edit/' + uid + '/',
+                    url: 'http://39.97.122.202/User/change_password/' + uid + '/',
                     data: {
                         formerPwd: formerPwd,
                         newPwd: newPwd,
@@ -253,7 +253,7 @@
                 }).then(
                     response => {
                         var info = response.data.info;
-                        if (info == "成功")
+                        if (info === "成功")
                             alert('密码修改成功！');
                         else {
                             alert('密码修改失败！');
