@@ -27,22 +27,9 @@
         },
         data() {
             return {
-                remarkList: [{
-                    send: '用户A',
-                    accept: '当前用户',
-                    msg: '评论',
-                    time: new Date()
-                }, {
-                    send: '用户B',
-                    accept: '当前用户',
-                    msg: '评论',
-                    time: new Date()
-                }, {
-                    send: '用户C',
-                    accept: '当前用户',
-                    msg: '评论',
-                    time: new Date()
-                }]
+                localStorageID: 0,
+                localStorageName: '',
+                remarkList: []
             }
         },
         created() {
@@ -51,15 +38,21 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var msg_url = 'http://39.97.122.202/notice/get_notice';
+            var msg_url = 'http://39.97.122.202/notice/get_notice/';
             this.$axios({
                 method: 'post',
                 url: msg_url, //此处不传data
+                data: {
+                    id: this.localStorageID,
+                    op: 1
+                }
             }).then(
                 response => {
-                    this.docList.collections = response.data;
-                    if (response.data == null)
-                        this.docList.collections = [];
+                    var remarks = response.data;
+                    if (remarks == null)
+                        this.remarkList = [];
+                    else
+                        this.remarkList = remarks;
                 },
                 err => {
                     console.log(err);

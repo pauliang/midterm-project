@@ -10,10 +10,8 @@
                         <el-form-item label="用户编号：">
                             {{profile.id}}
                         </el-form-item>
-                        <el-form-item label="用户昵称：" prop="uname">
-                            <el-input v-if="this.isEditable == true" v-model="profile.username" placeholder="请输入昵称">
-                            </el-input>
-                            <span v-else>{{ profile.username }}</span>
+                        <el-form-item label="用户昵称：">
+                            <span>{{ profile.username }}</span>
                         </el-form-item>
                         <el-form-item label="密码：" class="pwd">
                             ******
@@ -135,20 +133,20 @@
                     callback();
                 }
             };
-            var validatePass3 = (rule, value, callback) => {
-                if (value === "") {
-                    callback(new Error("请输入用户名"));
-                } else {
-                    this.usernameList.forEach(username => {
-                        console.log(username);
-                        if (username != localStorage.getItem('username') && this.profile.username ==
-                            username) {
-                            callback(new Error("该用户名已存在"));
-                        }
-                    });
-                    callback();
-                }
-            };
+            // var validatePass3 = (rule, value, callback) => {
+            //     if (value === "") {
+            //         callback(new Error("请输入用户名"));
+            //     } else {
+            //         this.usernameList.forEach(username => {
+            //             console.log(username);
+            //             if (username != localStorage.getItem('username') && this.profile.username ==
+            //                 username) {
+            //                 callback(new Error("该用户名已存在"));
+            //             }
+            //         });
+            //         callback();
+            //     }
+            // };
             var checkPhone = (rule, value, callback) => {
                 const phoneReg = /^1[3|4|5|7|8][0-9]{9}$/
                 if (value === "") {
@@ -203,11 +201,11 @@
                 localStorageID: '',
                 usernameList: ['g'],
                 rule: {
-                    uname: [{
-                        required: true,
-                        validator: validatePass3,
-                        trigger: "blur"
-                    }],
+                    // uname: [{
+                    //     required: true,
+                    //     validator: validatePass3,
+                    //     trigger: "blur"
+                    // }],
                     phone: [{
                         required: true,
                         validator: checkPhone,

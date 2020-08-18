@@ -1,7 +1,60 @@
 <template>
     <div>
-        <el-container class="whole w">
-            <my_header></my_header>
+        <el-container class="whole">
+            <el-header class="head">
+                <el-row>
+                    <el-col :span="4">
+                        <div style="margin-right:25px">
+                            <img src="../assets/logo.png" @click="goBack()">
+                        </div>
+                    </el-col>
+                    <el-col :span="1">
+                        <div class="grid-content"></div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div class="slogan">
+                            <el-tag class="slogan2">“精诚所至，金石为开”</el-tag>
+                        </div>
+                    </el-col>
+
+                    <el-col :span="13" style="text-align:right">
+                        <el-col :span="6" class="welcome">
+                            <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
+                                     class="wel_text">{{ this.localStorageName }}，您好！
+                            </el-link>
+                        </el-col>
+                        <el-col :span="6" class="avator">
+                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
+                                <div v-if="islogin==true">
+                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
+                                    <el-badge value="new">
+                                        <el-button index="0" class="item more_info1"
+                                                   @click="longjmp('Notification_center')">
+                                            查看系统通知
+                                        </el-button>
+                                    </el-badge>
+                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
+                                </div>
+                                <div v-if="islogin===false">
+                                    <div class="item cardtxt">你尚未登陆</div>
+                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
+                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
+                                </div>
+
+                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
+                            </el-popover>
+                        </el-col>
+                    </el-col>
+                </el-row>
+
+            </el-header>
+
+            <el-divider/>
+
+
+            <el-divider/>
+
             <el-container>
                 <el-aside class="slide_menu">
                     <el-menu
@@ -49,7 +102,6 @@
 </template>
 
 <script>
-    import my_header from "../components/my_header";
     import invi_note from "../components/invi_note";
     import msg_note from "../components/msg_note";
     import remark_note from "../components/remark_note";
@@ -58,8 +110,7 @@
         components: {
             invi_note,
             msg_note,
-            remark_note,
-            my_header
+            remark_note
         },
         name: "notification_center",
         data() {
@@ -121,11 +172,8 @@
 <style scoped>
 
     .whole {
-        height: 1500px;
-    }
-
-    .w {
-        height: 700px;
+        position: relative;
+        height: 1000px;
     }
 
     .el-menu-vertical-demo:not(.el-menu--collapse) {

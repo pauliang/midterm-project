@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-container class="whole w">
-            <my_header></my_header>
+            <my_header_search index="0" @keyup.enter="shortjmp('0')" @event3="goresult($event)"></my_header_search>
             <el-container>
                 <el-aside>
                     <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
@@ -54,12 +54,12 @@
 
                 <!-- 组件部分 -->
                 <recentFiles v-if="which==='recentFiles'"></recentFiles>
+                <search_result v-else-if="which==='search_result'" :search="search"></search_result>
                 <createdFiles v-else-if="which==='createdFiles'"></createdFiles>
                 <collectedFiles v-else-if="which==='collectedFiles'"></collectedFiles>
                 <dele v-else-if="which==='dele'"></dele>
                 <Gtable v-else-if="which==='Gtable'" @event1="shortjmp($event)"></Gtable>
                 <Tinside v-else-if="which==='Tinside'"></Tinside>
-                <!--                <view_remark v-else-if="which==='view_remark'"></view_remark>-->
 
             </el-container>
             <el-footer>
@@ -71,7 +71,8 @@
 
 <script>
     // import { ParticlesBg } from "particles-bg-vue";
-    import my_header from "../components/my_header";
+    import my_header_search from "../components/my_header_search";
+    import search_result from "../components/search_result";
     import recentFiles from "@/components/recentFiles.vue";
     import collectedFiles from "@/components/collectedFiles.vue";
     import createdFiles from "@/components/createdFiles.vue";
@@ -93,6 +94,7 @@
                 localStorageName: '',
                 localStorageID: '',
                 msgList: [],
+                search:'',
             };
         },
         methods: {
@@ -106,7 +108,9 @@
                 this.isCollapse = !this.isCollapse;
             },
             shortjmp(index) {
-                if (index === '1-1') {
+                if(index === '0') {
+                    this.which = 'search_result';
+                }else if (index === '1-1') {
                     this.which = 'recentFiles';
                 } else if (index === '1-2') {
                     this.which = 'createdFiles';
@@ -148,9 +152,14 @@
                 localStorage.removeItem('username');
                 this.longjmp("Login");
             },
+          goresult(search){
+            this.search = search;
+            this.shortjmp('0');
+          }
         },
         components: {
-            my_header,
+            my_header_search,
+            search_result,
             recentFiles,
             collectedFiles,
             createdFiles,

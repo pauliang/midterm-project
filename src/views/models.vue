@@ -5,7 +5,7 @@
             <el-container>
                 <el-aside class="aside">
                     <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                             :collapse="isCollapse">
+                        :collapse="isCollapse">
 
                         <el-row class="nav title">金石模板</el-row>
 
@@ -80,13 +80,29 @@
                 isCollapse: false,
                 localStorageName: '',
                 localStorageID: '',
-                board_list: [
-                    {name: '空白模板'},
-                    {name: '会议纪要模板', url: require('@/assets/model1.png')},
-                    {name: '康奈尔笔记法', url: require('@/assets/model2.png')},
-                    {name: '四象限法则', url: require('@/assets/model3.png')},
-                    {name: '阅读笔记模板', url: require('@/assets/model4.png')},
-                    {name: '项目策划模板', url: require('@/assets/model5.png')}
+                board_list: [{
+                        name: '空白模板'
+                    },
+                    {
+                        name: '会议纪要模板',
+                        url: require('@/assets/model1.png')
+                    },
+                    {
+                        name: '康奈尔笔记法',
+                        url: require('@/assets/model2.png')
+                    },
+                    {
+                        name: '四象限法则',
+                        url: require('@/assets/model3.png')
+                    },
+                    {
+                        name: '阅读笔记模板',
+                        url: require('@/assets/model4.png')
+                    },
+                    {
+                        name: '项目策划模板',
+                        url: require('@/assets/model5.png')
+                    }
                 ]
             }
         },
@@ -117,6 +133,8 @@
                 this.which = which
             },
             longjmp(name) {
+                if (localStorage.getItem('groupid') != null)
+                    localStorage.removeItem('groupid');
                 this.$router.push({
                     name: name,
                 })
@@ -136,9 +154,11 @@
                 this.localStorageID = userID;
             } else {
                 //暂时修改
-                localStorage.getItem('aaa');
-                // this.longjmp("Login");
+                // localStorage.getItem('aaa');
+                this.longjmp("Login");
             }
+            if (localStorage.getItem('docid') != null)
+                localStorage.removeItem('docid');
         },
         props: {
             choice: Number,

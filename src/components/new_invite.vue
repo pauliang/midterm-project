@@ -2,33 +2,23 @@
     <el-container>
         <el-row :span="8" class="outer">
             <el-card :body-style="{ padding: '0px' }" class="card">
-                <div style="padding: 14px;" v-if="!isRead">
+                <div style="padding: 14px;">
                     <i class="el-icon-chat-dot-round img"></i>
                     <span class="topic">{{"消息："+ accept + "收到了来自" + send + "的" + message}}</span>
-                    <el-button type="text" class="button" @click="markAs()">标为已读</el-button>
-                    <el-button type="text" class="button2">删除消息</el-button>
+                    <el-button type="text" class="button" @click="acceptInvite()">接受邀请</el-button>
+                    <el-button type="text" class="button2" @click="refuseInvite()">拒绝邀请</el-button>
                     <div class="bottom clearfix">
                         <time class="time">{{ dateFormat(time) }}</time>
                     </div>
                 </div>
-                <div style="padding: 14px;" v-if="isRead" class="read">
-                    <i class="el-icon-chat-dot-round img"></i>
-                    <span class="topic">{{"消息："+ accept + "收到了来自" + send + "的" + message}}</span>
-                    <el-button type="text" class="button" @click="markAs()">标为未读</el-button>
-                    <el-button type="text" class="button2">删除消息</el-button>
-                    <div class="bottom clearfix">
-                        <time class="time2">{{ dateFormat(time) }}</time>
-                    </div>
-                </div>
             </el-card>
         </el-row>
-
     </el-container>
 </template>
 
 <script>
     export default {
-        name: 'new_message',
+        name: 'new_invite',
         props: {
             send: String,
             accept: String,
@@ -36,9 +26,10 @@
             time: Date
         },
         data() {
-          return {
-              isRead: false,
-          }
+            return {
+                localStorageID: 0,
+                localStorageName: '',
+            }
         },
         methods: {
             dateFormat: function (time) {
@@ -52,14 +43,49 @@
                 // 拼接
                 return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
             },
-            markAs() {
-                this.isRead = !this.isRead;
+            acceptInvite() {
+                this.$axios({
+                    method: 'post',
+                    url: 'http://39.97.122.202/handle_invitation/',
+                    op: 1,
+                }).then(
+                    // res => {
+                    //     if (res.data === "success") {
+                    //         console.log("取消收藏成功");
+                    //     } else {
+                    //         console.log("取消收藏失败");
+                    //     }
+                    // },
+                    // err => {
+                    //     console.log(err);
+                    // }).catch((error) => {
+                    // console.log(error);
+                );
+            },
+            refuseInvite() {
+                this.$axios({
+                    method: 'post',
+                    url: 'http://39.97.122.202/handle_invitation/',
+                    op: -1
+                }).then(
+
+                );
             }
         },
+        created() {
+            var id = localStorage.getItem('userID');
+            if (id == null)
+                this.longjmp('Login');
+            this.localStorageID = localStorage.getItem('userID');
+            this.localStorageName = localStorage.getItem('username');
+        }
     }
 </script>
 
 <style scoped>
+    .outer {
+        /*position: relative;*/
+    }
 
     .card {
         /*position: absolute;*/
@@ -76,17 +102,10 @@
         font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     }
 
-
     .time {
         position: absolute;
         font-size: 13px;
         color: #999;
-        margin: 20px 0 0 -285px;
-    }
-    .time2 {
-        position: absolute;
-        font-size: 13px;
-        color: #f2f2f2;
         margin: 20px 0 0 -285px;
     }
 
@@ -126,8 +145,5 @@
 
     .clearfix:after {
         clear: both
-    }
-    .read {
-        color: #f2f2f2;
     }
 </style>

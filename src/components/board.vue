@@ -1,6 +1,6 @@
 <template>
     <div class="w">
-        <div v-if="choice=='会议纪要模板'" class="title">
+        <div v-if="choice==='会议纪要模板'" class="title">
             <h1 class="title1">会议纪要</h1>
             <h2 class="title2 cues">会议信息</h2>
             <pre><h3 style="font-size: 20px">  会议日期:</h3></pre>
@@ -26,7 +26,7 @@
                 <h3 class="addition">补充内容</h3>
             </ul>
         </div>
-        <div v-else-if="choice=='康奈尔笔记法'" class="title">
+        <div v-else-if="choice==='康奈尔笔记法'" class="title">
             <h1 class="title1">康奈尔笔记模板</h1>
             <h2 class="cues">线索Cues</h2>
             <pre><h3 style="font-size: 20px">  线索1:</h3></pre>
@@ -58,7 +58,7 @@
                 <br>
             </ul>
         </div>
-        <div v-else-if="choice=='四象限法则'" class="title">
+        <div v-else-if="choice==='四象限法则'" class="title">
             <ul>
                 <h1 class="title3">重要又紧急——立刻做</h1>
                 <ol>
@@ -92,7 +92,7 @@
                 <br>
             </ul>
         </div>
-        <div v-else-if="choice=='阅读笔记模板'" class="title">
+        <div v-else-if="choice==='阅读笔记模板'" class="title">
             <h1 class="title1">书籍背景</h1>
 <!--            <h2 class="title2">线索Cues</h2>-->
             <pre><h3 style="font-size: 20px">  书名:</h3></pre>
@@ -139,7 +139,7 @@
                 </ul>
             </ul>
         </div>
-        <div v-else-if="choice=='项目策划模板'" class="title">
+        <div v-else-if="choice==='项目策划模板'" class="title">
             <h1 class="title1">项目概述</h1>
             <pre><h3 style="font-size: 20px">  项目名称:</h3></pre>
             <pre><h3 style="font-size: 20px">  项目经理:</h3></pre>

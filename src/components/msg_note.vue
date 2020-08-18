@@ -21,84 +21,51 @@
         components: {
             new_message
         },
-        data() {
-            return {
-                list: [{
-                    send: '团队A',
-                    accept: '当前用户',
-                    msg: '成功加入信息',
-                    time: new Date()
-                }, {
-                    send: '团队B',
-                    accept: '当前用户',
-                    msg: '成功退出信息',
-                    time: new Date()
-                }, {
-                    send: '团队C',
-                    accept: '当前用户',
-                    msg: '团队解散信息',
-                    time: new Date()
-                }]
-            }
-        },
         props: {
             choice: Number,
             msg: String
         },
+        data() {
+            return {
+                localStorageID: 0,
+                localStorageName: '',
+                list: []
+            }
+        },
+        created() {
+            var id = localStorage.getItem('userID');
+            if (id == null)
+                this.longjmp('Login');
+            this.localStorageID = localStorage.getItem('userID');
+            this.localStorageName = localStorage.getItem('username');
+            var msg_url = 'http://39.97.122.202/notice/get_notice/';
+            this.$axios({
+                method: 'post',
+                url: msg_url, //此处不传data
+                data: {
+                    id: this.localStorageID,
+                    op: 2
+                }
+            }).then(
+                response => {
+                    var messages = response.data;
+                    if (messages == null)
+                        this.list = [];
+                    else
+                        this.list = messages;
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
+        }
     }
 </script>
 <style scoped>
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 220px;
         min-height: 600px;
-    }
-
-    .head .welcome {
-        position: absolute;
-        float: right;
-    }
-
-    .head .wel_text {
-        position: absolute;
-        width: 400px;
-        height: 30px;
-        color: #fbfcfe;
-        float: right;
-        margin-right: 20px;
-        margin-top: 5px;
-        line-height: 30px;
-    }
-
-    .head .avator {
-        position: relative;
-        width: 150px;
-        height: 40px;
-        float: right;
-        margin-right: 100px;
-    }
-
-    .head .welcome {
-        position: absolute;
-        float: right;
-    }
-
-    .head .wel_text {
-        position: absolute;
-        width: 400px;
-        height: 30px;
-        color: #fbfcfe;
-        float: right;
-        margin-right: 20px;
-        margin-top: 5px;
-        line-height: 30px;
-    }
-
-    .head .avator {
-        position: relative;
-        width: 150px;
-        height: 40px;
-        float: right;
-        margin-right: 100px;
     }
 
     li {
@@ -166,13 +133,6 @@
         width: 100%;
     }
 
-    .cardtxt {
-        text-align: center;
-    }
-
-    .cardbox {
-        width: 200px;
-    }
 </style>
 <style>
     .new_message {

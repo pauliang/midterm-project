@@ -27,6 +27,10 @@
         },
         data() {
             return {
+                localStorageID: 0,
+                localStorageName: '',
+                group_num: 0,
+                // invitations: [],
                 invitations: [{
                     send: '团队A',
                     accept: '当前用户',
@@ -45,8 +49,34 @@
                 }]
             }
         },
-
-
+        created() {
+            var id = localStorage.getItem('userID');
+            if (id == null)
+                this.longjmp('Login');
+            this.localStorageID = localStorage.getItem('userID');
+            this.localStorageName = localStorage.getItem('username');
+            var msg_url = 'http://39.97.122.202/get_invitation_a/';
+            this.$axios({
+                method: 'post',
+                url: msg_url, //此处不传data
+                data: {
+                    id: this.localStorageID,
+                    op: 0,
+                }
+            }).then(
+                response => {
+                    var messages = response.data;
+                    if (messages == null)
+                        this.invitations = [];
+                    else
+                        this.invitations = messages;
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
+        }
     }
 </script>
 <style scoped>

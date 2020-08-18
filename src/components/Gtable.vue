@@ -10,7 +10,7 @@
                 <el-button class="posi" @click="isShow = true">创建我的团队</el-button>
                 <el-row>
                     <el-col class="cardbox" v-for="team in teamList" :key="team.name">
-                        <Gcard :name="team.name" :url="team.url" @event2="goIntro()"></Gcard>
+                        <Gcard :name="team[0]" :groupid=team[1] @event2="goIntro(team[0],team[1],team[2],team[3])"></Gcard>
                     </el-col>
                 </el-row>
             </el-main>
@@ -48,36 +48,37 @@
                     groupname: '',
                     groupintro: '',
                 },
-                teamList: [{
-                    name: 'Team 1',
-                    url: '/team_inside'
-                }, {
-                    name: 'Team 2',
-                    url: '/team_inside'
-                }, {
-                    name: 'Team 3',
-                    url: '/team_inside'
-                }, {
-                    name: 'Team 4',
-                    url: '/team_inside'
-                }, {
-                    name: 'Team 5',
-                    url: '/team_inside'
-                }, {
-                    name: 'Team 6',
-                    url: '/team_inside'
-                }, {
-                    name: 'Team 7',
-                    url: '/team_inside'
-                }, {
-                    name: 'Team 8',
-                    url: '/team_inside'
-                }, ]
+                teamList: [
+                    [
+                        'Team 1', 1, 10, 'This is Team 1',
+                    ],
+                    [
+                        'Team 2', 2, 10, 'This is Team 1',
+                    ],
+                    [
+                        'Team 3', 3, 10, 'This is Team 1',
+                    ],
+                    [
+                        'Team 4', 4, 10, 'This is Team 1',
+                    ],
+                    [
+                        'Team 5', 5, 10, 'This is Team 1',
+                    ],
+                    [
+                        'Team 6', 6, 10, 'This is Team 1',
+                    ],
+                    [
+                        'Team 7', 7, 10, 'This is Team 1',
+                    ],
+                    [
+                        'Team 8', 8, 10, 'This is Team 1',
+                    ],
+                ]
             };
         },
         methods: {
-            goIntro() {
-                this.$emit('event1', '2+')
+            goIntro(gname, gid) {
+                this.$emit('event1', gname,gid)
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -116,8 +117,26 @@
                     console.log(error);
                 });
             },
-            mounted() {
+            created() {
                 this.localStorageID = localStorage.getItem('userID');
+                console.log("test");
+                this.$axios({
+                    method: 'post',
+                    url: 'http://39.97.122.202/group/get_groups/',
+                    data: {
+                        id: this.localStorageID
+                    }
+                }).then(
+                    response => {
+                        this.teamList = response.data;
+                        if (this.teamList == [])
+                            console.log("no team");
+                    },
+                    err => {
+                        console.log(err);
+                    }).catch((error) => {
+                    console.log(error);
+                });
             }
         },
         components: {

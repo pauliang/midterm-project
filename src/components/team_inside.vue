@@ -8,14 +8,17 @@
                         <el-button class="grid-content bg-purple now delete">团队详情</el-button>
                     </el-col>
                     <el-col :span="16">
-                        <group-intro class="intro"></group-intro>
-                        <dismiss class="dismiss"></dismiss>
-                        <Gexit class="exit"></Gexit>
+                        <group-intro :groupID="groupid" :groupName="groupname" :groupIntroduction="groupIntroduction"
+                            :groupMemberNumber="groupMemberNumber" class="intro"></group-intro>
+                        <dismiss :groupID="groupid" :groupName="groupname" :power="localStorageID == leaderID"
+                            class="dismiss"></dismiss>
+                        <Gexit :groupID="groupid" class="exit" :power="localStorageID != leaderID"></Gexit>
                     </el-col>
+                    <el-button style="margin-top: 14px;" @click="createTeamDoc">创建团队文件</el-button>
                 </el-row>
-                <div v-for="domain in docList.domains" :key="domain.docname"
-                     style="width: 150px;float: left; margin: 35px;">
-                    <card :doc="domain" :user=localStorageID></card>
+                <div v-for="groupdoc in docList.groupdocs" :key="groupdoc.docname"
+                    style="width: 150px;float: left; margin: 35px;">
+                    <card :doc="groupdoc" :user=localStorageID></card>
                 </div>
             </el-main>
         </el-container>
@@ -23,13 +26,16 @@
 </template>
 
 <script>
-    import card from "./card";
+    import card from "./card_guo";
     import groupIntro from "./groupIntro";
     import dismiss from "./dismiss";
     import Gexit from "./Gexit";
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
-        name: 'worktable',
+        name: 'team_inside',
+        props: {
+            group: Array
+        },
         components: {
             card,
             groupIntro,
@@ -38,49 +44,101 @@
         },
         data() {
             return {
+                groupid: '',
+                groupname: '',
+                groupIntroduction: '',
+                groupMemberNumber: '',
                 isCollapse: false,
-                emm: '1-1',
+                localStorageID: '',
+                leaderID: '',
                 docList: {
-                    domains: [
-                      {
+                    groupdocs: [{
                         docname: '团队文件1',
                         url: '/doc',
-                        last_time: new Date(),
+                        lasttime: new Date(),
                     }, {
                         docname: '团队文件2',
                         url: '/doc',
-                        last_time: new Date(),
+                        lasttime: new Date(),
                     }, {
                         docname: '团队文件3',
                         url: '/doc',
-                        last_time: new Date(),
+                        lasttime: new Date(),
                     }, {
                         docname: '团队文件4',
                         url: '/doc',
-                        last_time: new Date(),
+                        lasttime: new Date(),
                     }, {
                         docname: '团队文件5',
                         url: '/doc',
-                        last_time: new Date(),
+                        lasttime: new Date(),
                     }, {
                         docname: '团队文件6',
                         url: '/doc',
-                        last_time: new Date(),
+                        lasttime: new Date(),
                     }, {
                         docname: '团队文件7',
                         url: '/doc',
-                        last_time: new Date(),
+                        lasttime: new Date(),
                     }, {
                         docname: '团队文件8',
                         url: '/doc',
-                        last_time: new Date(),
-                    },{
+                        lasttime: new Date(),
+                    }, {
                         docname: '新团队文件',
                         url: '/doc',
-                        last_time: new Date(),
-                    },]
+                        lasttime: new Date(),
+                    }, ]
                 }
             };
+        },
+        methods: {
+            createTeamDoc() {
+                localStorage.setItem('groupid', this.groupid);
+                this.$router.push({
+                    name: 'Models',
+                })
+            }
+        },
+        created() {
+            this.groupid = this.group[1];
+            this.groupname = this.group[0];
+            this.groupMemberNumber = this.group[2];
+            this.groupIntroduction = this.group[3];
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/doc/get_group_docs/',
+                data: {
+                    groupid: this.groupid
+                }
+            }).then(
+                response => {
+                    this.docList.groupdocs = response.data;
+                    if (this.docList.groupdocs == [])
+                        console.log("no docs");
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/group/get_leader/',
+                data: {
+                    groupid: this.groupid
+                }
+            }).then(
+                response => {
+                    this.leaderID = response.data;
+                    console.log(this.leaderID);
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
+            this.localStorageID = localStorage.getItem('userID');
         }
     };
 </script>
@@ -94,6 +152,7 @@
     .shit {
         font-size: 13px !important;
     }
+
     /*头像的css*/
     .head {
         position: relative;
@@ -147,6 +206,7 @@
         margin-top: 5px;
         border-radius: 4px;
     }
+
     /*团队详情标题的css*/
     .delete {
         position: relative;
@@ -160,15 +220,18 @@
         border: none;
         width: 40px;
     }
+
     /* 新组件的加入:团队概况、解散团队和成员管理 */
     .intro {
         margin: 10px 10px -60px 20px;
         width: 100px;
     }
+
     .dismiss {
         margin: 21px 10px -40px 115px;
         width: 200px;
     }
+
     .exit {
         margin: 0 10px -20px 210px;
         width: 300px;
@@ -214,6 +277,7 @@
     .el-container .now {
         color: #575757;
     }
+
     /*底部的信息栏*/
     .el-footer {
         padding: 0 0;
@@ -223,6 +287,7 @@
         display: block;
         width: 100%;
     }
+
     /*版心*/
     .whole {
         height: 1500px;
@@ -258,9 +323,4 @@
         color: #c81623;
         margin: 45px auto 0;
     }
-</style>
-<style>
-    /*.intro {*/
-    /*    margin-left: 50px;*/
-    /*}*/
 </style>

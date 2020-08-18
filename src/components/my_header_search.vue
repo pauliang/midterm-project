@@ -12,8 +12,8 @@
                     <div class="grid-content"></div>
                 </el-col>
                 <el-col :span="6">
-                    <div class="slogan">
-                        <el-tag class="slogan2">“精诚所至，金石为开”</el-tag>
+                    <div class="search">
+                        <search @event1="goResult($event)"></search>
                     </div>
                 </el-col>
 
@@ -63,8 +63,12 @@
 </template>
 
 <script>
+    import search from "./search";
     export default {
         name: 'Page',
+        components: {
+            search
+        },
         data() {
             return {
                 inputBox: '',
@@ -101,6 +105,9 @@
                     name: 'Page',
                 })
             },
+          goResult(keyword){
+              this.$emit('event3',keyword)
+          },
         },
         created() {
             var id = localStorage.getItem('userID');
@@ -168,21 +175,10 @@
         padding: 0;
     }
 
-    .head .el-col-6 .slogan {
-        width: 100px;
-        margin-top: 5px;
-        margin-left: 300px;
-    }
-
-    .head .el-col-6 .slogan2 {
-        font-size: 28px;
-        font-weight: 400;
-        font-family: "KaiTi", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-        line-height: 40px;
-        height: 40px;
-        background-color: transparent;
-        color: #ffffff;
-        border: none;
+    .head .search {
+        width: 400px;
+        margin-top: -8px;
+        margin-left: -380px;
     }
 
     .head .welcome {

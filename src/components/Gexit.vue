@@ -1,7 +1,8 @@
 <template>
     <div>
         <span>
-           <el-button type="text" @click="push" >退出团队</el-button>
+           <el-button v-if="power" type="text" @click="push" >退出团队</el-button>
+           <el-button v-else type="text" disabled>退出团队</el-button>
         </span>
     </div>
 </template>
@@ -15,6 +16,10 @@
                 default: () => 0
                 //这个群组的id；
             },
+            power: {
+                type: Boolean,
+                default: () => true
+            }
         },
         data() {
             return {

@@ -1,72 +1,21 @@
 <template>
     <div>
-        <el-container class="container">
-            <el-header class="head">
-
-                <el-row>
-                    <el-col :span="4">
-                        <div style="margin-right:25px">
-                            <img src="../assets/logo.png" alt="logo" @click="goPage()">
-                        </div>
-
-                    </el-col>
-                    <el-col :span="1">
-                        <div class="grid-content"></div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div style="margin-top:3px">
-                            <el-input clearable placeholder="随便找点什么吧" prefix-icon="el-icon-search" v-model="inputbox">
-                            </el-input>
-                        </div>
-
-                    </el-col>
-
-                    <el-col :span="13" style="text-align:right">
-                        <el-col :span="6" class="welcome">
-                            <el-link v-if="islogin==true" href="https://element.eleme.io" target="_blank"
-                                     class="wel_text">{{ this.localStorageName }}，您好！
-                            </el-link>
-                        </el-col>
-                        <el-col :span="6" class="avator">
-                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
-                                <div v-if="islogin==true">
-                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
-                                    <el-badge value="new">
-                                        <el-button disabled index="0" class="item more_info1">
-                                            查看系统通知
-                                        </el-button>
-                                    </el-badge>
-                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
-                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
-                                </div>
-                                <div v-if="islogin===false">
-                                    <div class="item cardtxt">你尚未登陆</div>
-                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
-                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
-                                </div>
-
-                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
-                            </el-popover>
-                        </el-col>
-                    </el-col>
-                </el-row>
-
-            </el-header>
-
+        <el-container class="container w whole">
+            <my_header></my_header>
             <el-main>
-
+                <h1 v-if="localStorageFileName!=''">{{localStorageFileName}}</h1>
                 <div id="div1" class="toolbar" style="width: 900px;">
-                    <el-tooltip effect="light" content="返回到模板库" placement="bottom">
+                    <el-tooltip effect="light" content="返回" placement="bottom">
                         <div style="font-size:25px;cursor:pointer;margin-left:35px;" class="el-icon-back"
-                             @click="goBack"></div>
+                            @click="goBack"></div>
                     </el-tooltip>
                     <el-tooltip effect="light" content="保存" placement="bottom">
                         <div style="font-size:25px;cursor:pointer;margin-left:10px;" class="el-icon-upload"
-                             @click="saveFile"></div>
+                            @click="saveFile"></div>
                     </el-tooltip>
                     <el-tooltip effect="light" content="另存为" placement="bottom">
                         <div style="font-size:25px;cursor:pointer;margin-left:10px;" class="el-icon-document-add"
-                             @click="isShow = true"></div>
+                            @click="isShow1 = true"></div>
                     </el-tooltip>
                 </div>
                 <div id="div2" class="text">
@@ -79,20 +28,26 @@
                     <b class="intro1">编写于</b>
                     <b class="intro2">金石文档</b>
                 </div>
-                <el-dialog title="创建文档" :visible.sync="isShow" width="30%" modal="true">
+                <el-dialog title="创建文档" :visible.sync="isShow1" width="30%" modal="true">
                     <el-form ref="doc" :model="doc" label-width="100px">
                         <el-form-item label="文件名" prop="docname"
-                                      :rules="[{required: true, message: '请输入文件名', trigger: 'blur'}]">
+                            :rules="[{required: true, message: '请输入文件名', trigger: 'blur'}]">
                             <el-input v-model="doc.docname" autocomplete="off">
                             </el-input>.doc
                         </el-form-item>
                     </el-form>
                     <span slot="footer" class="dialog-footer">
-                        <el-button @click="isShow = false">取 消</el-button>
-                        <el-button @click="isShow = false;submitForm('doc')">确 定</el-button>
+                        <el-button @click="isShow1 = false">取 消</el-button>
+                        <el-button @click="isShow1 = false;submitForm('doc')">确 定</el-button>
                     </span>
                 </el-dialog>
-
+                <el-dialog title="提示" :visible.sync="isShow2" width="30%" :before-close="handleClose">
+                    <span>这是一段信息</span>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="isShow2 = false">取 消</el-button>
+                        <el-button type="primary" @click="goBack()">确 定</el-button>
+                    </span>
+                </el-dialog>
             </el-main>
 
         </el-container>
@@ -101,12 +56,14 @@
 
 <script>
     import E from "wangeditor";
+    import my_header from "./my_header";
     import board from '@/components/board.vue'
     export default {
         name: 'edt',
         data() {
             return {
-                isShow: false,
+                isShow1: false,
+                isShow2: false,
                 isCollapse: false,
                 inputbox: '',
                 islogin: true,
@@ -116,6 +73,7 @@
                 localStorageID: -1,
                 localStorageName: '',
                 localStorageFileID: -1,
+                localStorageFileName: '',
             };
         },
         props: {
@@ -123,21 +81,24 @@
             msg: String
         },
         mounted() {
-            var editor2 = new E('#div1', '#div2')
+            var editor2 = new E('#div1', '#div2');
             editor2.customConfig.onchange = (html) => {
                 this.formArticle.content = html;
-            }
+            };
+            editor2.customConfig.uploadImgShowBase64 = true;
             editor2.create();
         },
         methods: {
             goPage() {
+                if (localStorage.getItem('groupid') != null)
+                    localStorage.removeItem('groupid');
                 this.$router.push({
                     name: 'Page',
                 })
             },
             saveFile() {
-                if (localStorage.getItem('docid') == null) //该想记录
-                    this.isShow = true;
+                if (localStorage.getItem('docid') == null) //该项记录说明是否该文件已经创建，如果已创建则保存，否则创建新文档
+                    this.isShow1 = true;
                 else {
                     var div2 = document.getElementById("div2").innerHTML;
                     this.$axios({
@@ -149,8 +110,9 @@
                             userid: this.localStorageID,
                         }
                     }).then(res => {
-                        if (res.data == 1)
+                        if (res.data === 1)
                             alert('保存成功');
+                        else alert('保存失败');
                     }).catch(err => {
                         console.log(err);
                     }).catch((error) => {
@@ -172,11 +134,12 @@
                 }).then(
                     res => { //如果传过来的数据是{info:"success", docid: 文档id},就这么写，如果失败的话,也应该按照{info: "failed"}，这样的格式写
                         if (res.data.info === "success") {
-                            console.log("创建文档成功");
+                            alert("创建文档成功");
                             this.localStorageFileID = res.data.docid;
-                            localStorage.setItem('docid', res.data.docid)
+                            localStorage.setItem('docid', res.data.docid);
+                            this.localStorageFileName = this.doc.docname;
                         } else {
-                            console.log("创建文档失败");
+                            alert("创建文档失败");
                         }
                     },
                     err => {
@@ -184,6 +147,24 @@
                     }).catch((error) => {
                     console.log(error);
                 });
+                if (localStorage.getItem('groupid') != null) {
+                    this.$axios({
+                        method: 'post',
+                        url: 'http://39.97.122.202/autho/set_group_auth',
+                        data: {
+                            docnum: this.doc.docnum,
+                            groupnum: this.groupid
+                        }
+                    }).then(res => {
+                        if (res.data == 1) {
+                            console.log('组内文件创建成功');
+                        } else {
+                            console.log('组内文件创建失败');
+                        }
+                    }).catch(() => {
+                        console.log('网络问题，组内文件创建失败');
+                    })
+                }
             },
             goBack() {
                 this.$router.push({
@@ -191,14 +172,11 @@
                 })
             },
             longjmp(name) {
+                if (localStorage.getItem('groupid') != null)
+                    localStorage.removeItem('groupid');
+                if (localStorage.getItem('docid') != null)
+                    localStorage.removeItem('docid');
                 if (name === "Profile") {
-                    this.$router.push({
-                        path: '/profile',
-                        query: {
-                            id: this.localStorageID,
-                        }
-                    });
-                } else if (name === "") {
                     this.$router.push({
                         path: '/profile',
                         query: {
@@ -224,7 +202,7 @@
                         console.log("submitted");
                         this.createFile();
                     } else {
-                        this.isShow = true;
+                        this.isShow1 = true;
                         console.log('error submit!!');
                         return false;
                     }
@@ -244,7 +222,8 @@
             }
         },
         components: {
-            board
+            board,
+            my_header
         },
     }
 </script>
@@ -252,6 +231,13 @@
 <style scoped>
     .container {
         background-color: #f2f2f2;
+    }
+    .whole {
+        height: 1500px;
+    }
+
+    .w {
+        height: 700px;
     }
 
     li {

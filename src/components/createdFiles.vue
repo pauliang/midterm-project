@@ -23,48 +23,13 @@
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
         name: 'createdFiles',
-        // props: {
-        //     emm: String,
-        // },
         data() {
             return {
                 isCollapse: false,
                 localStorageID: 0,
                 localStorageName: '',
                 docList: {
-                    creates: [
-                    //     author: 9,
-                    //     docnum: 5,
-                    //     docname: 'New Document 5',
-                    //     url: '/doc',
-                    //     lasttime: new Date('2020-8-1'),
-                    //     isCollected: true,
-                    //     stat: 0,
-                    // }, {
-                    //     author: 9,
-                    //     docnum: 6,
-                    //     docname: 'New Document 6',
-                    //     url: '/doc',
-                    //     lasttime: new Date('2020-8-2'),
-                    //     isCollected: false,
-                    //     stat: 0,
-                    // }, {
-                    //     author: 9,
-                    //     docnum: 7,
-                    //     docname: 'New Document 7',
-                    //     url: '/doc',
-                    //     lasttime: new Date('2020-8-3'),
-                    //     isCollected: false,
-                    //     stat: -1,
-                    // }, {
-                    //     author: 9,
-                    //     docnum: 8,
-                    //     docname: 'New Document 8',
-                    //     url: '/doc',
-                    //     lasttime: new Date('2020-8-4'),
-                    //     isCollected: true,
-                    //     stat: -1,
-                     ],
+                    creates: [],
                 }
             };
         },

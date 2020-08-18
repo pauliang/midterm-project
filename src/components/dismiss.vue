@@ -1,6 +1,7 @@
 <template>
     <div>
-        <el-button type="text" @click="dialogVisible = true" :disabled="power">解散团队</el-button>
+        <el-button type="text" @click="dialogVisible = true" v-if="power">解散团队</el-button>
+        <el-button type="text" @click="dialogVisible = true" v-else disabled>解散团队</el-button>
         <el-dialog :title="'团队解散'" class="dismiss title" :visible.sync="dialogVisible" width="20%">
 
             <div class="confirm">
