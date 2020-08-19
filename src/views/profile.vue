@@ -322,9 +322,9 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        if (formName == "password")
+                        if (formName === "password")
                             this.submitPassword();
-                        else if (formName == "profile")
+                        else if (formName === "profile")
                             this.onSubmit();
                         localStorage.setItem('username', this.profile.username);
                         console.log("submitted");

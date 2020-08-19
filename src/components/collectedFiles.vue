@@ -24,6 +24,7 @@
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
         name: 'collectedFiles',
+        inject: ['reload'],
         // props: {
         //     emm: String,
         // },
@@ -86,6 +87,7 @@
                 });
                 if (index > -1)
                     collection.splice(index, 1);
+                this.reload();
                 var deleteurl = 'http://39.97.122.202/Table/delete_file/';
                 this.$axios({
                     method: 'post',
@@ -106,6 +108,7 @@
                     }).catch((error) => {
                     console.log(error);
                 });
+                this.reload();
             },
             // collectItem(docnum) {
             //     var array = this.docList.collections;
@@ -128,6 +131,7 @@
                 if (index > -1)
                     array.splice(index, 1);
                 var cancelCollectUrl = 'http://39.97.122.202/Table/not_collect/';
+                this.reload(),
                 this.$axios({
                     method: 'post',
                     url: cancelCollectUrl,
@@ -136,6 +140,7 @@
                         file_id: docnum,
                     }
                 }).then(
+
                     res => {
                         if (res.data === "success") {
                             console.log("取消收藏成功");
@@ -157,6 +162,7 @@
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
             var collecturl = 'http://39.97.122.202/Table/collect/' + id + '/';
+            this.reload(),
             this.$axios({
                 method: 'post',
                 url: collecturl, //此处不传data

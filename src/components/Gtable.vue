@@ -48,37 +48,12 @@
                     groupname: '',
                     groupintro: '',
                 },
-                teamList: [
-                    [
-                        'Team 1', 1, 10, 'This is Team 1',
-                    ],
-                    [
-                        'Team 2', 2, 10, 'This is Team 1',
-                    ],
-                    [
-                        'Team 3', 3, 10, 'This is Team 1',
-                    ],
-                    [
-                        'Team 4', 4, 10, 'This is Team 1',
-                    ],
-                    [
-                        'Team 5', 5, 10, 'This is Team 1',
-                    ],
-                    [
-                        'Team 6', 6, 10, 'This is Team 1',
-                    ],
-                    [
-                        'Team 7', 7, 10, 'This is Team 1',
-                    ],
-                    [
-                        'Team 8', 8, 10, 'This is Team 1',
-                    ],
-                ]
+                teamList: [''],
             };
         },
         methods: {
-            goIntro(gname, gid) {
-                this.$emit('event1', gname,gid)
+            goIntro(gname, gid, membernum, groupintro) {
+                this.$emit('event1', gname,gid,membernum, groupintro)
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -106,7 +81,8 @@
                         if (res.data == "1") {
                             console.log("创建团队成功");
                             this.localStorageFileID = res.data.docid;
-                            localStorage.setItem('docid', res.data.docid)
+                            localStorage.setItem('docid', res.data.docid);
+                            
                         } else {
                             console.log("创建团队失败");
                         }

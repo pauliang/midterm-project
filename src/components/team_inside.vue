@@ -24,8 +24,15 @@
             </el-main>
 
             <el-dialog title="导入团队文档" :visible.sync="isShow" width="50%">
-                <div v-for="create in docList.creates" :key="create.docnum">
-                    <el-button type="text" @click="importDoc(create.docnum)">{{create.docname}}</el-button>
+                <div style="width: 150px;display: inline-block; margin: 35px;" v-for="create in docList.creates"
+                    :key="create.docnum">
+                    <el-card>
+                        <i style="font-size: 90px" class="el-icon-document"></i>
+                        <el-button type="text" @click="importDoc(create.docnum)">{{create.docname}}</el-button>
+                        <div style="font-size: 7px; color: gray">{{dateFormat(create.lasttime)}}</div>
+                        <!-- <el-button type="text" @click="importDoc(create.docnum)">{{create.docname}}</el-button> -->
+                    </el-card>
+
                 </div>
             </el-dialog>
         </el-container>
@@ -60,48 +67,23 @@
                 localStorageID: '',
                 leaderID: '',
                 docList: {
-                    groupdocs: [{
-                        docname: '团队文件1',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, {
-                        docname: '团队文件2',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, {
-                        docname: '团队文件3',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, {
-                        docname: '团队文件4',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, {
-                        docname: '团队文件5',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, {
-                        docname: '团队文件6',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, {
-                        docname: '团队文件7',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, {
-                        docname: '团队文件8',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, {
-                        docname: '新团队文件',
-                        url: '/doc',
-                        lasttime: new Date(),
-                    }, ],
+                    groupdocs: [],
                     created: [],
                 }
             };
         },
         methods: {
+            dateFormat: function (time) {
+                var date = new Date(time);
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+                // 拼接
+                return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+            },
             createTeamDoc() {
                 localStorage.setItem('groupid', this.groupid);
                 this.$router.push({
@@ -109,22 +91,7 @@
                 })
             },
             showImport() {
-                var id = localStorage.getItem('userID');
-                var createurl = 'http://39.97.122.202/Table/myfiles/' + id + '/';
-                this.$axios({
-                    method: 'post',
-                    url: createurl, //此处不传data
-                }).then(
-                    response => {
-                        this.docList.creates = response.data;
-                        if (response.data == null)
-                            this.docList.creates = [];
-                    },
-                    err => {
-                        console.log(err);
-                    }).catch((error) => {
-                    console.log(error);
-                });
+
                 this.isShow = true;
             },
             importDoc(docnum) {
@@ -137,13 +104,13 @@
                     }
                 }).then(res => {
                     if (res.data == 1) {
-                        alert('组内权限修改成功');
+                        alert('组内文件导入成功');
                         this.isShow = false;
                     } else {
-                        alert('组内权限修改失败');
+                        alert('组内文件导入失败');
                     }
                 }).catch(() => {
-                    alert('网络问题，组内权限修改失败');
+                    alert('网络问题，组内文件导入失败');
                 })
             }
         },
@@ -190,6 +157,22 @@
                 console.log(error);
             });
             this.localStorageID = localStorage.getItem('userID');
+            var id = localStorage.getItem('userID');
+            var createurl = 'http://39.97.122.202/Table/myfiles/' + id + '/';
+            this.$axios({
+                method: 'post',
+                url: createurl, //此处不传data
+            }).then(
+                response => {
+                    this.docList.creates = response.data;
+                    if (response.data == null)
+                        this.docList.creates = [];
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
         }
     };
 </script>

@@ -8,8 +8,10 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col class="cardbox" v-for="result in searchResult" :key="result.name">
-                    <card :name="result.name" :url="result.url" @event2="goIntro()"></card>
+                <el-rol v-if="isEmpty" class="empty">暂无数据哦~</el-rol>
+                <el-col v-else-if="!isEmpty" class="cardbox" v-for="result in searchResult" :key="result.docnum"
+                        style="position: relative; width: 150px;float: left; margin: 35px;">
+                    <card :doc=result :url="'http://39.97.122.202/doc?docid=' + result.docnum" @event2="goIntro()"></card>
                 </el-col>
             </el-row>
         </el-main>
@@ -26,11 +28,13 @@
         },
         props: {
             search: String,
+            // isEmpty: Boolean,
         },
         data() {
             return {
-                searchResult: ["暂无数据"], //搜索返回数据,
+                searchResult: ["暂无数据哦~"], //搜索返回数据,
                 content: '',
+                isEmpty: false,
                 // search: '',
             }
         },
@@ -45,9 +49,11 @@
                     }
                 }).then(
                     response => {
+                        console.log(response.data);
                         this.searchResult = response.data;
-                        if (response.data === null)
+                        if (response.data === null){
                             this.searchResult = [];
+                        }
                     },
                     err => {
                         console.log(err);
@@ -63,25 +69,34 @@
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
             var search_url = 'http://39.97.122.202/doc/search_docs/';
-            this.$axios({
-                method: 'post',
-                url: search_url, //此处不传data
-                data: {
-                    key: this.search,
-                }
-            }).then(
-                response => {
-                    console.log(response);
-                    this.searchResult = response.data;
-                    if (response.data === null)
-                        this.searchResult = [];
-                },
-                err => {
-                    console.log(err);
-                }).catch((error) => {
-                console.log(error);
-            });
-        }
+            // while(this.search!==''){
+                this.$axios({
+                    method: 'post',
+                    url: search_url, //此处不传data
+                    data: {
+                        key: this.search,
+                    }
+                }).then(
+                    response => {
+                        console.log(response.data);
+                        var origin = this.searchResult;
+                        this.searchResult = response.data;
+                        if (response.data === null){
+                            this.searchResult = [];
+                        }
+                        if(response.data.length===0)
+                            this.isEmpty = true;
+                        else if(response.data!==origin)
+
+                        console.log(this.searchResult);
+                    },
+                    err => {
+                        console.log(err);
+                    }).catch((error) => {
+                    console.log(error);
+                });
+            }
+        // }
     }
 </script>
 
@@ -121,6 +136,9 @@
         width: 400px;
     }
 
+    .empty {
+       font-size: 20px; margin-left:-980px;
+    }
     .el-container .now {
         color: #575757;
     }

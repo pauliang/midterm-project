@@ -121,7 +121,8 @@
             goBack2() {
                 this.$router.push({
                     name: 'Page',
-                })
+                });
+                this.reload();
             },
             longjmp(name) {
                 if (name === "Profile") {
@@ -131,10 +132,12 @@
                             id: localStorage.getItem('userID'),
                         }
                     });
+                    this.reload();
                 } else {
                     this.$router.push({
                         name: name,
                     });
+                    this.reload();
                 }
             },
             logout() {

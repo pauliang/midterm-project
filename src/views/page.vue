@@ -167,6 +167,8 @@
             Tinside
         },
         created() {
+            if (localStorage.getItem('groupid') != null)
+                localStorage.removeItem('groupid');
             var id = localStorage.getItem('userID');
             if (id == null)
                 this.longjmp('Login');
