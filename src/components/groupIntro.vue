@@ -244,7 +244,7 @@
                 })
             }
         },
-        mounted() {
+        created() {
             if (localStorage.getItem('userID') != null) {
                 this.myid = localStorage.getItem('userID');
             }
@@ -257,35 +257,36 @@
                 }
             }).then(res => {
                 this.mg = res.data;
+                console.log(this.mg);
+                var x = 0;
+                for (; x < this.mg.length; x++) {
+                    var y = {
+                        name: this.mg[x][0],
+                        power: 0,
+                        id: this.mg[x][1]
+                    }
+                    console.log(y.name + ' ' + y.power + ' ' + y.id);
+                    if (this.mg[x][2] == 1) {
+                        y.power = 2;
+                    } else if (this.mg[x][3] == 1) {
+                        y.power = 1;
+                    } else {
+                        y.power = 0;
+                    }
+
+                    if (y.id == this.myid) {
+                        console.log('逮到！');
+
+                        if (y.power == 0)
+                            this.aro = true;
+                    }
+
+                    this.group.push(y);
+                }
             }).catch(() => {
                 alert('抓取组员信息失败');
             })
 
-            var x = 0;
-            for (; x < this.mg.length; x++) {
-                var y = {
-                    name: this.mg[x][0],
-                    power: 0,
-                    id: this.mg[x][1]
-                }
-
-                if (this.mg[x][2] == 1) {
-                    y.power = 2;
-                } else if (this.mg[x][3] == 1) {
-                    y.power = 1;
-                } else {
-                    y.power = 0;
-                }
-
-                if (y.id == this.myid) {
-                    console.log('逮到！');
-
-                    if (y.power == 0)
-                        this.aro = true;
-                }
-
-                this.group.push(y);
-            }
         }
     }
 </script>

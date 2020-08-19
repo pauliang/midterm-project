@@ -1,9 +1,58 @@
 <template>
     <div>
-        <el-container class="container w whole">
-            <my_header></my_header>
+        <el-container class="container">
+            <el-header class="head">
+
+                <el-row>
+                    <el-col :span="4">
+                        <div style="margin-right:25px">
+                            <img src="../assets/logo.png" alt="logo" @click="goPage()">
+                        </div>
+
+                    </el-col>
+                    <el-col :span="1">
+                        <div class="grid-content"></div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div class="slogan">
+                            <el-tag class="slogan2">“精诚所至，金石为开”</el-tag>
+                        </div>
+                    </el-col>
+
+                    <el-col :span="13" style="text-align:right">
+                        <el-col :span="6" class="welcome">
+                            <el-link v-if="islogin==true" href="https://element.eleme.io" :underline="false" target="_blank"
+                                class="wel_text">{{ this.localStorageName }}，您好！
+                            </el-link>
+                        </el-col>
+                        <el-col :span="6" class="avator">
+                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
+                                <div v-if="islogin==true">
+                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
+                                    <el-badge value="new">
+                                        <el-button disabled index="0" class="item more_info1" @click="longjmp('Notification_center')">
+                                            查看系统通知
+                                        </el-button>
+                                    </el-badge>
+                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
+                                    <el-button class="item logout" @click="logout()">退出登录</el-button>
+                                </div>
+                                <div v-if="islogin===false">
+                                    <div class="item cardtxt">你尚未登陆</div>
+                                    <el-button class="item login" @click="longjmp('Login')">登录</el-button>
+                                    <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
+                                </div>
+
+                                <el-avatar icon="el-icon-user-solid" slot="reference"></el-avatar>
+                            </el-popover>
+                        </el-col>
+                    </el-col>
+                </el-row>
+
+            </el-header>
+
             <el-main>
-                <h1 v-if="localStorageFileName!=''">{{localStorageFileName}}</h1>
+
                 <div id="div1" class="toolbar" style="width: 900px;">
                     <el-tooltip effect="light" content="返回" placement="bottom">
                         <div style="font-size:25px;cursor:pointer;margin-left:35px;" class="el-icon-back"
@@ -20,7 +69,7 @@
                 </div>
                 <div id="div2" class="text">
                     <!--可使用 min-height 实现编辑区域自动增加高度-->
-                    <board :choice=choice></board>
+                    <board :choice=choice class="choice"></board>
                     <p>{{msg}}</p>
                 </div>
 
@@ -32,13 +81,12 @@
                     <el-form ref="doc" :model="doc" label-width="100px">
                         <el-form-item label="文件名" prop="docname"
                             :rules="[{required: true, message: '请输入文件名', trigger: 'blur'}]">
-                            <el-input v-model="doc.docname" autocomplete="off">
-                            </el-input>.doc
+                            <el-input v-model="doc.docname" autocomplete="off" class="input"></el-input>.doc
                         </el-form-item>
                     </el-form>
                     <span slot="footer" class="dialog-footer">
                         <el-button @click="isShow1 = false">取 消</el-button>
-                        <el-button @click="isShow1 = false;submitForm('doc')">确 定</el-button>
+                        <el-button @click="isShow1 = false,submitForm('doc')">确 定</el-button>
                     </span>
                 </el-dialog>
                 <el-dialog title="提示" :visible.sync="isShow2" width="30%" :before-close="handleClose">
@@ -53,10 +101,8 @@
         </el-container>
     </div>
 </template>
-
 <script>
     import E from "wangeditor";
-    import my_header from "./my_header";
     import board from '@/components/board.vue'
     export default {
         name: 'edt',
@@ -73,7 +119,6 @@
                 localStorageID: -1,
                 localStorageName: '',
                 localStorageFileID: -1,
-                localStorageFileName: '',
             };
         },
         props: {
@@ -110,9 +155,9 @@
                             userid: this.localStorageID,
                         }
                     }).then(res => {
-                        if (res.data === 1)
+                        if (res.data == 1)
                             alert('保存成功');
-                        else alert('保存失败');
+                        else    alert('保存失败');
                     }).catch(err => {
                         console.log(err);
                     }).catch((error) => {
@@ -136,8 +181,7 @@
                         if (res.data.info === "success") {
                             alert("创建文档成功");
                             this.localStorageFileID = res.data.docid;
-                            localStorage.setItem('docid', res.data.docid);
-                            this.localStorageFileName = this.doc.docname;
+                            localStorage.setItem('docid', res.data.docid)
                         } else {
                             alert("创建文档失败");
                         }
@@ -222,8 +266,7 @@
             }
         },
         components: {
-            board,
-            my_header
+            board
         },
     }
 </script>
@@ -231,13 +274,6 @@
 <style scoped>
     .container {
         background-color: #f2f2f2;
-    }
-    .whole {
-        height: 1500px;
-    }
-
-    .w {
-        height: 700px;
     }
 
     li {
@@ -295,6 +331,23 @@
         padding: 0;
     }
 
+    .head .el-col-6 .slogan {
+        width: 100px;
+        margin-top: 5px;
+        margin-left: 300px;
+    }
+
+    .head .el-col-6 .slogan2 {
+        font-size: 28px;
+        font-weight: 400;
+        font-family: "KaiTi", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        line-height: 40px;
+        height: 40px;
+        background-color: transparent;
+        color: #ffffff;
+        border: none;
+    }
+
     .head .welcome {
         position: absolute;
         float: right;
@@ -318,16 +371,19 @@
         float: right;
         margin-right: 100px;
     }
-
+/*主体部分*/
     .container .el-main {
         position: relative;
     }
-
+    .choice {
+        z-index: 100;
+    }
     .container .toolbar {
         margin: 10px auto;
         height: 40px;
         width: 750px;
         border: 1px solid #f6f6f6;
+        z-index: 2;
     }
 
     .container .text {
@@ -374,10 +430,13 @@
         color: #24292e;
     }
 
+    .input {
+        width: 250px;
+    }
     .box-card {
         /* width: 240px;
         height: 280px; */
-        margin: 0, 0;
+        margin: 0 0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
@@ -496,7 +555,7 @@
     } */
 
     .w-e-text-container {
-        z-index: 0 !important;
+        z-index: 2 !important;
     }
 
     .w-e-toolbar {
@@ -505,7 +564,7 @@
     }
 
     .el-dialog {
-        z-index: auto !important;
+        z-index: 2 !important;
     }
 
     /* .w-e-menu {

@@ -7,7 +7,7 @@
                     <el-col :span="4">
                         <el-button class="grid-content bg-purple now delete">团队详情</el-button>
                     </el-col>
-                    <el-col :span="16">
+                    <el-col :span="8">
                         <group-intro :groupID="groupid" :groupName="groupname" :groupIntroduction="groupIntroduction"
                             :groupMemberNumber="groupMemberNumber" class="intro"></group-intro>
                         <dismiss :groupID="groupid" :groupName="groupname" :power="localStorageID == leaderID"
@@ -15,12 +15,19 @@
                         <Gexit :groupID="groupid" class="exit" :power="localStorageID != leaderID"></Gexit>
                     </el-col>
                     <el-button style="margin-top: 14px;" @click="createTeamDoc">创建团队文件</el-button>
+                    <el-button style="margin-top: 14px;margin-left: 50px;" @click="showImport">导入团队文档</el-button>
                 </el-row>
                 <div v-for="groupdoc in docList.groupdocs" :key="groupdoc.docname"
                     style="width: 150px;float: left; margin: 35px;">
                     <card :doc="groupdoc" :user=localStorageID></card>
                 </div>
             </el-main>
+
+            <el-dialog title="导入团队文档" :visible.sync="isShow" width="50%">
+                <div v-for="create in docList.creates" :key="create.docnum">
+                    <el-button type="text" @click="importDoc(create.docnum)">{{create.docname}}</el-button>
+                </div>
+            </el-dialog>
         </el-container>
     </div>
 </template>
@@ -44,6 +51,7 @@
         },
         data() {
             return {
+                isShow: false,
                 groupid: '',
                 groupname: '',
                 groupIntroduction: '',
@@ -88,7 +96,8 @@
                         docname: '新团队文件',
                         url: '/doc',
                         lasttime: new Date(),
-                    }, ]
+                    }, ],
+                    created: [],
                 }
             };
         },
@@ -98,6 +107,44 @@
                 this.$router.push({
                     name: 'Models',
                 })
+            },
+            showImport() {
+                var id = localStorage.getItem('userID');
+                var createurl = 'http://39.97.122.202/Table/myfiles/' + id + '/';
+                this.$axios({
+                    method: 'post',
+                    url: createurl, //此处不传data
+                }).then(
+                    response => {
+                        this.docList.creates = response.data;
+                        if (response.data == null)
+                            this.docList.creates = [];
+                    },
+                    err => {
+                        console.log(err);
+                    }).catch((error) => {
+                    console.log(error);
+                });
+                this.isShow = true;
+            },
+            importDoc(docnum) {
+                this.$axios({
+                    method: 'post',
+                    url: 'http://39.97.122.202/autho/set_group_auth/',
+                    data: {
+                        docnum: docnum,
+                        groupnum: this.groupid
+                    }
+                }).then(res => {
+                    if (res.data == 1) {
+                        alert('组内权限修改成功');
+                        this.isShow = false;
+                    } else {
+                        alert('组内权限修改失败');
+                    }
+                }).catch(() => {
+                    alert('网络问题，组内权限修改失败');
+                })
             }
         },
         created() {
@@ -105,17 +152,21 @@
             this.groupname = this.group[0];
             this.groupMemberNumber = this.group[2];
             this.groupIntroduction = this.group[3];
+            console.log(this.group);
             this.$axios({
                 method: 'post',
                 url: 'http://39.97.122.202/doc/get_group_docs/',
                 data: {
-                    groupid: this.groupid
+                    groupnum: this.groupid,
+                    id: this.localStorageID
                 }
             }).then(
                 response => {
+                    console.log(response.data);
                     this.docList.groupdocs = response.data;
                     if (this.docList.groupdocs == [])
                         console.log("no docs");
+
                 },
                 err => {
                     console.log(err);

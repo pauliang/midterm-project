@@ -71,7 +71,7 @@ Vue.use(VueRouter)
     {
       path: '/doc',
       name: 'Doc',
-      component: () => import('@/components/doc.vue')
+      component: () => import('@/views/doc.vue')
     },
     {
       path: '/search',

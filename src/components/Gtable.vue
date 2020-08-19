@@ -117,30 +117,30 @@
                     console.log(error);
                 });
             },
-            created() {
-                this.localStorageID = localStorage.getItem('userID');
-                console.log("test");
-                this.$axios({
-                    method: 'post',
-                    url: 'http://39.97.122.202/group/get_groups/',
-                    data: {
-                        id: this.localStorageID
-                    }
-                }).then(
-                    response => {
-                        this.teamList = response.data;
-                        if (this.teamList == [])
-                            console.log("no team");
-                    },
-                    err => {
-                        console.log(err);
-                    }).catch((error) => {
-                    console.log(error);
-                });
-            }
         },
         components: {
             Gcard
+        },
+        created() {
+            this.localStorageID = localStorage.getItem('userID');
+            console.log("test");
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/group/get_groups/',
+                data: {
+                    id: this.localStorageID
+                }
+            }).then(
+                response => {
+                    this.teamList = response.data;
+                    if (this.teamList == [])
+                        console.log("no team");
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
         }
     };
 </script>

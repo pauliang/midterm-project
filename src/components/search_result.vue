@@ -4,12 +4,12 @@
             <el-row :gutter="20">
                 <el-col :span="4">
                     <div class="grid-content bg-purple now delete">搜索结果</div>
-                  <div>{{ search }}</div>
+                    <div>{{ search }}</div>
                 </el-col>
             </el-row>
             <el-row>
-                <el-col class="cardbox" v-for="team in searchResult" :key="team.name">
-                    <card :name="team.name" :url="team.url" @event2="goIntro()"></card>
+                <el-col class="cardbox" v-for="result in searchResult" :key="result.name">
+                    <card :name="result.name" :url="result.url" @event2="goIntro()"></card>
                 </el-col>
             </el-row>
         </el-main>
@@ -18,18 +18,20 @@
 
 <script>
     import card from "./card_guo";
+
     export default {
         name: 'search_result',
         components: {
             card
         },
-      props:{
-          search:String,
-      },
+        props: {
+            search: String,
+        },
         data() {
             return {
                 searchResult: ["暂无数据"], //搜索返回数据,
                 content: '',
+                // search: '',
             }
         },
         methods: {
@@ -60,15 +62,19 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var deleteurl = 'http://39.97.122.202/Table/bin/' + id + '/';
+            var search_url = 'http://39.97.122.202/doc/search_docs/';
             this.$axios({
                 method: 'post',
-                url: deleteurl, //此处不传data
+                url: search_url, //此处不传data
+                data: {
+                    key: this.search,
+                }
             }).then(
                 response => {
-                    this.docList.deleteFiles = response.data;
-                    if (response.data == null)
-                        this.docList.deleteFiles = [];
+                    console.log(response);
+                    this.searchResult = response.data;
+                    if (response.data === null)
+                        this.searchResult = [];
                 },
                 err => {
                     console.log(err);
@@ -114,6 +120,7 @@
         color: #bababa;
         width: 400px;
     }
+
     .el-container .now {
         color: #575757;
     }

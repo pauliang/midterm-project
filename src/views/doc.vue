@@ -92,39 +92,90 @@ export default {
         }
     },
     methods:{
-        longjmp(name) {
+         goBack2() {
                 this.$router.push({
-                    name: name,
+                    name: 'Page',
                 })
             },
-        logout() {
-                
+        longjmp(name) {
+                if (name === "Profile") {
+                    this.$router.push({
+                        path: '/profile',
+                        query: {
+                            id: localStorage.getItem('userID'),
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        name: name,
+                    });
+                }
+            },
+       logout() {
+                this.is_login = false;
                 localStorage.removeItem('userID');
                 localStorage.removeItem('username');
-                 this.$router.go(0);
-        },
+                this.longjmp("Login");
+            },
       punch(){
           if(this.list[2]!=1)
             {
                 alert('你无权修改此文档');
             }
             else{
+                var vailable=0;
                  if(this.editorContent){
-                        // alert(this.editorContent);
                         this.$axios(
-                        {
-                            methods:'post',
-                            url:'http://39.97.122.202/doc/save_doc/',
-                            data:{
-                                id:this.$route.query.docid,
-                                msg:this.editorContent
+                            {
+                                    method:'post',
+                                    url:'http://39.97.122.202/doc/match_edit/',
+                                    data:{
+                                        id:this.$route.query.docid,
+                                    }
                             }
-                        }).then( res => {
-                            if(res.data==1)
-                                alert('上传成功');
-                        }).catch(() =>{
-                            alert('网络状态不佳，文本抓取失败');
+                        ).then( res =>{
+                            if(res.data==1){
+                                vailable=1;
+                            }
+                        }).catch(()=>{
+                            alert('网络状态不佳，修改状态验证失败');
                         })
+
+                        if(vailable==1)
+                        {
+                                
+                                this.$axios(
+                                {
+                                    method:'post',
+                                    url:'http://39.97.122.202/doc/save_doc/',
+                                    data:{
+                                        id:this.$route.query.docid,
+                                        msg:this.editorContent,
+                                        userid:this.myid
+                                    }
+                                }).then( res => {
+                                    if(res.data==1)
+                                        alert('上传成功,正在结束修改..');
+                                }).catch(() =>{
+                                    alert('网络状态不佳，文本上传失败');
+                                })
+
+                                this.$axios({
+                                    method:'post',
+                                    url:'http://39.97.122.202/doc/end_edit/',
+                                    data:{
+                                        id:this.$route.query.docid,
+                                    }
+                                }).then(res =>{
+                                    if(res.data==1){
+                                        alert('修改成功！');
+                                    }
+                                }).catch(()=>{
+                                    alert('未知力量使你修改失败，希望你永远不要看到这一行字');
+                                })
+
+                        }
+                        
 
                     }
                     else
@@ -151,7 +202,7 @@ export default {
              //提取本地用户并验证权限
                this.$axios(
                 {
-                    methods:'post',
+                    method:'post',
                     url:'http://39.97.122.202/autho/match_auth/',
                     data:{
                         id:this.myid,
@@ -185,10 +236,11 @@ export default {
 
         this.$axios(
             {
-                methods:'post',
+                method:'post',
                 url:'http://39.97.122.202/doc/get_doc/',
                 data:{
-                    id:docid
+                    id:docid,   
+                    op:3
                 }
             }).then( res => {
                 this.x.txt.html(res.data);

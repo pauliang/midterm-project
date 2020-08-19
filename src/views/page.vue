@@ -5,7 +5,7 @@
             <el-container>
                 <el-aside>
                     <el-menu :default-active="emm" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                             :collapse="isCollapse">
+                        :collapse="isCollapse">
                         <el-submenu index="1">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
@@ -58,8 +58,8 @@
                 <createdFiles v-else-if="which==='createdFiles'"></createdFiles>
                 <collectedFiles v-else-if="which==='collectedFiles'"></collectedFiles>
                 <dele v-else-if="which==='dele'"></dele>
-                <Gtable v-else-if="which==='Gtable'" @event1="shortjmp($event)"></Gtable>
-                <Tinside v-else-if="which==='Tinside'"></Tinside>
+                <Gtable v-else-if="which==='Gtable'" @event1="tinside(arguments)"></Gtable>
+                <Tinside :group="group" v-else-if="which==='Tinside'"></Tinside>
 
             </el-container>
             <el-footer>
@@ -94,7 +94,8 @@
                 localStorageName: '',
                 localStorageID: '',
                 msgList: [],
-                search:'',
+                group: [],
+                search: '',
             };
         },
         methods: {
@@ -108,9 +109,9 @@
                 this.isCollapse = !this.isCollapse;
             },
             shortjmp(index) {
-                if(index === '0') {
+                if (index === '0') {
                     this.which = 'search_result';
-                }else if (index === '1-1') {
+                } else if (index === '1-1') {
                     this.which = 'recentFiles';
                 } else if (index === '1-2') {
                     this.which = 'createdFiles';
@@ -118,21 +119,12 @@
                     this.which = 'collectedFiles';
                 } else if (index === '2') {
                     this.which = 'Gtable';
-                } else if (index === '2+') {
-                    this.which = 'Tinside';
                 } else if (index === '3') {
                     this.which = 'dele';
                 }
             },
             longjmp(name) {
                 if (name === "Profile") {
-                    this.$router.push({
-                        path: '/profile',
-                        query: {
-                            id: this.localStorageID,
-                        }
-                    });
-                } else if (name === "") {
                     this.$router.push({
                         path: '/profile',
                         query: {
@@ -152,10 +144,17 @@
                 localStorage.removeItem('username');
                 this.longjmp("Login");
             },
-          goresult(search){
-            this.search = search;
-            this.shortjmp('0');
-          }
+            goresult(search) {
+                this.search = search;
+                this.shortjmp('0');
+            },
+            tinside(array) {
+                this.group[0] = array[0];
+                this.group[1] = array[1];
+                this.group[2] = array[2];
+                this.group[3] = array[3];
+                this.which = 'Tinside';
+            }
         },
         components: {
             my_header_search,
@@ -182,10 +181,9 @@
                     var msgs = response.data;
                     var before = this.msgList.length;
                     var after = msgs.length;
-                    if (before === after){
+                    if (before === after) {
                         this.is_active = false;
-                    }
-                    else {
+                    } else {
                         this.is_active = true;
                         this.msgList = msgs;
                     }
@@ -200,14 +198,15 @@
 </script>
 
 <style scoped>
-
     /*版心的设计*/
     .whole {
         height: 1500px;
     }
+
     .w {
         height: 900px;
     }
+
     .container {
         background-color: #f2f2f2;
     }
