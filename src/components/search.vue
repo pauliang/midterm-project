@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="20" class="center">
                 <el-input v-model="search" @focus="focus" @blur="blur" @click="isSearch=true" @keyup.enter.native="searchHandler"
-                          placeholder="请输入您要搜索的文档标题" :input="searchHandler2">
+                          placeholder="请输入您要搜索的文档标题" :input="searchHandler">
                     <el-button slot="append" icon="el-icon-search" id="search" @click="searchHandler"></el-button>
                 </el-input>
                 <!---设置z-index优先级,防止被走马灯效果遮挡-->
@@ -119,9 +119,6 @@
                     Store.saveHistory(this.historySearchList);
                 }
                 this.history = this.historySearchList.length !== 0;
-            },
-            searchHandler2() {
-                this.$emit('event1',this.search);
             },
             closeHandler(search) {
                 this.historySearchList.splice(this.historySearchList.indexOf(search), 1);

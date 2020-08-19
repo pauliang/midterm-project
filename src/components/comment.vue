@@ -1,6 +1,7 @@
 <template>
     <div style="width: 900px; ">
-        <comment :user="user" :users="users" :comment-list="commentList"></comment>
+<!--        <div>+{{user.nickName}}</div>-->
+        <comment :docnum="docnum" :user="user" :users="users" :comment-list="commentList"></comment>
         <!--    <div v-for="o in testList" :key="o.id" >-->
         <!--      <el-card style="height: 100px">{{ o[2] }}</el-card>-->
         <!--    </div>-->

@@ -58,7 +58,7 @@
                     var messages = response.data;
                     this.list = [];
                     for (var i = 0; i < messages.length; i++){
-                      if (messages[i][0] === 2)
+                      // if (messages[i][0] === 2)
                       this.list.push({
                         content:messages[i][1],
                         time:messages[i][2],

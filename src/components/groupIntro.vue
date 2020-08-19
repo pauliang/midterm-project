@@ -169,6 +169,7 @@
                     }).then(res => {
                         if (res.data == 1) {
                             alert('操作成功');
+                            this.$router.go(0);
                         } else {
                             alert('操作失败');
                         }

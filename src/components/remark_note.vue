@@ -5,9 +5,9 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple delete">文档评论通知</div>
                 </el-col>
-                <el-col v-for="remark in remarkList" :key="remark">
-                  <new_msg @del="del($event)" :content="message.content" :time="message.time" :nid="message.nid" class="message"></new_msg>
-                </el-col>
+              <el-col v-for="message in list" :key="message.nid">
+                <new_msg @del="del($event)" :content="message.content" :time="message.time" :nid="message.nid" class="message"></new_msg>
+              </el-col>
             </el-tabs>
         </el-main>
     </el-container>
@@ -35,7 +35,7 @@
             return {
                 localStorageID: 0,
                 localStorageName: '',
-                remarkList: []
+                list: []
             }
         },
         created() {
@@ -45,29 +45,32 @@
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
             var msg_url = 'http://39.97.122.202/notice/get_notice/';
-            this.$axios({
-                method: 'post',
-                url: msg_url, //此处不传data
-                data: {
-                    id: this.localStorageID,
-                    op: 1
+          this.$axios({
+            method: 'post',
+            url: msg_url, //此处不传data
+            data: {
+              id: this.localStorageID,
+              op: 1
+            }
+          }).then(
+              response => {
+                console.log(response.data);
+                var messages = response.data;
+                this.list = [];
+                for (var i = 0; i < messages.length; i++){
+                  // if (messages[i][0] === 2)
+                  this.list.push({
+                    content:messages[i][1],
+                    time:messages[i][2],
+                    nid:messages[i][0],
+                  })
                 }
-            }).then(
-                response => {
-                  var remarks = response.data;
-                  this.remarkList = [];
-                  for (var i = 0; i < remarks.length; i++)
-                    if (remarks[i][0] === 1)
-                      this.remarkList.push({
-                        content:remarks[i][1],
-                        time:remarks[i][2],
-                      })
-                },
-                err => {
-                    console.log(err);
-                }).catch((error) => {
-                console.log(error);
-            });
+              },
+              err => {
+                console.log(err);
+              }).catch((error) => {
+            console.log(error);
+          });
         }
     }
 </script>

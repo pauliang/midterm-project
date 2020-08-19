@@ -255,9 +255,9 @@
                             if (localStorage.getItem('groupid') != null) {
                                 this.$axios({
                                     method: 'post',
-                                    url: 'http://39.97.122.202/autho/set_group_auth',
+                                    url: 'http://39.97.122.202/autho/change_owner_b/',
                                     data: {
-                                        docnum: this.localStorageFileID,
+                                        id: this.localStorageFileID,
                                         groupnum: localStorage.getItem('groupid')
                                     }
                                 }).then(res => {

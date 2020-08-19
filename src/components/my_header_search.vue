@@ -16,13 +16,8 @@
                         <search @event1="goResult($event)"></search>
                     </div>
                 </el-col>
-                <el-col :span="4">
-                    <div class="slogan">
-                        <el-tag class="slogan2">“精诚所至，金石为开”</el-tag>
-                    </div>
-                </el-col>
 
-                <el-col :span="13" style="text-align:right;margin-top:-45px;">
+                <el-col :span="13" style="text-align:right">
                     <el-col :span="6" class="welcome">
                         <el-link v-if="is_login===true" href="/profile" :underline="false" target="_blank"
                                  class="wel_text">{{ this.localStorageName }}，您好！
@@ -184,22 +179,6 @@
         width: 400px;
         margin-top: -8px;
         margin-left: -380px;
-    }
-    .head .el-col-4 .slogan {
-        width: 100px;
-        margin-top: 5px;
-        margin-left:-80px;
-    }
-
-    .head .el-col-4 .slogan2 {
-        font-size: 28px;
-        font-weight: 400;
-        font-family: "KaiTi", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-        line-height: 40px;
-        height: 40px;
-        background-color: transparent;
-        color: #ffffff;
-        border: none;
     }
 
     .head .welcome {

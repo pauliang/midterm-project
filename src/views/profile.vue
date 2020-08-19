@@ -307,14 +307,14 @@
                     var id = this.localStorageID;
                     console.log(id); //data()中定义了一个属性，获取localStorage的值
                     this.$router.push({
-                        name: 'Profile',
+                        path: '/profile',
                         query: {
                             id: id
                         }
                     });
-                    this.$router.go(0);
                 }
-                
+                this.$router.go(0);
+                console.log('刷新啊！');
             },
             goPage() {
                 this.$router.push({

@@ -20,7 +20,7 @@
                 <el-col :span="13" style="text-align:right">
                     <el-col :span="6" class="welcome">
                         <el-link v-if="is_login===true" href="/profile" :underline="false" target="_blank"
-                                 class="wel_text">{{ this.localStorageName }}，您好！
+                            class="wel_text">{{ this.localStorageName }}，您好！
                         </el-link>
                     </el-col>
                     <el-col :span="6" class="avator">
@@ -30,7 +30,7 @@
                                 <div v-if="is_active===true">
                                     <el-badge value="new">
                                         <el-button index="0" class="item more_info1"
-                                                   @click="longjmp('Notification_center')">
+                                            @click="longjmp('Notification_center')">
                                             查看系统通知
                                         </el-button>
                                     </el-badge>
@@ -38,7 +38,7 @@
 
                                 <div v-else>
                                     <el-button index="0" class="item more_info1"
-                                               @click="longjmp('Notification_center')">
+                                        @click="longjmp('Notification_center')">
                                         查看系统通知
                                     </el-button>
                                 </div>
@@ -135,14 +135,15 @@
 </script>
 
 <style scoped>
-
     .whole {
         height: 1500px;
         background-color: #f2f2f2;
     }
+
     .el-container {
         position: relative;
     }
+
     .el-divider--horizontal {
         margin-bottom: 1px !important;
         margin-top: 0 !important;
@@ -255,7 +256,6 @@
     .cardtxt {
         text-align: center;
     }
-
 </style>
 <style>
     .el-popover.av {

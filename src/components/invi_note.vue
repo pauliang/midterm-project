@@ -66,7 +66,7 @@
             this.localStorageName = localStorage.getItem('username');
             // alert(id)
           //39.97.122.202
-            var msg_url = 'http://127.0.0.1:8000/group/get_invitation_a/';
+            var msg_url = 'http://39.97.122.202/group/get_invitation_a/';
             this.$axios({
                 method: 'post',
                 url: msg_url, //此处不传data

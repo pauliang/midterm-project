@@ -19,7 +19,8 @@
                 </el-row>
                 <div v-for="groupdoc in docList.groupdocs" :key="groupdoc.docname"
                     style="width: 180px;float: left; margin: 35px;">
-                    <card :doc="groupdoc" :user=localStorageID></card>
+                    <card :doc="groupdoc" :user=localStorageID  @collect-event="collectItem"
+                    @cancel-event="cancelCollectItem" @remove-event="removeItem"></card>
                 </div>
             </el-main>
 
@@ -72,7 +73,95 @@
                 }
             };
         },
-        methods: {
+        methods: {removeItem(docnum) {
+                var index;
+                var create = this.docList.creates;
+                create.forEach(document => {
+                    if (document.docnum === docnum) {
+                        index = create.indexOf(document)
+                    }
+                });
+                if (index > -1)
+                    create.splice(index, 1);
+                var deleteurl = 'http://39.97.122.202/Table/delete_file/';
+                this.$axios({
+                    method: 'post',
+                    url: deleteurl,
+                    data: {
+                        file_id: docnum,
+                    }
+                }).then(
+                    res => {
+                        if (res.data === "success") {
+                            console.log("删除成功");
+                        } else {
+                            console.log("删除失败");
+                        }
+                    },
+                    err => {
+                        console.log(err);
+                    }).catch((error) => {
+                    console.log(error);
+                });
+            },
+            collectItem(docnum) {
+                var array = this.docList.creates;
+                array.forEach(document => {
+                    if (document.docnum === docnum) {
+                        document.isCollected = true;
+                    }
+                });
+                var deleteurl = 'http://39.97.122.202/Table/collect_file/';
+                this.$axios({
+                    method: 'post',
+                    url: deleteurl,
+                    data: {
+                        id: this.localStorageID,
+                        file_id: docnum,
+                    }
+                }).then(
+                    res => {
+                        if (res.data === "success") {
+                            console.log("收藏成功");
+                        } else {
+                            console.log("收藏失败");
+                        }
+                    },
+                    err => {
+                        console.log(err);
+                    }).catch((error) => {
+                    console.log(error);
+                });
+            },
+            cancelCollectItem(docnum) {
+                var array = this.docList.creates;
+                array.forEach(document => {
+                    if (document.docnum === docnum) {
+                        document.isCollected = false;
+                    }
+                });
+                var cancelCollectUrl = 'http://39.97.122.202/Table/not_collect/';
+                this.$axios({
+                    method: 'post',
+                    url: cancelCollectUrl,
+                    data: {
+                        id: this.localStorageID,
+                        file_id: docnum,
+                    }
+                }).then(
+                    res => {
+                        if (res.data === "success") {
+                            console.log("取消收藏成功");
+                        } else {
+                            console.log("取消收藏失败");
+                        }
+                    },
+                    err => {
+                        console.log(err);
+                    }).catch((error) => {
+                    console.log(error);
+                });
+            },
             dateFormat: function (time) {
                 var date = new Date(time);
                 var year = date.getFullYear();
@@ -106,6 +195,7 @@
                     if (res.data == 1) {
                         alert('组内文件导入成功');
                         this.isShow = false;
+                        this.$router.go(0);
                     } else {
                         alert('组内文件导入失败');
                     }
@@ -119,6 +209,7 @@
             this.groupname = this.group[0];
             this.groupMemberNumber = this.group[2];
             this.groupIntroduction = this.group[3];
+            this.localStorageID = localStorage.getItem('userID');
             console.log(this.group);
             this.$axios({
                 method: 'post',
@@ -129,10 +220,11 @@
                 }
             }).then(
                 response => {
+                    console.log(this.localStorageID);
                     console.log("文档数据"+response.data);
                     this.docList.groupdocs = response.data;
                     console.log(this.docList.groupdocs);
-                    if (this.docList.groupdocs == null)
+                    if (this.docList.groupdocs == [])
                         console.log("no docs");
 
                 },

@@ -113,7 +113,6 @@
     .img {
         width: 100%;
         display: inline-block;
-        float: left;
         font-size: 30px;
         margin: 5px 10px 0 -200px;
     }

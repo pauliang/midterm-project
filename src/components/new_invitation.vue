@@ -79,7 +79,7 @@ export default {
       this.dialogVisible = false;
       this.$axios({
         method: 'post',
-        url: 'http://127.0.0.1:8000/group/handle_invitation/', //此处不传data
+        url: 'http://39.97.122.202/group/handle_invitation/', //此处不传data
         data: {
           id: this.acceptid,
           op: op.toString(),
