@@ -6,7 +6,7 @@
                     <div class="grid-content bg-purple delete">文档评论通知</div>
                 </el-col>
                 <el-col v-for="remark in remarkList" :key="remark">
-                    <new_message :send="remark.send" :accept="remark.accept" :message="remark.msg" :time="remark.time" class="message"></new_message>
+                  <new_msg @del="del($event)" :content="message.content" :time="message.time" :nid="message.nid" class="message"></new_msg>
                 </el-col>
             </el-tabs>
         </el-main>
@@ -14,17 +14,23 @@
 </template>
 
 <script>
-    import new_message from "./new_message";
+    import new_msg from "./new_msg";
 
     export default {
         name: "remark_note",
         components: {
-            new_message
+            new_msg
         },
         props: {
             choice: Number,
             msg: String
         },
+      methods:{
+        del(nid){
+          var i = this.list.findIndex((item)=> item.nid === nid)
+          this.list.splice(i, 1);
+        }
+      },
         data() {
             return {
                 localStorageID: 0,
@@ -48,11 +54,14 @@
                 }
             }).then(
                 response => {
-                    var remarks = response.data;
-                    if (remarks == null)
-                        this.remarkList = [];
-                    else
-                        this.remarkList = remarks;
+                  var remarks = response.data;
+                  this.remarkList = [];
+                  for (var i = 0; i < remarks.length; i++)
+                    if (remarks[i][0] === 1)
+                      this.remarkList.push({
+                        content:remarks[i][1],
+                        time:remarks[i][2],
+                      })
                 },
                 err => {
                     console.log(err);

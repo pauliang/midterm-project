@@ -84,6 +84,7 @@
                             id: this.localStorageID,
                         }
                     });
+                    this.$router.go(0);
                 } else {
                     this.$router.push({
                         name: name,

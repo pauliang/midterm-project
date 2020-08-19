@@ -5,8 +5,8 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple delete">团队消息提醒</div>
                 </el-col>
-                <el-col v-for="message in list" :key="message">
-                    <new_message :send="message.send" :accept="message.accept" :message="message.msg" :time="message.time" class="message"></new_message>
+                <el-col v-for="message in list" :key="message.nid">
+                    <new_msg @del="del($event)" :content="message.content" :time="message.time" :nid="message.nid" class="message"></new_msg>
                 </el-col>
             </el-tabs>
         </el-main>
@@ -14,17 +14,23 @@
 </template>
 
 <script>
-    import new_message from "./new_message";
+    import new_msg from "./new_msg";
 
     export default {
         name: "msg_note",
         components: {
-            new_message
+            new_msg
         },
         props: {
             choice: Number,
             msg: String
         },
+      methods:{
+          del(nid){
+            var i = this.list.findIndex((item)=> item.nid === nid)
+            this.list.splice(i, 1);
+          }
+      },
         data() {
             return {
                 localStorageID: 0,
@@ -48,11 +54,17 @@
                 }
             }).then(
                 response => {
+                  console.log(response.data);
                     var messages = response.data;
-                    if (messages == null)
-                        this.list = [];
-                    else
-                        this.list = messages;
+                    this.list = [];
+                    for (var i = 0; i < messages.length; i++){
+                      if (messages[i][0] === 2)
+                      this.list.push({
+                        content:messages[i][1],
+                        time:messages[i][2],
+                        nid:messages[i][0],
+                      })
+                    }
                 },
                 err => {
                     console.log(err);

@@ -5,8 +5,8 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple delete">团队邀请通知</div>
                 </el-col>
-                <el-col v-for="invite in invitations" :key="invite">
-                    <new_message :send="invite.send" :accept="invite.accept" :message="invite.msg" :time="invite.time" class="message"></new_message>
+                <el-col v-for="invite in invitations" :key="invite.mid">
+                    <new_invi @del="del($event)" @deal="deal($event)" :mid="invite.mid" :sendid="invite.sendid" :send="invite.send" :accept="invite.accept" :acceptid="invite.acceptid" :message="invite.msg" :time="invite.time" :isHandle_t="invite.isHandle" class="message"></new_invi>
                 </el-col>
             </el-tabs>
         </el-main>
@@ -14,39 +14,48 @@
 </template>
 
 <script>
-    import new_message from "./new_message";
+    import new_invi from "@/components/new_invitation";
 
     export default {
         name: "invi_note",
         components: {
-            new_message
+            new_invi
         },
         props: {
             choice: Number,
             msg: String
         },
+      methods:{
+        del(mid){
+          var i = this.invitations.findIndex((item)=> item.mid === mid)
+          this.invitations.splice(i, 1);
+        },
+      },
         data() {
             return {
                 localStorageID: 0,
                 localStorageName: '',
                 group_num: 0,
-                // invitations: [],
-                invitations: [{
-                    send: '团队A',
-                    accept: '当前用户',
-                    msg: '加入团队邀请',
-                    time: new Date()
-                }, {
-                    send: '团队B',
-                    accept: '当前用户',
-                    msg: '加入团队邀请',
-                    time: new Date()
-                }, {
-                    send: '团队C',
-                    accept: '当前用户',
-                    msg: '加入团队邀请',
-                    time: new Date()
-                }]
+                invitations: [],
+                // invitations: [{
+                //     send: '团队A',
+                //     accept: '当前用户',
+                //     msg: '加入团队邀请',
+                //     // time: new Date()
+                //   time: '2020-08-19T02:11:39',
+                // }, {
+                //     send: '团队B',
+                //     accept: '当前用户',
+                //     msg: '加入团队邀请',
+                //     // time: new Date()
+                //   time: '2020-08-19T02:11:39',
+                // }, {
+                //     send: '团队C',
+                //     accept: '当前用户',
+                //     msg: '加入团队邀请',
+                //     // time: new Date()
+                //   time: '2020-08-19T02:11:39',
+                // }]
             }
         },
         created() {
@@ -55,21 +64,31 @@
                 this.longjmp('Login');
             this.localStorageID = localStorage.getItem('userID');
             this.localStorageName = localStorage.getItem('username');
-            var msg_url = 'http://39.97.122.202/get_invitation_a/';
+            // alert(id)
+          //39.97.122.202
+            var msg_url = 'http://127.0.0.1:8000/group/get_invitation_a/';
             this.$axios({
                 method: 'post',
                 url: msg_url, //此处不传data
                 data: {
                     id: this.localStorageID,
-                    op: 0,
+                    //op: 0,
                 }
             }).then(
                 response => {
-                    var messages = response.data;
-                    if (messages == null)
-                        this.invitations = [];
-                    else
-                        this.invitations = messages;
+                  // console.log(response.data)
+                  this.invitations = [];
+                  for (var i = 0; i < response.data.length; i++)
+                    this.invitations.push({
+                      mid:response.data[i][0],
+                      sendid:response.data[i][2],
+                      send:response.data[i][3],
+                      accept:this.localStorageName,
+                      acceptid:this.localStorageID,
+                      msg:'加入团队邀请',
+                      time:response.data[i][5],
+                      isHandle:response.data[i][4],
+                    });
                 },
                 err => {
                     console.log(err);
