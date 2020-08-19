@@ -4,7 +4,7 @@
             <el-row :gutter="20">
                 <el-col :span="4">
                     <div class="grid-content bg-purple now delete">搜索结果</div>
-                    <div>{{ search }}</div>
+                    <div v-on="searchAllFiles(search)"></div>
                 </el-col>
             </el-row>
             <el-row>
