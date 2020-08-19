@@ -15,7 +15,8 @@
         props: {
             user: Object,
             users: Array,
-            commentList: Array
+            commentList: Array,
+            docnum: Number,
         },
         data() {
             return {
@@ -24,9 +25,8 @@
                 minRows: 4,
                 maxRows: 8,
                 commentId: 0,
-                docnum: 1,
                 commentNum: 0,
-                avatar: require('@/assets/group.png'),
+                avatar: require('@/assets/logo.png'),
             }
         },
         components: {
@@ -38,7 +38,8 @@
                 //提交到数据库
                 this.$axios({
                     method: 'post',
-                    url: 'http://localhost:8000/doc/submit_comment/',
+                  //39.97.122.202
+                    url: 'http://39.97.122.202/doc/submit_comment/',
                     data: {
                         f_cid: 0,
                         f_uid: 0,
@@ -55,7 +56,7 @@
                             //取新加入的评论加入组件中的数组
                             this.$axios({
                                 method: 'post',
-                                url: 'http://localhost:8000/doc/get_comments/',
+                                url: 'http://39.97.122.202/doc/get_comments/',
                                 data: {
                                     docnum: this.docnum,
                                 }
@@ -68,13 +69,14 @@
                                         if (!this.users.includes(tmpUser)) {
                                             this.users.push(tmpUser)
                                         }
-                                        this.commentList.push({
-                                            id: res.data[i][0],
-                                            commentUser: {id: res.data[i][1], nickName: res.data[i][2], avatar: ''},
-                                            content: res.data[i][3],
-                                            createDate: res.data[i][4],
-                                            childrenList: [],
-                                        })
+                                        if (res.data[i][5]===0)
+                                          this.commentList.push({
+                                              id: res.data[i][0],
+                                              commentUser: {id: res.data[i][1], nickName: res.data[i][2], avatar: ''},
+                                              content: res.data[i][3],
+                                              createDate: res.data[i][4],
+                                              childrenList: [],
+                                          })
                                     }
                                 },
                                 err => {
@@ -102,19 +104,9 @@
                 var i = this.commentList.findIndex((item) => item.id === args[2]);
                 var tmp = this.users[this.users.findIndex((item) => item.id === args[1])].nickName;
                 var tmptime = new Date().toLocaleString();
-                // this.commentList[i].childrenList.push({
-                //   id:this.commentId,
-                //   commentUser:this.user,
-                //   targetUser:{
-                //     id:args[1],
-                //     nickName:tmp,
-                //     avatar:'http://qzapp.qlogo.cn/qzapp/101483738/6637A2B6611592A44A7699D14E13F7F7/50'
-                //   },
-                //   content:args[0],
-                //   createDate:new Date().toLocaleString()});
                 this.$axios({
                     method: 'post',
-                    url: 'http://localhost:8000/doc/submit_comment/',
+                    url: 'http://39.97.122.202/doc/submit_comment/',
                     data: {
                         f_cid: args[2],
                         f_uid: args[1],
@@ -142,7 +134,7 @@
                         }
                     },
                     err => {
-                        console.log(err)
+                        console.log(err);
                         alert(err)
                     }).catch((error) => {
                     console.log(error)
@@ -159,13 +151,14 @@
             this.$axios({
                 method: 'post',
                 //39.97.122.202
-                url: 'http://localhost:8000/doc/get_comments/',
+                url: 'http://39.97.122.202/doc/get_comments/',
                 data: {
                     docnum: this.docnum,
                 }
             }).then((res) => {
                     // this.testList = res.data;
-                    // console.log(this.testList[0])
+                    console.log(res.data)
+                    // this.commentList = [];
                     for (var i = 0; i < res.data.length; i++) {
                         var tmpUser = {id: res.data[i][1], nickName: res.data[i][2], avatar: ''}
                         if (!this.users.includes(tmpUser)) {
@@ -179,22 +172,39 @@
                                 createDate: res.data[i][4],
                                 childrenList: [],
                             });
-                        } else {
-                            var j = this.commentList.findIndex((item) => item.id === res.data[i][5]);
-                            var f_uid = this.commentList[j].commentUser.id;
-                            this.commentList[j].childrenList.push({
-                                id: res.data[i][0],
-                                commentUser: {id: res.data[i][1], nickName: res.data[i][2], avatar: ''},
-                                targetUser: {
-                                    id: f_uid,
-                                    nickName: res.data[i][6],
-                                    avatar: ''
-                                },
-                                content: res.data[i][3],
-                                createDate: res.data[i][4],
-                            });
-                        }
+                        }// else {
+                        //     var j = this.commentList.findIndex((item) => item.id === res.data[i][5]);
+                        //     var f_uid = this.commentList[j].commentUser.id;
+                        //     this.commentList[j].childrenList.push({
+                        //         id: res.data[i][0],
+                        //         commentUser: {id: res.data[i][1], nickName: res.data[i][2], avatar: ''},
+                        //         targetUser: {
+                        //             id: f_uid,
+                        //             nickName: res.data[i][6],
+                        //             avatar: ''
+                        //         },
+                        //         content: res.data[i][3],
+                        //         createDate: res.data[i][4],
+                        //     });
+                        // }
                     }
+                  for (var k = 0; k < res.data.length; k++) {
+                    if (res.data[k][5] !== 0) {
+                      var j = this.commentList.findIndex((item) => item.id === res.data[k][5]);
+                      var f_uid = this.commentList[j].commentUser.id;
+                      this.commentList[j].childrenList.push({
+                        id: res.data[k][0],
+                        commentUser: {id: res.data[k][1], nickName: res.data[k][2], avatar: ''},
+                        targetUser: {
+                          id: f_uid,
+                          nickName: res.data[k][6],
+                          avatar: ''
+                        },
+                        content: res.data[k][3],
+                        createDate: res.data[k][4],
+                      });
+                    }
+                  }
                 },
                 err => {
                     console.log(err)
@@ -219,7 +229,7 @@
             // }
             this.$axios({
                 method: 'post',
-                url: 'http://localhost:8000/doc/get_comments/',
+                url: 'http://39.97.122.202/doc/get_comments/',
                 data: {
                     docnum: this.docnum,
                 }
