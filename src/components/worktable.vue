@@ -4,20 +4,35 @@
             <el-main>
                 <el-row :gutter="20">
                     <el-col :span="4">
-                        <el-button class="grid-content bg-purple now delete">最近使用</el-button>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-button class="grid-content bg-purple delete">我创建的</el-button>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-button class="grid-content bg-purple delete">收藏文档</el-button>
+                        <div v-if="emm==='1-1'" class="grid-content bg-purple now delete">最近使用</div>
+                        <div v-if="emm==='1-2'" class="grid-content bg-purple now delete">我创建的</div>
+                        <div v-if="emm==='1-3'" class="grid-content bg-purple now delete">收藏文档</div>
                     </el-col>
                 </el-row>
-                <div v-for="domain in docList.domains" :key="domain.docname"
-                    style="width: 150px;float: left; margin: 35px;">
-                    <card :docname="domain.docname" :url="domain.url">
-                    </card>
+                <div v-if="emm==='1-1'">
+                    <div v-for="recent in docList.recents" :key="recent.docnum"
+                        style="position: relative; width: 150px;float: left; margin: 35px;">
+                        <card :doc="recent" :user=localStorageID @collect-event="collectItem"
+                            @cancel-event="cancelCollectItem" @remove-event="removeItem">
+                        </card>
+                    </div>
                 </div>
+                <div v-else-if="emm==='1-2'">
+                    <div v-for="create in docList.creates" :key="create.docnum"
+                        style="position: relative; width: 150px;float: left; margin: 35px;">
+                        <card :doc="create" :user=localStorageID @collect-event="collectItem"
+                            @cancel-event="cancelCollectItem" @remove-event="removeItem"></card>
+                    </div>
+                </div>
+                <div v-else-if="emm==='1-3'">
+                    <div v-for="collection in docList.collections" :key="collection.docnum"
+                        style="position: relative; width: 150px;float: left; margin: 35px;">
+                        <card :doc="collection" :user=localStorageID @collect-event="collectItem"
+                            @cancel-event="cancelCollectItem" @remove-event="removeItem">
+                        </card>
+                    </div>
+                </div>
+
             </el-main>
         </el-container>
     </div>
@@ -28,41 +43,281 @@
     // import { ParticlesBg } from "particles-bg-vue";
     export default {
         name: 'worktable',
+        props: {
+            emm: String,
+        },
         data() {
             return {
                 isCollapse: false,
-                emm: '1-1',
+                localStorageID: 0,
+                localStorageName: '',
                 docList: {
-                    domains: [{
+                    allDocs: [{
+                        author: 1,
+                        docnum: 1,
                         docname: 'New Document 1',
-                        url: '/doc'
+                        url: '/doc',
+                        lasttime: new Date('2020-8-1'),
+                        isCollected: true,
+                        stat: 0,
                     }, {
+                        author: 1,
+                        docnum: 2,
                         docname: 'New Document 2',
-                        url: '/doc'
+                        url: '/doc',
+                        lasttime: new Date('2020-8-2'),
+                        isCollected: false,
+                        stat: 0,
                     }, {
+                        author: 1,
+                        docnum: 3,
                         docname: 'New Document 3',
-                        url: '/doc'
+                        url: '/doc',
+                        lasttime: new Date('2020-8-3'),
+                        isCollected: true,
+                        stat: -1,
                     }, {
+                        author: 1,
+                        docnum: 4,
                         docname: 'New Document 4',
-                        url: '/doc'
+                        url: '/doc',
+                        lasttime: new Date('2020-8-4'),
+                        isCollected: true,
+                        stat: -1,
                     }, {
+                        author: 2,
+                        docnum: 5,
                         docname: 'New Document 5',
-                        url: '/doc'
+                        url: '/doc',
+                        lasttime: new Date('2020-8-15'),
+                        isCollected: true,
+                        stat: 0,
                     }, {
+                        author: 2,
+                        docnum: 6,
                         docname: 'New Document 6',
-                        url: '/doc'
+                        url: '/doc',
+                        lasttime: new Date('2020-8-6'),
+                        isCollected: false,
+                        stat: 0,
                     }, {
+                        author: 2,
+                        docnum: 7,
                         docname: 'New Document 7',
-                        url: '/doc'
+                        url: '/doc',
+                        lasttime: new Date('2020-8-7'),
+                        isCollected: false,
+                        stat: -1,
                     }, {
+                        author: 2,
+                        docnum: 8,
                         docname: 'New document8',
-                        url: '/doc'
+                        url: '/doc',
+                        lasttime: new Date('2020-8-9'),
+                        isCollected: true,
+                        stat: -1,
+                    }, ],
+                    recents: [{
+                        author: 1,
+                        docnum: 1,
+                        docname: 'New Document 1',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-1'),
+                        isCollected: true,
+                        stat: 0,
+                    }, {
+                        author: 1,
+                        docnum: 2,
+                        docname: 'New Document 2',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-2'),
+                        isCollected: false,
+                        stat: 0,
+                    }, {
+                        author: 1,
+                        docnum: 3,
+                        docname: 'New Document 3',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-3'),
+                        isCollected: true,
+                        stat: -1,
+                    }, {
+                        author: 1,
+                        docnum: 4,
+                        docname: 'New Document 4',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-4'),
+                        isCollected: true,
+                        stat: -1,
+                    }, {
+                        author: 2,
+                        docnum: 5,
+                        docname: 'New Document 5',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-15'),
+                        isCollected: true,
+                        stat: 0,
+                    }, {
+                        author: 2,
+                        docnum: 6,
+                        docname: 'New Document 6',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-6'),
+                        isCollected: false,
+                        stat: 0,
+                    }, {
+                        author: 2,
+                        docnum: 7,
+                        docname: 'New Document 7',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-7'),
+                        isCollected: false,
+                        stat: -1,
+                    }, {
+                        author: 2,
+                        docnum: 8,
+                        docname: 'New document8',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-9'),
+                        isCollected: true,
+                        stat: -1,
+                    }, ],
+                    collections: [{
+                        author: 1,
+                        docnum: 1,
+                        docname: 'New Document 1',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-1'),
+                        isCollected: true,
+                        stat: 0,
+                    }, {
+                        author: 1,
+                        docnum: 3,
+                        docname: 'New Document 3',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-3'),
+                        isCollected: true,
+                        stat: -1,
+                    }, {
+                        author: 1,
+                        docnum: 4,
+                        docname: 'New Document 4',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-4'),
+                        isCollected: true,
+                        stat: -1,
+                    }, {
+                        author: 2,
+                        docnum: 5,
+                        docname: 'New Document 5',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-1'),
+                        isCollected: true,
+                        stat: 0,
+                    }, {
+                        author: 2,
+                        docnum: 8,
+                        docname: 'New Document 8',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-4'),
+                        isCollected: true,
+                        stat: -1,
+                    }, ],
+                    creates: [{
+                        author: 2,
+                        docnum: 5,
+                        docname: 'New Document 5',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-1'),
+                        isCollected: true,
+                        stat: 0,
+                    }, {
+                        author: 2,
+                        docnum: 6,
+                        docname: 'New Document 6',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-2'),
+                        isCollected: false,
+                        stat: 0,
+                    }, {
+                        author: 2,
+                        docnum: 7,
+                        docname: 'New Document 7',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-3'),
+                        isCollected: false,
+                        stat: -1,
+                    }, {
+                        author: 2,
+                        docnum: 8,
+                        docname: 'New Document 8',
+                        url: '/doc',
+                        lasttime: new Date('2020-8-4'),
+                        isCollected: true,
+                        stat: -1,
                     }, ],
                 }
             };
         },
         components: {
             card
+        },
+        methods: {
+            removeItem(docnum) {
+                var index1, index2, index3;
+                var array = this.docList.recents;
+                array.forEach(document => {
+                    if (document.docnum === docnum) {
+                        index1 = array.indexOf(document)
+                    }
+                });
+                if (index1 > -1)
+                    array.splice(index1, 1);
+                var create = this.docList.creates;
+                create.forEach(document => {
+                    if (document.docnum === docnum) {
+                        index2 = create.indexOf(document)
+                    }
+                });
+                if (index2 > -1)
+                    create.splice(index2, 1);
+                var collection = this.docList.collections;
+                collection.forEach(document => {
+                    if (document.docnum === docnum) {
+                        index3 = collection.indexOf(document)
+                    }
+                });
+                if (index2 > -1)
+                    collection.splice(index3, 1);
+            },
+            collectItem(docnum) {
+                var array = this.docList.allDocs;
+                var collections = this.docList.collections;
+                array.forEach(document => {
+                    if (document.docnum === docnum) {
+                        document.isCollected = true;
+                        collections.push(document);
+                    }
+                });
+                // alert('收藏成功！');
+            },
+            cancelCollectItem(docnum) {
+                var index = -1;
+                var array = this.docList.collections;
+                array.forEach(document => {
+                    if (document.docnum === docnum) {
+                        document.isCollected = false;
+                        index = array.indexOf(document)
+                    }
+                });
+                if (index > -1)
+                    array.splice(index, 1);
+                // alert('取消收藏成功！');
+            },
+        },
+        created() {
+            this.localStorageID = localStorage.getItem('userID');
+            this.localStorageName = localStorage.getItem('username');
         }
     };
 </script>
