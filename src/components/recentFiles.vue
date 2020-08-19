@@ -8,7 +8,7 @@
                     </el-col>
                 </el-row>
                 <div v-for="recent in docList.recents" :key="recent.docnum"
-                    style="position: relative; width: 150px;float: left; margin: 35px;">
+                    style="position: relative; width: 180px; float: left; margin: 35px;">
                     <card :doc="recent" :user="localStorageID" @collect-event="collectItem"
                         @cancel-event="cancelCollectItem" @remove-event="removeItem">
                     </card>

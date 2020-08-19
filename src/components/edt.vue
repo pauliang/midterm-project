@@ -64,6 +64,8 @@
 
             <el-main>
                 <h1 v-if="localStorageFileName != ''">{{localStorageFileName}}</h1>
+                <div v-if="localStorageFileIntro != ''">文件简介：{{localStorageFileIntro}}</div>
+                <div v-if="localStorageFileName != '' && localStorageFileIntro == ''">文件简介：作者很懒，什么都没有说</div>
                 <div id="div1" class="toolbar" style="width: 900px;">
                     <el-tooltip effect="light" content="返回" placement="bottom">
                         <div style="font-size:25px;cursor:pointer;margin-left:35px;" class="el-icon-back"
@@ -95,19 +97,22 @@
                             <el-input v-model="doc.docname" autocomplete="off">
                             </el-input>.doc
                         </el-form-item>
+                        <el-form-item label="文档简介：" prop="docintro">
+                            <el-input type="textarea" resize="none" :rows="4" v-model="doc.docintro"></el-input>
+                        </el-form-item>
                     </el-form>
                     <span slot="footer" class="dialog-footer">
                         <el-button @click="isShow1 = false">取 消</el-button>
                         <el-button @click="isShow1 = false;submitForm('doc')">确 定</el-button>
                     </span>
                 </el-dialog>
-                <el-dialog title="提示" :visible.sync="isShow2" width="30%" :before-close="handleClose">
+                <!-- <el-dialog title="提示" :visible.sync="isShow2" width="30%" :before-close="handleClose">
                     <span>这是一段信息</span>
                     <span slot="footer" class="dialog-footer">
                         <el-button @click="isShow2 = false">取 消</el-button>
                         <el-button type="primary" @click="goBack()">确 定</el-button>
                     </span>
-                </el-dialog>
+                </el-dialog> -->
             </el-main>
 
         </el-container>
@@ -122,17 +127,19 @@
         data() {
             return {
                 isShow1: false,
-                isShow2: false,
+                // isShow2: false,
                 isCollapse: false,
                 inputbox: '',
                 islogin: true,
                 doc: {
                     docname: '',
+                    docintro: '',
                 },
                 localStorageID: -1,
                 localStorageName: '',
                 localStorageFileID: -1,
                 localStorageFileName: '',
+                localStorageFileIntro: '',
                 inputBox: '',
                 is_login: true,
                 is_active: false,
@@ -235,6 +242,7 @@
                         id: this.localStorageID,
                         content: div2.innerHTML,
                         docname: this.doc.docname,
+                        docintro: this.doc.docintro
                     }
                 }).then(
                     res => { //如果传过来的数据是{info:"success", docid: 文档id},就这么写，如果失败的话,也应该按照{info: "failed"}，这样的格式写
@@ -243,6 +251,7 @@
                             this.localStorageFileID = res.data.docid;
                             localStorage.setItem('docid', res.data.docid);
                             this.localStorageFileName = this.doc.docname;
+                            this.localStorageFileIntro = this.doc.docintro;
                             if (localStorage.getItem('groupid') != null) {
                                 this.$axios({
                                     method: 'post',

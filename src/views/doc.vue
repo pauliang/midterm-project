@@ -66,10 +66,18 @@
 
 
             <el-main>
+                <h1 v-if="localStorageFileName != ''">{{localStorageFileName}}</h1>
+                <div v-if="localStorageFileIntro != ''">文件简介：{{localStorageFileIntro}}</div>
+                <div v-if="localStorageFileName != '' && localStorageFileIntro == ''">文件简介：作者很懒，什么都没有说</div>
+                <div id="div1" class="toolbar" style="width: 900px;">
+                    <el-tooltip effect="light" content="返回" placement="bottom">
+                        <div style="font-size:25px;cursor:pointer;margin-left:35px;" class="el-icon-back"
+                            @click="goBack2"></div>
+                    </el-tooltip>
 
-                <div id="div1" class="toolbar">
                     <el-tooltip effect="dark" content="提交" placement="top">
-                        <div style="font-size:25px;cursor:pointer" class="el-icon-upload" @click="punch"></div>
+                        <div style="font-size:25px;cursor:pointer;margin-left: 10px;" class="el-icon-upload"
+                            @click="punch"></div>
                     </el-tooltip>
 
                 </div>
@@ -82,7 +90,9 @@
                     <b class="intro1">编写于</b>
                     <b class="intro2">金石文档</b>
                 </div>
+                <!-- <div>{{user.id}}+{{user.nickName}}+</div> -->
                 <comment class="comment" :user="user" :docnum="docnum"></comment>
+
             </el-main>
 
         </el-container>
@@ -101,17 +111,15 @@
                 myid: -1,
                 list: [],
                 myname: '',
-                user: {
-                    id: this.myid,
-                    nickName: this.myname,
-                    avatar: ''
-                },
+                user: {},
                 docnum: this.docnum,
                 inputBox: '',
                 is_login: true,
                 is_active: false,
                 localStorageName: '',
                 localStorageID: '',
+                localStorageFileName: '',
+                localStorageFileIntro: '',
                 msgList: [],
             }
         },
@@ -207,15 +215,15 @@
         },
         mounted() {
             //首先，看这个的必须是登录的人
-            if (localStorage.getItem('userID')) {
-                this.myid = localStorage.getItem('userID');
-                this.myname = localStorage.getItem('username');
-            } else {
-                alert('请先登录');
-                this.$router.push({
-                    name: 'Login',
-                })
-            }
+            // if (localStorage.getItem('userID')) {
+            //     this.myid = localStorage.getItem('userID');
+            //     this.myname = localStorage.getItem('username');
+            // } else {
+            //     alert('请先登录');
+            //     this.$router.push({
+            //         name: 'Login',
+            //     })
+            // }
             //提取本地用户并验证权限
             this.$axios({
                 method: 'post',
@@ -253,6 +261,32 @@
                 url: 'http://39.97.122.202/doc/get_doc/',
                 data: {
                     id: docid,
+                    op: 1
+                }
+            }).then(res => {
+                this.localStorageFileName = res.data;
+            }).catch(() => {
+                alert('网络状态不佳，文本抓取失败');
+            })
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/doc/get_doc/',
+                data: {
+                    id: docid,
+                    op: 2
+                }
+            }).then(res => {
+                console.log(res.data);
+                if (res.data != null)
+                    this.localStorageFileIntro = res.data;
+            }).catch(() => {
+                alert('网络状态不佳，文本抓取失败');
+            })
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/doc/get_doc/',
+                data: {
+                    id: docid,
                     op: 3
                 }
             }).then(res => {
@@ -262,6 +296,22 @@
             })
         },
         created() {
+            //首先，看这个的必须是登录的人
+            if (localStorage.getItem('userID')) {
+                this.myid = localStorage.getItem('userID');
+                this.myname = localStorage.getItem('username');
+            } else {
+                alert('请先登录');
+                this.$router.push({
+                    name: 'Login',
+                })
+            }
+            this.docnum = parseInt(this.$route.query.docid);
+            this.user = {
+                id: this.myid,
+                nickName: this.myname,
+                avatar: ''
+            };
             var id = localStorage.getItem('userID');
             if (id == null)
                 this.longjmp('Login');

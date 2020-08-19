@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-container style="min-height:650px">
-            <el-button class="posi" @click="isShow = true">创建我的团队</el-button>
+
             <el-main style="position: relative;">
                 <el-row class="inhead">
                     <el-col>
@@ -33,6 +33,7 @@
                     <el-button @click="isShow = false;submitForm('group')">确 定</el-button>
                 </span>
             </el-dialog>
+            <el-button class="posi" @click="isShow = true">创建我的团队</el-button>
         </el-container>
     </div>
 </template>
@@ -79,13 +80,12 @@
                         groupname: this.group.groupname,
                     }
                 }).then(
-                    res => { //如果传过来的数据是{info:"success", docid: 文档id},就这么写，如果失败的话,也应该按照{info: "failed"}，这样的格式写
+                    res => {
                         if (res.data == "1") {
                             alert("创建团队成功");
-                            this.localStorageFileID = res.data.docid;
-                            localStorage.setItem('docid', res.data.docid);
+                            this.$router.go(0);
                         } else {
-                            console.log("创建团队失败");
+                            alert("创建团队失败");
                         }
                     },
                     err => {
@@ -93,7 +93,6 @@
                     }).catch((error) => {
                     console.log(error);
                 });
-                this.$router.go(0);
             },
         },
         components: {

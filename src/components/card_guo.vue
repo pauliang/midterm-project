@@ -1,7 +1,7 @@
 <template>
     <div class="outer" @mouseover="overShow" @mouseout="shut">
         <el-card :body-style="{ padding: '0px', height:'180px'}" shadow="hover"
-            style="position: relative;border-radius:10px;border:1px rgb(199, 199, 204) solid;height: 235px">
+            style="position: relative;border-radius:10px;border:1px rgb(199, 199, 204) solid;height: 210px">
 
             <i class="el-icon-document" style="font-size:90px;margin-top:20px" v-if="ishover"></i>
             <i class="el-icon-document-checked" style="font-size:90px;margin-top:20px" v-if="!ishover"></i>
@@ -12,7 +12,8 @@
                     <el-button v-if="power[0]==1" type="text" class="button" @click="jmp(fakeurl)">
                         {{doc.docname}}</el-button>
                     <el-button v-else disabled type="text" class="button">{{doc.docname}}</el-button><br>
-                    <span style="font-size: 7px; color: gray">{{dateFormat(doc.lasttime)}}</span>
+                    <!-- <span style="font-size: 10px; color: gray">修改时间<br></span> -->
+                    <span style="font-size: 14px; color: gray">{{dateFormat(doc.lasttime)}}</span>
                 </div>
             </div>
 

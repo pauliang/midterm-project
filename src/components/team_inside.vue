@@ -18,7 +18,7 @@
                     <el-button style="margin-top: 14px;margin-left: 50px;" @click="showImport">导入团队文档</el-button>
                 </el-row>
                 <div v-for="groupdoc in docList.groupdocs" :key="groupdoc.docname"
-                    style="width: 150px;float: left; margin: 35px;">
+                    style="width: 180px;float: left; margin: 35px;">
                     <card :doc="groupdoc" :user=localStorageID></card>
                 </div>
             </el-main>
@@ -97,9 +97,9 @@
             importDoc(docnum) {
                 this.$axios({
                     method: 'post',
-                    url: 'http://39.97.122.202/autho/set_group_auth/',
+                    url: 'http://39.97.122.202/autho/change_owner_b/',
                     data: {
-                        docnum: docnum,
+                        id: docnum,
                         groupnum: this.groupid
                     }
                 }).then(res => {
@@ -129,9 +129,10 @@
                 }
             }).then(
                 response => {
-                    console.log(response.data);
+                    console.log("文档数据"+response.data);
                     this.docList.groupdocs = response.data;
-                    if (this.docList.groupdocs == [])
+                    console.log(this.docList.groupdocs);
+                    if (this.docList.groupdocs == null)
                         console.log("no docs");
 
                 },
