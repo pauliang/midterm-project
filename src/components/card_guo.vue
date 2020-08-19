@@ -64,6 +64,15 @@
                 <div>
                       <el-button class="el-icon-view" type="text" @click="personDoc(3)" style="font-size:17px">&nbsp;他人仅可见(不可评论)</el-button>
                 </div> 
+                <div>
+                      <el-button class="el-icon-printer" type="text" @click="shareG()" style="font-size:17px">&nbsp;分享到我的团队</el-button>
+                </div> 
+
+                <el-dialog :visible.sync="isShow4" width="300px"  :title="'想要分享到哪个群组？'" append-to-body>
+                    <div v-for="(ob,ord) in yourG" :key="ord">
+                      <el-button type="text" @click="shareAct(ob[1])" style="font-size:17px">&nbsp;{{ob[0]}}</el-button>
+                    </div>
+                </el-dialog>
         </el-dialog>
 <!-- 小组文件的选项 -->
          <el-dialog center :title="name" :visible.sync="isShow3" width="300px" append-to-body=true>
@@ -101,6 +110,7 @@
                 isShow: false,
                 isShow2: false,
                 isShow3: false,
+                isShow4: false,
                 power:[1,1,1],//默认的权限
                 // x表示查看,分享权限(这俩权限绑定在一起,能查看就能分享)
                 // y表示评论权限
@@ -110,9 +120,51 @@
                 groupid:-1,//如果是小组的文档这里会变成小组的id
                 realurl:'',
                 fakeurl:'',
+                yourG:[['test1',1],['test2',2]]
             };
         },
         methods: {
+            shareG(){
+                //先看看这个鬼加了组没有
+                this.$axios({
+                    method:'post',
+                    url:'http://39.97.122.202/group/get_groups/',
+                    data:{
+                        id:this.user
+                    }
+                }).then( res =>{
+                    if(res.data==null||res.data.length==0){
+                        alert('你还没有加入任何群组哦~');
+                    }
+                    else{
+                        this.yourG=res.data;
+                        this.isShow2=false;
+                        this.isShow4=true;
+                    }
+                }).catch(()=>{
+                    alert('对不起，没法确认你加入的组');
+                })
+
+                
+            },
+            
+            shareAct(codenumber){
+                this.$axios({
+                    method:'post',
+                    url:'http://39.97.122.202/autho/change_owner_b/',
+                    data:{
+                        id:this.doc.docnum,
+                        groupnum:codenumber
+                    }
+                }).then( res =>{
+                    if(res.data==1){
+                        alert('共享成功！');
+                    }
+                }).catch(()=>{
+                    alert('网络错误，群共享失败');
+                })
+            }
+            ,
             dateFormat: function (time) {
                 var date = new Date(time);
                 var year = date.getFullYear();
