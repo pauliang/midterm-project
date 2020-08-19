@@ -39,7 +39,7 @@
                 this.$axios({
                     method: 'post',
                   //39.97.122.202
-                    url: 'http://localhost:8000/doc/submit_comment/',
+                    url: 'http://39.97.122.202/doc/submit_comment/',
                     data: {
                         f_cid: 0,
                         f_uid: 0,
@@ -56,7 +56,7 @@
                             //取新加入的评论加入组件中的数组
                             this.$axios({
                                 method: 'post',
-                                url: 'http://localhost:8000/doc/get_comments/',
+                                url: 'http://39.97.122.202/doc/get_comments/',
                                 data: {
                                     docnum: this.docnum,
                                 }
@@ -229,7 +229,7 @@
             // }
             this.$axios({
                 method: 'post',
-                url: 'http://localhost:8000/doc/get_comments/',
+                url: 'http://39.97.122.202/doc/get_comments/',
                 data: {
                     docnum: this.docnum,
                 }
