@@ -16,31 +16,42 @@
                         <div class="grid-content"></div>
                     </el-col>
                     <el-col :span="6">
-                        <div style="margin-top:3px">
-                            <el-input clearable placeholder="随便找点什么吧" prefix-icon="el-icon-search" v-model="inputbox">
-                            </el-input>
+                        <div class="slogan">
+                            <el-tag class="slogan2">“精诚所至，金石为开”</el-tag>
                         </div>
-
                     </el-col>
 
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
-                            <!-- <div class="wel_text">{{myname}},您好！</div> -->
-                            <el-link href="https://element.eleme.io" :underline="false" target="_blank"
-                                     class="wel_text">{{myname}},您好！
+                            <el-link v-if="is_login===true" href="/profile" :underline="false" target="_blank"
+                                     class="wel_text">{{ this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
-                            <el-popover placement="top-start" width="240" trigger="hover">
-                                <div v-if="myid!=-1">
-                                    <div class="item cardtxt">{{myname}}</div>
-                                    <div class="item cardtxt">631803439@qq.com</div>
-                                    <el-button class="item more_info" @click="longjmp('Profile')">修改个人资料</el-button>
+                            <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
+                                <div v-if="is_login===true">
+                                    <div class="item cardtxt">{{ this.localStorageName }}</div>
+                                    <div v-if="is_active===true">
+                                        <el-badge value="new">
+                                            <el-button index="0" class="item more_info1"
+                                                       @click="longjmp('Notification_center')">
+                                                查看系统通知
+                                            </el-button>
+                                        </el-badge>
+                                    </div>
+
+                                    <div v-else>
+                                        <el-button index="0" class="item more_info1"
+                                                   @click="longjmp('Notification_center')">
+                                            查看系统通知
+                                        </el-button>
+                                    </div>
+
+                                    <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
-                                <div v-if="myid==-1">
-                                    <div class="item cardtxt">游客</div>
-                                    <div class="item cardtxt">您尚未登陆</div>
+                                <div v-if="is_login===false">
+                                    <div class="item cardtxt">你尚未登陆</div>
                                     <el-button class="item login" @click="longjmp('Login')">登录</el-button>
                                     <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
                                 </div>
@@ -86,7 +97,6 @@
         name: 'doc',
         data() {
             return {
-                localStorageID: 0,
                 x: [],
                 editorContent: '',
                 myid: -1,
@@ -98,9 +108,16 @@
                     avatar: ''
                 },
                 docnum: this.docnum,
+                inputBox: '',
+                is_login: true,
+                is_active: false,
+                localStorageName: '',
+                localStorageID: '',
+                msgList: [],
             }
         },
         methods: {
+
             goBack2() {
                 this.$router.push({
                     name: 'Page',
@@ -246,8 +263,34 @@
             }).catch(() => {
                 alert('网络状态不佳，文本抓取失败');
             })
-
-
+        },
+        created() {
+            var id = localStorage.getItem('userID');
+            if (id == null)
+                this.longjmp('Login');
+            this.localStorageID = localStorage.getItem('userID');
+            this.localStorageName = localStorage.getItem('username');
+            var msg_url = 'http://39.97.122.202/notice/get_notice';
+            this.$axios({
+                method: 'post',
+                url: msg_url, //此处不传data
+            }).then(
+                response => {
+                    var msgs = response.data;
+                    var before = this.msgList.length;
+                    var after = msgs.length;
+                    if (before === after) {
+                        this.is_active = false;
+                    } else {
+                        this.is_active = true;
+                        this.msgList = msgs;
+                    }
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
         },
         components: {
             comment
@@ -325,6 +368,22 @@
         padding: 0;
     }
 
+    .head .el-col-6 .slogan {
+        width: 100px;
+        margin-top: 5px;
+        margin-left: 300px;
+    }
+
+    .head .el-col-6 .slogan2 {
+        font-size: 28px;
+        font-weight: 400;
+        font-family: "KaiTi", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        line-height: 40px;
+        height: 40px;
+        background-color: transparent;
+        color: #ffffff;
+        border: none;
+    }
     .head .welcome {
         position: absolute;
         float: right;
@@ -398,24 +457,21 @@
         fill: #4a5056 !important;
     }
 
+    /*这部分是个人信息的小卡片*/
     .item {
         padding: 18px 0;
         font-size: 14px;
         color: #24292e;
     }
-    .comment {
-        margin-left: 320px;
-        margin-top: -60px;
-    }
-    .box-card {
-        /* width: 240px;
-        height: 280px; */
-        margin: 0 0;
-        border: 1px solid #e1e4e8;
-        border-radius: 6px;
+
+    .more_info1 {
+        display: block;
+        color: #409eff;
+        margin: 0 auto 10px 30px;
+        width: 180px;
     }
 
-    .more_info {
+    .more_info2 {
         display: block;
         color: #409eff;
         margin: 0 auto;
@@ -425,25 +481,22 @@
     .logout {
         display: block;
         color: #c81623;
-        margin: 10px auto 0;
+        margin: 10px auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .login {
         display: block;
         color: #409eff;
-        margin: 0 auto;
+        margin: 0 auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .regi {
         display: block;
         color: #409eff;
-        margin: 0 auto;
+        margin: 0 auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .cardtxt {

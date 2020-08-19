@@ -21,23 +21,34 @@
 
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
-                            <el-link v-if="islogin==true" href="https://element.eleme.io" :underline="false" target="_blank"
-                                class="wel_text">{{ this.localStorageName }}，您好！
+                            <el-link v-if="is_login===true" href="/profile" :underline="false" target="_blank"
+                                     class="wel_text">{{ this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
                             <el-popover placement="top-start" width="240" trigger="hover" popper-class="av">
-                                <div v-if="islogin==true">
+                                <div v-if="is_login===true">
                                     <div class="item cardtxt">{{ this.localStorageName }}</div>
-                                    <el-badge value="new">
-                                        <el-button disabled index="0" class="item more_info1" @click="longjmp('Notification_center')">
+                                    <div v-if="is_active===true">
+                                        <el-badge value="new">
+                                            <el-button index="0" class="item more_info1"
+                                                       @click="longjmp('Notification_center')">
+                                                查看系统通知
+                                            </el-button>
+                                        </el-badge>
+                                    </div>
+
+                                    <div v-else>
+                                        <el-button index="0" class="item more_info1"
+                                                   @click="longjmp('Notification_center')">
                                             查看系统通知
                                         </el-button>
-                                    </el-badge>
+                                    </div>
+
                                     <el-button class="item more_info2" @click="longjmp('Profile')">修改个人资料</el-button>
                                     <el-button class="item logout" @click="logout()">退出登录</el-button>
                                 </div>
-                                <div v-if="islogin===false">
+                                <div v-if="is_login===false">
                                     <div class="item cardtxt">你尚未登陆</div>
                                     <el-button class="item login" @click="longjmp('Login')">登录</el-button>
                                     <el-button class="item regi" @click="longjmp('Regi')">注册</el-button>
@@ -52,7 +63,7 @@
             </el-header>
 
             <el-main>
-
+                <h1 v-if="localStorageFileName != ''">{{localStorageFileName}}</h1>
                 <div id="div1" class="toolbar" style="width: 900px;">
                     <el-tooltip effect="light" content="返回" placement="bottom">
                         <div style="font-size:25px;cursor:pointer;margin-left:35px;" class="el-icon-back"
@@ -69,7 +80,7 @@
                 </div>
                 <div id="div2" class="text">
                     <!--可使用 min-height 实现编辑区域自动增加高度-->
-                    <board :choice=choice class="choice"></board>
+                    <board :choice=choice></board>
                     <p>{{msg}}</p>
                 </div>
 
@@ -81,12 +92,13 @@
                     <el-form ref="doc" :model="doc" label-width="100px">
                         <el-form-item label="文件名" prop="docname"
                             :rules="[{required: true, message: '请输入文件名', trigger: 'blur'}]">
-                            <el-input v-model="doc.docname" autocomplete="off" class="input"></el-input>.doc
+                            <el-input v-model="doc.docname" autocomplete="off">
+                            </el-input>.doc
                         </el-form-item>
                     </el-form>
                     <span slot="footer" class="dialog-footer">
                         <el-button @click="isShow1 = false">取 消</el-button>
-                        <el-button @click="isShow1 = false,submitForm('doc')">确 定</el-button>
+                        <el-button @click="isShow1 = false;submitForm('doc')">确 定</el-button>
                     </span>
                 </el-dialog>
                 <el-dialog title="提示" :visible.sync="isShow2" width="30%" :before-close="handleClose">
@@ -101,6 +113,7 @@
         </el-container>
     </div>
 </template>
+
 <script>
     import E from "wangeditor";
     import board from '@/components/board.vue'
@@ -119,6 +132,11 @@
                 localStorageID: -1,
                 localStorageName: '',
                 localStorageFileID: -1,
+                localStorageFileName: '',
+                inputBox: '',
+                is_login: true,
+                is_active: false,
+                msgList: [],
             };
         },
         props: {
@@ -157,7 +175,7 @@
                     }).then(res => {
                         if (res.data == 1)
                             alert('保存成功');
-                        else    alert('保存失败');
+                        else alert('保存失败');
                     }).catch(err => {
                         console.log(err);
                     }).catch((error) => {
@@ -166,14 +184,14 @@
                 }
             },
             createFile() {
-                var div2 = document.getElementById("div2").innerHTML;
+                var div2 = document.getElementById("div2");
                 console.log(this.doc.docname);
                 this.$axios({
                     method: 'post',
                     url: 'http://39.97.122.202/Table/new_file/',
                     data: {
                         id: this.localStorageID,
-                        content: div2,
+                        content: div2.innerHTML,
                         docname: this.doc.docname,
                     }
                 }).then(
@@ -181,7 +199,8 @@
                         if (res.data.info === "success") {
                             alert("创建文档成功");
                             this.localStorageFileID = res.data.docid;
-                            localStorage.setItem('docid', res.data.docid)
+                            localStorage.setItem('docid', res.data.docid);
+                            this.localStorageFileName = this.doc.docname;
                         } else {
                             alert("创建文档失败");
                         }
@@ -264,6 +283,27 @@
                 // localStorage.getItem('aaa');
                 this.longjmp("Login");
             }
+            var msg_url = 'http://39.97.122.202/notice/get_notice';
+            this.$axios({
+                method: 'post',
+                url: msg_url, //此处不传data
+            }).then(
+                response => {
+                    var msgs = response.data;
+                    var before = this.msgList.length;
+                    var after = msgs.length;
+                    if (before === after) {
+                        this.is_active = false;
+                    } else {
+                        this.is_active = true;
+                        this.msgList = msgs;
+                    }
+                },
+                err => {
+                    console.log(err);
+                }).catch((error) => {
+                console.log(error);
+            });
         },
         components: {
             board
@@ -371,19 +411,16 @@
         float: right;
         margin-right: 100px;
     }
-/*主体部分*/
+
     .container .el-main {
         position: relative;
     }
-    .choice {
-        z-index: 100;
-    }
+
     .container .toolbar {
         margin: 10px auto;
         height: 40px;
         width: 750px;
         border: 1px solid #f6f6f6;
-        z-index: 2;
     }
 
     .container .text {
@@ -424,21 +461,11 @@
         fill: #4a5056 !important;
     }
 
+    /*这部分是个人信息的小卡片*/
     .item {
         padding: 18px 0;
         font-size: 14px;
         color: #24292e;
-    }
-
-    .input {
-        width: 250px;
-    }
-    .box-card {
-        /* width: 240px;
-        height: 280px; */
-        margin: 0 0;
-        border: 1px solid #e1e4e8;
-        border-radius: 6px;
     }
 
     .more_info1 {
@@ -458,25 +485,22 @@
     .logout {
         display: block;
         color: #c81623;
-        margin: 10px auto 0;
+        margin: 10px auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .login {
         display: block;
         color: #409eff;
-        margin: 0 auto;
+        margin: 0 auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .regi {
         display: block;
         color: #409eff;
-        margin: 0 auto;
+        margin: 0 auto 20px;
         width: 180px;
-        margin-bottom: 20px;
     }
 
     .cardtxt {
@@ -555,7 +579,7 @@
     } */
 
     .w-e-text-container {
-        z-index: 2 !important;
+        z-index: 0 !important;
     }
 
     .w-e-toolbar {
@@ -564,7 +588,7 @@
     }
 
     .el-dialog {
-        z-index: 2 !important;
+        z-index: auto !important;
     }
 
     /* .w-e-menu {

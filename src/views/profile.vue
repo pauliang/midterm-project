@@ -98,6 +98,7 @@
 
 <script>
     import my_header from "../components/my_header";
+
     function isvalidPass(str) {
         const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{6,18}$/;
         return reg.test(str);
@@ -304,13 +305,14 @@
                     var id = this.localStorageID;
                     console.log(id); //data()中定义了一个属性，获取localStorage的值
                     this.$router.push({
-                            name: 'Profile',
-                            query: {
-                                id: id
-                            }
-                        }),
-                        this.$router.go(0);
+                        name: 'Profile',
+                        query: {
+                            id: id
+                        }
+                    });
+                    this.$router.go(0);
                 }
+                
             },
             goPage() {
                 this.$router.push({
@@ -392,6 +394,7 @@
     .whole {
         height: 1500px;
     }
+
     .w2 {
         height: 1000px;
     }

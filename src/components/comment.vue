@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 900px; height: 100px">
+    <div style="width: 900px; ">
         <comment :user="user" :users="users" :comment-list="commentList"></comment>
         <!--    <div v-for="o in testList" :key="o.id" >-->
         <!--      <el-card style="height: 100px">{{ o[2] }}</el-card>-->

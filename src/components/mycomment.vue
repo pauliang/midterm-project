@@ -26,7 +26,7 @@
                 commentId: 0,
                 docnum: 1,
                 commentNum: 0,
-                avatar: require('@/assets/group.png'),
+                avatar: require('@/assets/logo.png'),
             }
         },
         components: {
@@ -142,7 +142,7 @@
                         }
                     },
                     err => {
-                        console.log(err)
+                        console.log(err);
                         alert(err)
                     }).catch((error) => {
                     console.log(error)
