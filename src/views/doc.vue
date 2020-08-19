@@ -24,7 +24,7 @@
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
                             <el-link v-if="is_login===true" href="/profile" :underline="false" target="_blank"
-                                     class="wel_text">{{ this.localStorageName }}，您好！
+                                class="wel_text">{{ this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
@@ -34,7 +34,7 @@
                                     <div v-if="is_active===true">
                                         <el-badge value="new">
                                             <el-button index="0" class="item more_info1"
-                                                       @click="longjmp('Notification_center')">
+                                                @click="longjmp('Notification_center')">
                                                 查看系统通知
                                             </el-button>
                                         </el-badge>
@@ -42,7 +42,7 @@
 
                                     <div v-else>
                                         <el-button index="0" class="item more_info1"
-                                                   @click="longjmp('Notification_center')">
+                                            @click="longjmp('Notification_center')">
                                             查看系统通知
                                         </el-button>
                                     </div>
@@ -90,7 +90,6 @@
 </template>
 
 <script>
-
     import E from "wangeditor";
     import comment from "../components/comment";
     export default {
@@ -147,60 +146,57 @@
                 this.longjmp("Login");
             },
             punch() {
+                console.log('punch');
                 if (this.list[2] !== 1) {
                     alert('你无权修改此文档');
                 } else {
                     var vailable = 0;
                     if (this.editorContent) {
-                        this.$axios(
-                            {
-                                method: 'post',
-                                url: 'http://39.97.122.202/doc/match_edit/',
-                                data: {
-                                    id: this.$route.query.docid,
-                                }
+                        this.$axios({
+                            method: 'post',
+                            url: 'http://39.97.122.202/doc/match_edit/',
+                            data: {
+                                id: this.$route.query.docid,
                             }
-                        ).then(res => {
+                        }).then(res => {
+                            console.log(res.data);
                             if (res.data === 1) {
                                 vailable = 1;
+                                if (vailable === 1) {
+
+                                    this.$axios({
+                                        method: 'post',
+                                        url: 'http://39.97.122.202/doc/save_doc/',
+                                        data: {
+                                            id: this.$route.query.docid,
+                                            msg: this.editorContent,
+                                            userid: this.myid
+                                        }
+                                    }).then(res => {
+                                        if (res.data === 1)
+                                            alert('上传成功,正在结束修改..');
+                                    }).catch(() => {
+                                        alert('网络状态不佳，文本上传失败');
+                                    })
+                                }
                             }
                         }).catch(() => {
                             alert('网络状态不佳，修改状态验证失败');
+                        });
+                        this.$axios({
+                            method: 'post',
+                            url: 'http://39.97.122.202/doc/end_edit/',
+                            data: {
+                                id: this.$route.query.docid,
+                            }
+                        }).then(res => {
+                            if (res.data === 1) {
+                                alert('修改成功！');
+                            }
+                        }).catch(() => {
+                            alert('未知力量使你修改失败，希望你永远不要看到这一行字');
                         })
 
-                        if (vailable === 1) {
-
-                            this.$axios(
-                                {
-                                    method: 'post',
-                                    url: 'http://39.97.122.202/doc/save_doc/',
-                                    data: {
-                                        id: this.$route.query.docid,
-                                        msg: this.editorContent,
-                                        userid: this.myid
-                                    }
-                                }).then(res => {
-                                if (res.data === 1)
-                                    alert('上传成功,正在结束修改..');
-                            }).catch(() => {
-                                alert('网络状态不佳，文本上传失败');
-                            })
-
-                            this.$axios({
-                                method: 'post',
-                                url: 'http://39.97.122.202/doc/end_edit/',
-                                data: {
-                                    id: this.$route.query.docid,
-                                }
-                            }).then(res => {
-                                if (res.data === 1) {
-                                    alert('修改成功！');
-                                }
-                            }).catch(() => {
-                                alert('未知力量使你修改失败，希望你永远不要看到这一行字');
-                            })
-
-                        }
 
                     } else
                         alert('？？？ 你什么都没改上传什么？');
@@ -221,15 +217,14 @@
                 })
             }
             //提取本地用户并验证权限
-            this.$axios(
-                {
-                    method: 'post',
-                    url: 'http://39.97.122.202/autho/match_auth/',
-                    data: {
-                        id: this.myid,
-                        docnum: this.$route.query.docid
-                    }
-                }).then(res => {
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/autho/match_auth/',
+                data: {
+                    id: this.myid,
+                    docnum: this.$route.query.docid
+                }
+            }).then(res => {
                 this.list = res.data;
                 if (this.list[0] !== 1) {
                     alert('你无权访问此文档');
@@ -253,15 +248,14 @@
             var docid = this.$route.query.docid;
             //云端抓取文本
 
-            this.$axios(
-                {
-                    method: 'post',
-                    url: 'http://39.97.122.202/doc/get_doc/',
-                    data: {
-                        id: docid,
-                        op: 3
-                    }
-                }).then(res => {
+            this.$axios({
+                method: 'post',
+                url: 'http://39.97.122.202/doc/get_doc/',
+                data: {
+                    id: docid,
+                    op: 3
+                }
+            }).then(res => {
                 this.x.txt.html(res.data);
             }).catch(() => {
                 alert('网络状态不佳，文本抓取失败');
@@ -387,6 +381,7 @@
         color: #ffffff;
         border: none;
     }
+
     .head .welcome {
         position: absolute;
         float: right;
