@@ -8,11 +8,11 @@
                 </el-input>
                 <!---设置z-index优先级,防止被走马灯效果遮挡-->
                 <el-card @mouseenter="enterSearchBoxHanlder" v-if="isSearch" class="box-card" id="search-box"
-                         style="position:absolute;z-index:15;width:500px">
-                    <dl v-if="isHistorySearch">
+                         style="position:absolute;z-index:15;width:400px">
+                    <dl v-if="isHistorySearch" style="text-align: left">
                         <dt class="search-title" v-show="history">历史搜索</dt>
                         <dt class="remove-history" v-show="history" @click="removeAllHistory">
-                            <i class="el-icon-delete"></i>清空历史记录
+                            <i class="el-icon-delete delete"></i>清空历史记录
                         </dt>
                         <el-tag
                                 v-for="search in historySearchList"
@@ -20,11 +20,11 @@
                                 closable
                                 :type="search.type"
                                 @close="closeHandler(search)"
-                                style="margin-right:5px; margin-bottom:5px;"
+                                class="history"
                         >{{search.name}}
                         </el-tag>
                         <dt class="search-title">热门搜索</dt>
-                        <dd v-for="search in hotSearchList" :key="search.id">{{search}}</dd>
+                        <dd v-for="search in hotSearchList" :key="search.id" class="hot">{{search}}</dd>
                     </dl>
                 </el-card>
             </el-col>
@@ -153,6 +153,12 @@
     }
 </script>
 <style scoped>
+    .history {
+        margin-bottom: 5px;
+        margin-left: 10px;
+        margin-right: 30px;
+        text-align: left;
+    }
     .center {
         margin-top: 15px;
         margin-left: 200px;
@@ -164,21 +170,32 @@
     }
 
     .search-title {
-        color: #bdbaba;
-        font-size: 15px;
-        margin-bottom: 5px;
+        color: #262626;
+        font-size: 20px;
+        text-align: left;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+
+    .center .delete {
+        margin-top: -10px;
     }
 
     .remove-history {
         color: #bdbaba;
         font-size: 15px;
         float: right;
-        margin-top: -22px;
+        margin-top: -32px;
     }
 
     .center #search-box {
-        height: 250px;
+        /*height: 200px;*/
         margin-top: 0;
         padding-bottom: 20px;
+    }
+    .center .hot {
+        display: inline-block;
+        text-align: left;
+        margin-left: 0px;
     }
 </style>
