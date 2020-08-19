@@ -1,16 +1,18 @@
 <template>
     <div>
         <el-container style="min-height:650px">
+            <el-button class="posi" @click="isShow = true">创建我的团队</el-button>
             <el-main style="position: relative;">
                 <el-row class="inhead">
                     <el-col>
                         <div>团队空间</div>
                     </el-col>
                 </el-row>
-                <el-button class="posi" @click="isShow = true">创建我的团队</el-button>
+
                 <el-row>
                     <el-col class="cardbox" v-for="team in teamList" :key="team.name">
-                        <Gcard :name="team[0]" :groupid=team[1] @event2="goIntro(team[0],team[1],team[2],team[3])"></Gcard>
+                        <Gcard :name="team[0]" :groupid=team[1] @event2="goIntro(team[0],team[1],team[2],team[3])">
+                        </Gcard>
                     </el-col>
                 </el-row>
             </el-main>
@@ -53,7 +55,7 @@
         },
         methods: {
             goIntro(gname, gid, membernum, groupintro) {
-                this.$emit('event1', gname,gid,membernum, groupintro)
+                this.$emit('event1', gname, gid, membernum, groupintro)
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -82,7 +84,6 @@
                             console.log("创建团队成功");
                             this.localStorageFileID = res.data.docid;
                             localStorage.setItem('docid', res.data.docid);
-                            
                         } else {
                             console.log("创建团队失败");
                         }
