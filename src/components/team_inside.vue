@@ -144,7 +144,7 @@
                 method: 'post',
                 url: 'http://39.97.122.202/group/get_leader/',
                 data: {
-                    groupid: this.groupid
+                    groupnum: this.groupid
                 }
             }).then(
                 response => {

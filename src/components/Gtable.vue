@@ -81,7 +81,7 @@
                 }).then(
                     res => { //如果传过来的数据是{info:"success", docid: 文档id},就这么写，如果失败的话,也应该按照{info: "failed"}，这样的格式写
                         if (res.data == "1") {
-                            console.log("创建团队成功");
+                            alert("创建团队成功");
                             this.localStorageFileID = res.data.docid;
                             localStorage.setItem('docid', res.data.docid);
                         } else {
@@ -93,6 +93,7 @@
                     }).catch((error) => {
                     console.log(error);
                 });
+                this.$router.go(0);
             },
         },
         components: {

@@ -251,8 +251,9 @@
                     }
                 }).then(
                     response => {
-                        var info = response.data.info;
-                        if (info === "成功")
+                        console.log(response.data);
+                        var info = response.data;
+                        if (info === "success")
                             alert('密码修改成功！');
                         else {
                             alert('密码修改失败！');
@@ -264,6 +265,7 @@
                     }).catch((error) => {
                     console.log(error);
                 });
+                this.dialogVisible = false;
             },
             onSubmit() {
                 var uid = this.profile.id;

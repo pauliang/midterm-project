@@ -22,7 +22,7 @@
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
                             <el-link v-if="is_login===true" href="/profile" :underline="false" target="_blank"
-                                     class="wel_text">{{ this.localStorageName }}，您好！
+                                class="wel_text">{{ this.localStorageName }}，您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
@@ -32,7 +32,7 @@
                                     <div v-if="is_active===true">
                                         <el-badge value="new">
                                             <el-button index="0" class="item more_info1"
-                                                       @click="longjmp('Notification_center')">
+                                                @click="longjmp('Notification_center')">
                                                 查看系统通知
                                             </el-button>
                                         </el-badge>
@@ -40,7 +40,7 @@
 
                                     <div v-else>
                                         <el-button index="0" class="item more_info1"
-                                                   @click="longjmp('Notification_center')">
+                                            @click="longjmp('Notification_center')">
                                             查看系统通知
                                         </el-button>
                                     </div>
@@ -166,21 +166,63 @@
                     var div2 = document.getElementById("div2").innerHTML;
                     this.$axios({
                         method: 'post',
-                        url: 'http://39.97.122.202/doc/save_doc/',
+                        url: 'http://39.97.122.202/doc/match_edit/',
                         data: {
-                            id: this.$route.query.docid,
-                            msg: div2,
-                            userid: this.localStorageID,
+                            id: this.localStorageFileID,
                         }
                     }).then(res => {
-                        if (res.data == 1)
-                            alert('保存成功');
-                        else alert('保存失败');
-                    }).catch(err => {
-                        console.log(err);
-                    }).catch((error) => {
-                        console.log(error);
+                        console.log(res.data);
+                        if (res.data === 1) {
+                            this.$axios({
+                                method: 'post',
+                                url: 'http://39.97.122.202/doc/save_doc/',
+                                data: {
+                                    id: this.localStorageFileID,
+                                    msg: div2,
+                                    userid: this.localStorageID
+                                }
+                            }).then(res => {
+                                console.log(res.data);
+
+                                if (res.data === 1)
+                                    alert('上传成功,正在结束修改..');
+                            }).catch(() => {
+                                alert('网络状态不佳，文本上传失败');
+                            })
+                        }
+                    }).catch(() => {
+                        alert('网络状态不佳，修改状态验证失败');
                     });
+                    this.$axios({
+                        method: 'post',
+                        url: 'http://39.97.122.202/doc/end_edit/',
+                        data: {
+                            id: this.localStorageFileID,
+                        }
+                    }).then(res => {
+                        if (res.data === 1) {
+                            alert('修改成功！');
+                        }
+                    }).catch(() => {
+                        alert('未知力量使你修改失败，希望你永远不要看到这一行字');
+                    })
+                    // this.$axios({
+                    //     method: 'post',
+                    //     url: 'http://39.97.122.202/doc/save_doc/',
+                    //     data: {
+                    //         id: this.$route.query.docid,
+                    //         msg: div2,
+                    //         userid: this.localStorageID,
+                    //     }
+                    // }).then(res => {
+                    //     if (res.data == 1)
+                    //         alert('保存成功');
+                    //     else alert('保存失败');
+                    // }).catch(err => {
+                    //     console.log(err);
+                    // }).catch((error) => {
+                    //     console.log(error);
+                    // });
                 }
             },
             createFile() {
@@ -201,6 +243,24 @@
                             this.localStorageFileID = res.data.docid;
                             localStorage.setItem('docid', res.data.docid);
                             this.localStorageFileName = this.doc.docname;
+                            if (localStorage.getItem('groupid') != null) {
+                                this.$axios({
+                                    method: 'post',
+                                    url: 'http://39.97.122.202/autho/set_group_auth',
+                                    data: {
+                                        docnum: this.localStorageFileID,
+                                        groupnum: localStorage.getItem('groupid')
+                                    }
+                                }).then(res => {
+                                    if (res.data == 1) {
+                                        console.log('组内文件创建成功');
+                                    } else {
+                                        console.log('组内文件创建失败');
+                                    }
+                                }).catch(() => {
+                                    console.log('网络问题，组内文件创建失败');
+                                })
+                            }
                         } else {
                             alert("创建文档失败");
                         }
@@ -210,24 +270,7 @@
                     }).catch((error) => {
                     console.log(error);
                 });
-                if (localStorage.getItem('groupid') != null) {
-                    this.$axios({
-                        method: 'post',
-                        url: 'http://39.97.122.202/autho/set_group_auth',
-                        data: {
-                            docnum: this.doc.docnum,
-                            groupnum: this.groupid
-                        }
-                    }).then(res => {
-                        if (res.data == 1) {
-                            console.log('组内文件创建成功');
-                        } else {
-                            console.log('组内文件创建失败');
-                        }
-                    }).catch(() => {
-                        console.log('网络问题，组内文件创建失败');
-                    })
-                }
+
             },
             goBack() {
                 this.$router.push({

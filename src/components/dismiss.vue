@@ -10,7 +10,7 @@
 
             <div>
                 <span @mouseover="shut" v-if="ishover">
-                <el-button type="danger" icon="el-icon-check" circle></el-button>
+                    <el-button type="danger" icon="el-icon-check" circle></el-button>
                 </span>
 
                 <span @mouseout="overShow" v-if="!ishover" @click="push">
@@ -18,7 +18,7 @@
                 </span>
 
                 <span @mouseover="shut2" v-if="ishover2" style="margin-left:30px">
-                     <el-button type="success" icon="el-icon-close" circle></el-button>
+                    <el-button type="success" icon="el-icon-close" circle></el-button>
                 </span>
 
                 <span @mouseout="overShow2" v-if="!ishover2" style="margin-left:30px" @click="pop">
@@ -83,6 +83,7 @@
                     if (res.data === 1) {
                         alert(this.groupName + '已解散，各位有缘再见！');
                         this.dialogVisible = false;
+                        this.$router.go(0);
                     } else
                         alert('咦，似乎发生了一点小错误..');
                 }).catch(err => {

@@ -38,6 +38,7 @@
                 }).then(res => {
                     if (res.data == 1) {
                         alert('操作成功！');
+                        this.$router.go(0);
                     } else if (res.data == 2) {
                         alert('错误，你不在这个团队里');
                     } else
