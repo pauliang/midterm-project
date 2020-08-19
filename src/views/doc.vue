@@ -1,8 +1,8 @@
 <template>
-  <div>
-    
-        <el-container class="container">
-            
+    <div>
+
+        <el-container class="container w whole">
+
             <el-header class="head">
 
                 <el-row>
@@ -26,7 +26,8 @@
                     <el-col :span="13" style="text-align:right">
                         <el-col :span="6" class="welcome">
                             <!-- <div class="wel_text">{{myname}},您好！</div> -->
-                            <el-link href="https://element.eleme.io" :underline="false" target="_blank" class="wel_text">{{myname}},您好！
+                            <el-link href="https://element.eleme.io" :underline="false" target="_blank"
+                                     class="wel_text">{{myname}},您好！
                             </el-link>
                         </el-col>
                         <el-col :span="6" class="avator">
@@ -54,50 +55,58 @@
 
 
             <el-main>
-                    
-                        <div id="div1" class="toolbar" >
-                            <el-tooltip effect="dark" content="提交" placement="top">
-                                 <div style="font-size:25px;cursor:pointer" class="el-icon-upload" @click="punch"></div>  
-                            </el-tooltip>
-                                                      
-                        </div>
-                         
-                     
-                        <div id="div2" class="text">
-                            <p>你见到我的时候，说明你要看的文本:id={{this.$route.query.docid}}没有加载出来。</p>
-                        </div>
-                        <div class="introduce">
-                            <b class="intro1">编写于</b>
-                            <b class="intro2">金石文档</b>
-                        </div>
-                   
+
+                <div id="div1" class="toolbar">
+                    <el-tooltip effect="dark" content="提交" placement="top">
+                        <div style="font-size:25px;cursor:pointer" class="el-icon-upload" @click="punch"></div>
+                    </el-tooltip>
+
+                </div>
+
+
+                <div id="div2" class="text">
+                    <p>你见到我的时候，说明你要看的文本:id={{this.$route.query.docid}}没有加载出来。</p>
+                </div>
+                <div class="introduce">
+                    <b class="intro1">编写于</b>
+                    <b class="intro2">金石文档</b>
+                </div>
+                <comment class="comment" :user="user" :docnum="docnum"></comment>
             </el-main>
 
         </el-container>
-  </div>
+    </div>
 </template>
 
 <script>
 
-import E from "wangeditor";
-export default {
-    name:'doc',
-    data(){
-        return{
-            x:[],
-            editorContent:'',
-            myid:-1,
-            list:[],
-            myname:'',
-        }
-    },
-    methods:{
-         goBack2() {
+    import E from "wangeditor";
+    import comment from "../components/comment";
+    export default {
+        name: 'doc',
+        data() {
+            return {
+                localStorageID: 0,
+                x: [],
+                editorContent: '',
+                myid: -1,
+                list: [],
+                myname: '',
+                user: {
+                    id: this.myid,
+                    nickName: this.myname,
+                    avatar: ''
+                },
+                docnum: this.docnum,
+            }
+        },
+        methods: {
+            goBack2() {
                 this.$router.push({
                     name: 'Page',
                 })
             },
-        longjmp(name) {
+            longjmp(name) {
                 if (name === "Profile") {
                     this.$router.push({
                         path: '/profile',
@@ -111,155 +120,152 @@ export default {
                     });
                 }
             },
-       logout() {
+            logout() {
                 this.is_login = false;
                 localStorage.removeItem('userID');
                 localStorage.removeItem('username');
                 this.longjmp("Login");
             },
-      punch(){
-          if(this.list[2]!=1)
-            {
-                alert('你无权修改此文档');
-            }
-            else{
-                var vailable=0;
-                 if(this.editorContent){
+            punch() {
+                if (this.list[2] !== 1) {
+                    alert('你无权修改此文档');
+                } else {
+                    var vailable = 0;
+                    if (this.editorContent) {
                         this.$axios(
                             {
-                                    method:'post',
-                                    url:'http://39.97.122.202/doc/match_edit/',
-                                    data:{
-                                        id:this.$route.query.docid,
-                                    }
+                                method: 'post',
+                                url: 'http://39.97.122.202/doc/match_edit/',
+                                data: {
+                                    id: this.$route.query.docid,
+                                }
                             }
-                        ).then( res =>{
-                            if(res.data==1){
-                                vailable=1;
+                        ).then(res => {
+                            if (res.data === 1) {
+                                vailable = 1;
                             }
-                        }).catch(()=>{
+                        }).catch(() => {
                             alert('网络状态不佳，修改状态验证失败');
                         })
 
-                        if(vailable==1)
-                        {
-                                
-                                this.$axios(
-                                {
-                                    method:'post',
-                                    url:'http://39.97.122.202/doc/save_doc/',
-                                    data:{
-                                        id:this.$route.query.docid,
-                                        msg:this.editorContent,
-                                        userid:this.myid
-                                    }
-                                }).then( res => {
-                                    if(res.data==1)
-                                        alert('上传成功,正在结束修改..');
-                                }).catch(() =>{
-                                    alert('网络状态不佳，文本上传失败');
-                                })
+                        if (vailable === 1) {
 
-                                this.$axios({
-                                    method:'post',
-                                    url:'http://39.97.122.202/doc/end_edit/',
-                                    data:{
-                                        id:this.$route.query.docid,
+                            this.$axios(
+                                {
+                                    method: 'post',
+                                    url: 'http://39.97.122.202/doc/save_doc/',
+                                    data: {
+                                        id: this.$route.query.docid,
+                                        msg: this.editorContent,
+                                        userid: this.myid
                                     }
-                                }).then(res =>{
-                                    if(res.data==1){
-                                        alert('修改成功！');
-                                    }
-                                }).catch(()=>{
-                                    alert('未知力量使你修改失败，希望你永远不要看到这一行字');
-                                })
+                                }).then(res => {
+                                if (res.data === 1)
+                                    alert('上传成功,正在结束修改..');
+                            }).catch(() => {
+                                alert('网络状态不佳，文本上传失败');
+                            })
+
+                            this.$axios({
+                                method: 'post',
+                                url: 'http://39.97.122.202/doc/end_edit/',
+                                data: {
+                                    id: this.$route.query.docid,
+                                }
+                            }).then(res => {
+                                if (res.data === 1) {
+                                    alert('修改成功！');
+                                }
+                            }).catch(() => {
+                                alert('未知力量使你修改失败，希望你永远不要看到这一行字');
+                            })
 
                         }
-                        
 
-                    }
-                    else
+                    } else
                         alert('？？？ 你什么都没改上传什么？');
-            }
-                   
-      }
-     
-    },
-    mounted(){
-        //首先，看这个的必须是登录的人
-            if(localStorage.getItem('userID')){
-                this.myid=localStorage.getItem('userID');
-                this.myname=localStorage.getItem('username');
-            }
-                
-            else
-                {
-                    alert('请先登录');
-                     this.$router.push({
-                            name: 'Login',
-                         })
                 }
-             //提取本地用户并验证权限
-               this.$axios(
-                {
-                    method:'post',
-                    url:'http://39.97.122.202/autho/match_auth/',
-                    data:{
-                        id:this.myid,
-                        docnum:this.$route.query.docid
-                    }
-                }).then( res => {
-                    this.list=res.data;
-                    if(this.list[0]!=1){
-                        alert('你无权访问此文档');
-                        this.$router.push({
-                            name: 'Page',
-                         })
-                    }
-                }).catch(() =>{
-                    alert('网络状态不佳，文档权限状况未知');
+
+            }
+
+        },
+        mounted() {
+            //首先，看这个的必须是登录的人
+            if (localStorage.getItem('userID')) {
+                this.myid = localStorage.getItem('userID');
+                this.myname = localStorage.getItem('username');
+            } else {
+                alert('请先登录');
+                this.$router.push({
+                    name: 'Login',
                 })
+            }
+            //提取本地用户并验证权限
+            this.$axios(
+                {
+                    method: 'post',
+                    url: 'http://39.97.122.202/autho/match_auth/',
+                    data: {
+                        id: this.myid,
+                        docnum: this.$route.query.docid
+                    }
+                }).then(res => {
+                this.list = res.data;
+                if (this.list[0] !== 1) {
+                    alert('你无权访问此文档');
+                    this.$router.push({
+                        name: 'Page',
+                    })
+                }
+            }).catch(() => {
+                alert('网络状态不佳，文档权限状况未知');
+            })
 
 
-
-
-           var editor2 = new E('#div1', '#div2')
+            var editor2 = new E('#div1', '#div2')
             editor2.customConfig.onchange = (html) => {
-                 this.editorContent = html
+                this.editorContent = html
             }
             editor2.create()
-             this.x=editor2; 
+            this.x = editor2;
 
-        //首先读取文本id
-        var docid = this.$route.query.docid;
-        //云端抓取文本
+            //首先读取文本id
+            var docid = this.$route.query.docid;
+            //云端抓取文本
 
-        this.$axios(
-            {
-                method:'post',
-                url:'http://39.97.122.202/doc/get_doc/',
-                data:{
-                    id:docid,   
-                    op:3
-                }
-            }).then( res => {
+            this.$axios(
+                {
+                    method: 'post',
+                    url: 'http://39.97.122.202/doc/get_doc/',
+                    data: {
+                        id: docid,
+                        op: 3
+                    }
+                }).then(res => {
                 this.x.txt.html(res.data);
-            }).catch(() =>{
+            }).catch(() => {
                 alert('网络状态不佳，文本抓取失败');
             })
 
 
-           
-        
-    },
-    components:{
-       
+        },
+        components: {
+            comment
+        }
     }
-}
 </script>
 
 <style scoped>
- .container {
+    /*版心的设计*/
+    /*.whole {*/
+    /*    height: 1500px;*/
+    /*}*/
+
+    /*.w {*/
+    /*    height: 900px;*/
+    /*}*/
+
+    .container {
         background-color: #f2f2f2;
     }
 
@@ -314,6 +320,7 @@ export default {
 
     .head {
         position: relative;
+        margin-top: -60px;
         background: rgba(8, 1, 1, 0.342);
         padding: 0;
     }
@@ -396,11 +403,14 @@ export default {
         font-size: 14px;
         color: #24292e;
     }
-
+    .comment {
+        margin-left: 320px;
+        margin-top: -60px;
+    }
     .box-card {
         /* width: 240px;
         height: 280px; */
-        margin: 0, 0;
+        margin: 0 0;
         border: 1px solid #e1e4e8;
         border-radius: 6px;
     }
@@ -444,7 +454,7 @@ export default {
         position: absolute;
     }
 
-    
+
     .aside {
         position: relative;
         float: right;
@@ -452,12 +462,14 @@ export default {
         margin-top: 50px;
         margin-left: 1400px;
     }
+
     .submit {
         margin: 30px 20px 10px -50px;
         height: 40px;
         line-height: 10px;
         font-size: 18px;
     }
+
     .delete {
         margin: 30px 20px 10px 50px;
         height: 40px;
@@ -473,15 +485,18 @@ export default {
         font-weight: 700;
         color: #333333;
     }
+
     .content {
         font-size: 20px;
         font-weight: 400;
         color: #333333;
     }
+
     .addition_w {
         margin-top: 20px;
         margin-bottom: 20px;
     }
+
     .addition {
         height: 40px;
         line-height: 10px;
