@@ -27,12 +27,18 @@
         padding: 0 0;
         margin-left: -20px;">议程1——主要内容</h1>
                 <ol>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">内容1</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">内容2</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">内容3</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">内容1</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">内容2</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">内容3</h3>
+                    </li>
                 </ol>
                 <h1 style="text-align:center;
         height: 100px;
@@ -41,12 +47,18 @@
         padding: 0 0;
         margin-left: -20px;">议程2——主要内容</h1>
                 <ol>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">内容1</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">内容2</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">内容3</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">内容1</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">内容2</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">内容3</h3>
+                    </li>
                 </ol>
 
                 <h1 style="text-align:center;
@@ -67,7 +79,11 @@
         padding: 0 0;
         color: #ffffff;
         font-size: 24px;">康奈尔笔记模板</h1>
-            <h2 class="cues">线索Cues</h2>
+            <h2 style="text-align:center;
+            height: 100px;
+            line-height: 100px;
+            background-color: #f0f0f5;
+            padding: 0 0;">线索Cues</h2>
             <pre><h3 style="font-size: 20px">  线索1:</h3></pre>
             <pre><h3 style="font-size: 20px">  线索2:</h3></pre>
             <pre><h3 style="font-size: 20px">  线索3:</h3></pre>
@@ -79,12 +95,18 @@
         padding: 0 0;
         margin-left: -20px;">线索1——Notes</h1>
                 <ul>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 1:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 2:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 3:</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 1:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 2:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 3:</h3>
+                    </li>
                 </ul>
                 <h1 style="text-align:center;
         height: 100px;
@@ -93,12 +115,18 @@
         padding: 0 0;
         margin-left: -20px;">线索2——Notes</h1>
                 <ul>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 1:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 2:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 3:</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 1:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 2:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 3:</h3>
+                    </li>
                 </ul>
                 <h1 style="text-align:center;
         height: 100px;
@@ -107,12 +135,18 @@
         padding: 0 0;
         margin-left: -20px;">线索3——Notes</h1>
                 <ul>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 1:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 2:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">Note 3:</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 1:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 2:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">Note 3:</h3>
+                    </li>
                 </ul>
 
                 <h1 style="text-align:center;
@@ -138,14 +172,22 @@
         font-size: 24px;
         margin-left: -20px;">重要又紧急——立刻做</h1>
                 <ol>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件1</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件2</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件3</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件4</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件1</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件2</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件3</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件4</h3>
+                    </li>
                 </ol>
                 <h1 style=" text-align:center;
         height: 100px;
@@ -156,14 +198,22 @@
         font-size: 24px;
         margin-left: -20px;">重要不紧急——计划做</h1>
                 <ol>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件1</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件2</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件3</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件4</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件1</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件2</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件3</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件4</h3>
+                    </li>
                 </ol>
                 <h1 style=" text-align:center;
         height: 100px;
@@ -174,14 +224,22 @@
         font-size: 24px;
         margin-left: -20px;">紧急不重要——抽空做</h1>
                 <ol>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件1</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件2</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件3</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件4</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件1</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件2</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件3</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件4</h3>
+                    </li>
                 </ol>
                 <h1 style=" text-align:center;
         height: 100px;
@@ -192,14 +250,22 @@
         font-size: 24px;
         margin-left: -20px;">不重要不紧急——请人做</h1>
                 <ol>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件1</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件2</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件3</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">事件4</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件1</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件2</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件3</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">事件4</h3>
+                    </li>
                 </ol>
                 <br>
                 <br>
@@ -233,42 +299,62 @@
         font-size: 24px;
         margin-left: -20px;">好句摘抄</h1>
                 <ol>
-                    <li style="border-bottom: 1px solid #929292;
+                    <li style="list-style: none;border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li style="border-bottom: 1px solid #929292;
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="list-style: none;border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li style="border-bottom: 1px solid #929292;
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="list-style: none;border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li style="border-bottom: 1px solid #929292;
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="list-style: none;border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li style="border-bottom: 1px solid #929292;
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="list-style: none;border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li style="border-bottom: 1px solid #929292;
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="list-style: none;border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li style="border-bottom: 1px solid #929292;
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="list-style: none;border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li class="paragraph last"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="border-bottom: 1px solid #929292;
+                    list-style: none;
+                    height: 28px;
+                    line-height: 28px;
+                    margin: 0 0 0 -20px;margin-bottom: 30px;">
+                        <h3></h3>
+                    </li>
                 </ol>
                 <h1 style=" text-align:center;
         height: 100px;
@@ -283,38 +369,58 @@
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li class="paragraph last"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="border-bottom: 1px solid #929292;
+                    list-style: none;
+                    height: 28px;
+                    line-height: 28px;
+                    margin: 0 0 0 -20px;margin-bottom: 30px;">
+                        <h3></h3>
+                    </li>
                 </ol>
                 <h1 style=" text-align:center;
         height: 100px;
@@ -329,18 +435,30 @@
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li class="paragraph last"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="border-bottom: 1px solid #929292;
+                    list-style: none;
+                    height: 28px;
+                    line-height: 28px;
+                    margin: 0 0 0 -20px;margin-bottom: 30px;">
+                        <h3></h3>
+                    </li>
                 </ul>
 
                 <h1 style=" text-align:center;
@@ -356,18 +474,30 @@
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
                     <li style="border-bottom: 1px solid #929292;
         list-style: none;
         height: 28px;
         line-height: 28px;
-        margin: 0 0 0 -20px;"><h3></h3></li>
-                    <li class="paragraph last"><h3></h3></li>
+        margin: 0 0 0 -20px;">
+                        <h3></h3>
+                    </li>
+                    <li style="border-bottom: 1px solid #929292;
+                    list-style: none;
+                    height: 28px;
+                    line-height: 28px;
+                    margin: 0 0 0 -20px;margin-bottom: 30px;">
+                        <h3></h3>
+                    </li>
                 </ul>
             </ul>
         </div>
@@ -398,12 +528,18 @@
         font-size: 24px;
         margin-left: -20px;">项目背景与目的</h1>
                 <ul>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;"></h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;"></h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;"></h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;"></h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;"></h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;"></h3>
+                    </li>
                 </ul>
                 <h1 style=" text-align:center;
         height: 100px;
@@ -414,16 +550,26 @@
         font-size: 24px;
         margin-left: -20px;">项目目标</h1>
                 <ol>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;"></h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;"></h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;"></h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;"></h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;"></h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;"></h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;"></h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;"></h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;"></h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;"></h3>
+                    </li>
                 </ol>
                 <h1 style=" text-align:center;
         height: 100px;
@@ -443,14 +589,22 @@
                 <ul style="list-style: none;
         background-color: #fafafa;
         margin-left: -20px;;">
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">日期时间:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">负责人:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">成果展示:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">备注:</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">日期时间:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">负责人:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">成果展示:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">备注:</h3>
+                    </li>
                 </ul>
                 <h2 style="text-align:left;
         height: 50px;
@@ -462,14 +616,22 @@
                 <ul style="list-style: none;
         background-color: #fafafa;
         margin-left: -20px;;">
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">日期时间:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">负责人:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">成果展示:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">备注:</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">日期时间:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">负责人:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">成果展示:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">备注:</h3>
+                    </li>
                 </ul>
                 <h2 style="text-align:left;
         height: 50px;
@@ -481,14 +643,22 @@
                 <ul style="list-style: none;
         background-color: #fafafa;
         margin-left: -20px;;">
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">日期时间:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">负责人:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">成果展示:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">备注:</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">日期时间:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">负责人:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">成果展示:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">备注:</h3>
+                    </li>
                 </ul>
 
                 <h1 style=" text-align:center;
@@ -502,15 +672,25 @@
                 <ul style="list-style: none;
         background-color: #fafafa;
         margin-left: -20px;;">
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">姓名:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">部门:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">职务:</h3></li>
-                    <li><h3 style="font-weight: 400;
-        font-size: 18px;">任务:</h3></li>
-                    <li><h3 style="padding-bottom: 15px;">截止时间:</h3></li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">姓名:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">部门:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">职务:</h3>
+                    </li>
+                    <li>
+                        <h3 style="font-weight: 400;
+        font-size: 18px;">任务:</h3>
+                    </li>
+                    <li>
+                        <h3 style="padding-bottom: 15px;">截止时间:</h3>
+                    </li>
                 </ul>
             </ul>
         </div>
@@ -598,21 +778,9 @@
     /*    font-size: 18px;*/
     /*}*/
 
-    /*.paragraph {*/
-    /*    border-bottom: 1px solid #929292;*/
-    /*    list-style: none;*/
-    /*    height: 28px;*/
-    /*    line-height: 28px;*/
-    /*    margin: 0 0 0 -20px;*/
-    /*}*/
-
-    /*.last {*/
-    /*    margin-bottom: 30px;*/
-    /*}*/
 
     /*.addition {*/
     /*    font-weight: 400;*/
     /*    font-size: 18px;*/
     /*}*/
-
 </style>
